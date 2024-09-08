@@ -2,6 +2,7 @@
 import { Router } from '@angular/router';
 import { Account, Role, SocialNotification } from '@app/_models';
 import { AccountService, NotificationService } from '@app/_services';
+import { TranslateService } from '@ngx-translate/core';
 
 
 @Component({ selector: 'app-navbar', templateUrl: 'navbar.component.html', styleUrls : ['navbar.component.css']})
@@ -13,12 +14,39 @@ export class NavbarComponent {
     notifications : SocialNotification[] = []
     unreadCount: number = 0;
 
+    currentLanguageFlag: string = 'assets/flags/en.png'
+
     
     constructor(
         private accountService: AccountService,
         private router: Router,
-        private notificationService: NotificationService
-    ) {}
+        private notificationService: NotificationService,
+        private translate: TranslateService
+    ) {
+        this.translate.setDefaultLang('en');
+        this.translate.onLangChange.subscribe(lang => {
+            this.updateFlagIcon(lang.lang);
+          });
+    }
+
+    changeLanguage(lang: string) {
+        this.translate.use(lang);
+        this.updateFlagIcon(lang);
+      }
+    
+      private updateFlagIcon(lang: string) {
+        switch (lang) {
+          case 'fr':
+            this.currentLanguageFlag = 'assets/flags/fr.png';
+            break;
+          case 'ar':
+            this.currentLanguageFlag = 'assets/flags/ar.png';
+            break;
+          default:
+            this.currentLanguageFlag = 'assets/flags/en.png';
+            break;
+        }
+      }
 
     ngOnInit() {
         this.accountService.account.subscribe(x => this.account = x);

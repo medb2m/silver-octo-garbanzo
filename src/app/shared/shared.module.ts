@@ -8,6 +8,7 @@ import { RouterModule } from '@angular/router';
 import { BreadcrumbComponent } from './components/breadcrumb';
 import { BackButtonComponent } from './components/back-button';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
     FormsModule,
     RouterModule,
     NgxPaginationModule,
+    TranslateModule
   ],
   exports: [
     CommonModule,
@@ -36,6 +38,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
     TruncatePipe,
     BackButtonComponent,
     NgxPaginationModule,
+    TranslateModule
   ]
 })
 export class SharedModule { }

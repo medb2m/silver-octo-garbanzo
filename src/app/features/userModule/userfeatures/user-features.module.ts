@@ -6,6 +6,7 @@ import { LayoutComponent } from './layout';
 import { SharedModule } from '@app/shared';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { addReportComponent } from './add-report';
+import { TranslateModule } from '@ngx-translate/core';
 
 
 
@@ -20,7 +21,8 @@ import { addReportComponent } from './add-report';
     UserFeaturesRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    SharedModule
+    SharedModule,
+    TranslateModule
   ]
 })
 export class UserFeaturesModule { }

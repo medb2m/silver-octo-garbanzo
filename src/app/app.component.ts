@@ -4,6 +4,7 @@ import { AccountService } from './_services';
 import { Account, Role } from './_models';
 import { Title } from '@angular/platform-browser';
 import { filter, map } from 'rxjs';
+import { TranslateService } from '@ngx-translate/core';
 
 
 @Component({ selector: 'app-root', templateUrl: 'app.component.html', styleUrls : ['app.component.css'] })
@@ -13,13 +14,20 @@ export class AppComponent {
     showBackButton = true
     showNav = true
 
+    isRTL = false;
 
     constructor(
         private router : Router, 
         private accountService : AccountService, 
         private titleService: Title,
-        private activatedRoute: ActivatedRoute
-    ){}
+        private activatedRoute: ActivatedRoute,
+        private translate: TranslateService
+    ){
+      translate.setDefaultLang('en'); // default language
+      this.translate.onLangChange.subscribe((event) => {
+        this.isRTL = event.lang === 'ar';
+      });
+    }
 
 
     ngOnInit(){
@@ -44,6 +52,10 @@ export class AppComponent {
               this.titleService.setTitle(data['title']);
             }
           });
+        }
+
+        switchLanguage(lang: string) {
+          this.translate.use(lang);
         }
 
         logout() {

@@ -55,11 +55,11 @@
   
     <div *ngIf="showUserField" class="input-box">
       <div class="between">
-        <label class="form-label">City: {{ actualCityName }}</label>
-        <p class="btn" (click)="changecity()">Change city ?</p>
+       <!--  <label class="form-label">City: {{ actualCityName }}</label> -->
+        <!-- <p class="btn" (click)="changecity()">Change city ?</p> -->
       </div>
         
-        <select *ngIf="changeCity"
+        <select
             formControlName="city"
             class="input-field"
             [ngClass]="{ 'is-invalid': submitted && f['city'].errors }"

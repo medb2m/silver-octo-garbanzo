@@ -1,0 +1,26 @@
+{
+    "headerTitle": "Submit Daily Report",
+    "contentPlaceholder": "Content",
+    "contentRequired": "Content is required",
+    "machaghelPlaceholder": "Activities",
+    "machaghelRequired": "Activities is required",
+    "machakelPlaceholder": "Today's Problems",
+    "machakelRequired": "Today's Problems are required",
+    "houloulPlaceholder" : "Solutions ...",
+    "houloulRequired" : "Solutions are required",
+    "concurence":"presence of competitive campaigns",
+    "concurenceDetails":"provide more details about the competition",
+    "concurenceDetailsReq":"details about competition are required",
+    "suggestionPlaceholder" : "Your suggestions",
+    "suggestionReq" : "Suggestions are required",
+    "submitBtn" : "Send",
+    "dailyReport" : "Daily Report",
+    "socialLinks" : "Social Links",
+    "listSocialLinks" : "List of Social links",
+    "title" : "Title",
+    "date" : "Date",
+    "open" : "Open",
+    "clickHereToOpenLink" : "Click Here to open the link",
+    "logout" : "Log Out"
+}
+  

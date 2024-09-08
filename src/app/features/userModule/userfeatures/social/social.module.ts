@@ -20,7 +20,7 @@ import { SharedModule } from '@app/shared';
   imports: [
     CommonModule,
     SocialRoutingModule,
-    SharedModule
+    SharedModule,
   ]
 })
 export class SocialModule { }

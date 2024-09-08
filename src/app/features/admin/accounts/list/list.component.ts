@@ -28,16 +28,26 @@ export class ListComponent implements OnInit {
     deleteAccount(id: string) {
         const account = this.accounts!.find(x => x.id === id);
         account.isDeleting = true;
-        console.log(`${account.id} in ${account.city}`)
-        if (account.role=== 'User'){
+    
+        if (account.role === 'User') {
+            // If the account is a User, remove them from the city first
             this.accountService.delete(id)
-            .pipe(first())
-            .subscribe(() => {
-                this.regionService.removeWorker(account.id, account.city._id).subscribe(()=>{
-                    this.alertService.success('User removed from city')
-                })
-                this.accounts = this.accounts!.filter(x => x.id !== id)
-            });
-        } 
+                .pipe(first())
+                .subscribe(() => {
+                    this.regionService.removeWorker(account.city._id, account.id).subscribe(() => {
+                        this.alertService.success('User removed from city');
+                        this.accounts = this.accounts!.filter(x => x.id !== id);
+                    });
+                });
+        } else if (account.role === 'Moderator') {
+            // If the account is a Moderator, perform a simple delete
+            this.accountService.delete(id)
+                .pipe(first())
+                .subscribe(() => {
+                    this.alertService.success('Moderator account deleted');
+                    this.accounts = this.accounts!.filter(x => x.id !== id);
+                });
+        }
     }
+    
 }

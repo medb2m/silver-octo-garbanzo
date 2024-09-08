@@ -30,7 +30,8 @@
               "src/assets/styling/css/console-bsb.css",
               "node_modules/bootstrap/dist/css/bootstrap.min.css"
             ],
-            "scripts": []
+            "scripts": [],
+            "localize": true
           },
           "configurations": {
             "production": {
@@ -61,6 +62,14 @@
               "extractLicenses": false,
               "sourceMap": true,
               "namedChunks": true
+            },
+            "en": {
+              "localize": ["en"],
+              "outputPath": "dist/en"
+            },
+            "fr": {
+              "localize": ["fr"],
+              "outputPath": "dist/fr"
             }
           },
           "defaultConfiguration": "production"
@@ -73,6 +82,12 @@
             },
             "development": {
               "browserTarget": "management:build:development"
+            },
+            "en": {
+              "browserTarget": "management:build:en"
+            },
+            "fr": {
+              "browserTarget": "management:build:fr"
             }
           },
           "defaultConfiguration": "development"
@@ -80,7 +95,8 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "management:build"
+            "browserTarget": "management:build",
+            "outputPath": "src/locale"
           }
         },
         "test": {

@@ -1,7 +1,7 @@
 ﻿import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
 
 
 
@@ -13,7 +13,13 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from '@features/home';
 import { SharedModule } from '@shared/shared.module';
 import { AddLinkComponent } from './add-link/add-link.component'
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 
+
+export function HttpLoaderFactory(http: HttpClient) {
+    return new TranslateHttpLoader(http);
+  }
 
 
 @NgModule({
@@ -24,6 +30,13 @@ import { AddLinkComponent } from './add-link/add-link.component'
         FormsModule,
         AppRoutingModule,
         SharedModule,
+        TranslateModule.forRoot({
+            loader: {
+              provide: TranslateLoader,
+              useFactory: HttpLoaderFactory,
+              deps: [HttpClient]
+            }
+          })
     ],
     declarations: [
         AppComponent,

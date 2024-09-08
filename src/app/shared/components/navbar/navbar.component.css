@@ -57,3 +57,24 @@
   top: 5px;
   right: 5px;
 }
+
+/** Langue */
+
+.flag-icon {
+  width: 24px;
+  height: 16px;
+  margin-right: 8px;
+}
+
+.dropdown-menu {
+  min-width: 160px; /* Adjust as needed */
+}
+
+.dropdown-item {
+  display: flex;
+  align-items: center;
+}
+
+.dropdown-item img {
+  margin-right: 8px;
+}

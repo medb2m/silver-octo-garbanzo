@@ -167,21 +167,25 @@ export class AddEditComponent implements OnInit {
                 next: (x) => {
                     //console.log('this x id '+ x.id)
                     const cityId = this.form.get('city')?.value;
-                    if(this.id){
-                        if (cityId !== this.actualCity){
-                            this.regionService.removeWorker(this.actualCity, this.id).subscribe()
-                        console.log('worker disassosiated from old city' +this.actualCity)
-                        this.regionService.addWorker(cityId, this.id).subscribe()
-                        console.log('worker assosiated to new city ' + cityId)
+                    const role = this.form.get('role')?.value;
+                    if (role !== 'Moderator'){
+                        if(this.id ){
+                            if (cityId !== this.actualCity){
+                                this.regionService.removeWorker(this.actualCity, this.id).subscribe()
+                            console.log('worker disassosiated from old city' +this.actualCity)
+                            this.regionService.addWorker(cityId, this.id).subscribe()
+                            console.log('worker assosiated to new city ' + cityId)
+                            }
+                            console.log('enter the if but doesnt change value if only this log')
+                        } else {
+                            
+                            const workerId = x.id
+                            //console.log('the city value ' + cityValue)
+                            this.regionService.addWorker(cityId, workerId).subscribe()
+                            console.log('worker assosiated')
                         }
-                        console.log('enter the if but doesnt change value if only this log')
-                    } else {
-                        
-                        const workerId = x.id
-                        //console.log('the city value ' + cityValue)
-                        this.regionService.addWorker(cityId, workerId).subscribe()
-                        console.log('worker assosiated')
                     }
+                    
                     this.alertService.success(message, { keepAfterRouteChange: true });
                     this.router.navigateByUrl('/admin/accounts');
                 },

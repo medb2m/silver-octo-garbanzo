@@ -1,0 +1,26 @@
+{
+    "headerTitle": "Soumettre un rapport quotidien",
+    "contentPlaceholder": "Contenu",
+    "contentRequired": "Le contenu est requis",
+    "machaghelPlaceholder": "Activitées",
+    "machaghelRequired": "Activitées est requis",
+    "machakelPlaceholder": "Problemes du jour",
+    "machakelRequired": "Problemes du jour est requis",
+    "houloulPlaceholder" : "Les Solutions ...",
+    "houloulRequired" : "Solutions sont requis",
+    "concurence":"présence de campagnes concurrentielles",
+    "concurenceDetails":"fournir plus de détails sur la concurrence",
+    "concurenceDetailsReq":"détails sur la concurrence sont requis",
+    "suggestionPlaceholder" : "Vos suggestions",
+    "suggestionReq" : "Les suggestions sont requis",
+    "submitBtn" : "Envoyer",
+    "dailyReport" : "Rapport quotidien",
+    "socialLinks" : "Liens réseaux sociaux",
+    "listSocialLinks" : "Liste des liens sociaux",
+    "title" : "Titre",
+    "date" : "Date",
+    "open" : "Ouvrir",
+    "clickHereToOpenLink" : "Cliquez ici pour ouvrir le lien",
+    "logout" : "se déconnecter"
+}
+  

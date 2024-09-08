@@ -1,0 +1,27 @@
+{
+    "headerTitle": "تقديم التقرير اليومي",
+    "contentPlaceholder": "المحتوى",
+    "contentRequired": "المحتوى مطلوب",
+    "machaghelPlaceholder": "المشاغل",
+    "machaghelRequired": "المشاغل مطلوبة",
+    "machakelPlaceholder": "مشاكل اليوم",
+    "machakelRequired": "مشاكل اليوم مطلوبة",
+    "houloulPlaceholder" : "الحلول المطروحة",
+    "houloulRequired" : "الحلول المطروحة مطلوبة",
+    "concurence":"تواجد حملات المنافسة",
+    "concurenceDetails":"أعط تفاصيل أكثر عن المنافسة",
+    "concurenceDetailsReq":"تفاصيل المنافسة مطلوبة",
+    "suggestionPlaceholder" : "إقترحتكم",
+    "suggestionReq" : "إقترحتكم مطلوبة",
+    "submitBtn" : "إرسال",
+    "dailyReport" : "تقرير يومي",
+    "socialLinks" : "وسائل التواصل الاجتماعي",
+    "listSocialLinks" : "قائمة الروابط الاجتماعية",
+    "title" : "عنوان",
+    "date" : "تاريخ",
+    "open" : "فتح",
+    "clickHereToOpenLink" : "انقر هنا لفتح الرابط",
+    "logout" : "تسجيل الخروج"
+}
+
+  

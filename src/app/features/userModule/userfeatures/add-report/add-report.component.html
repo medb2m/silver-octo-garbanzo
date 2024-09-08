@@ -1,51 +1,51 @@
 <div class="contain">
   <div class="login-box">
     <div class="login-header">
-      <header>Submit Daily Report</header>
+      <header>{{ 'headerTitle' | translate }}</header>
     </div>
     <form *ngIf="!loading" [formGroup]="form" (ngSubmit)="onSubmit()">
       <div class="input-box">
         <textarea
           formControlName="content"
           class="input-field"
-          placeholder="Content"
+          [placeholder]="'contentPlaceholder' | translate"
           [ngClass]="{ 'is-invalid': submitted && f['content'].errors }"
         ></textarea>
         <div *ngIf="submitted && f['content'].errors" class="invalid-feedback">
-          <div *ngIf="f['content'].errors['required']">Content is required</div>
+          <div *ngIf="f['content'].errors['required']">{{ 'contentRequired' | translate}}</div>
         </div>
       </div>
       <div class="input-box">
         <textarea
           formControlName="machaghel"
           class="input-field"
-          placeholder="مشاغل"
+          [placeholder]="'machaghelPlaceholder' | translate"
           [ngClass]="{ 'is-invalid': submitted && f['machaghel'].errors }"
-        ></textarea>
+          ></textarea>
         <div *ngIf="submitted && f['machaghel'].errors" class="invalid-feedback">
-          <div *ngIf="f['machaghel'].errors['required']">مشاغل is required</div>
+          <div *ngIf="f['machaghel'].errors['required']">{{ 'machaghelRequired' | translate}}</div>
         </div>
       </div>
       <div class="input-box">
         <textarea
           formControlName="machakel_alyawm"
           class="input-field"
-          placeholder="مشاكل اليوم"
+          [placeholder]="'machakelPlaceholder' | translate"
           [ngClass]="{ 'is-invalid': submitted && f['machakel_alyawm'].errors }"
         ></textarea>
         <div *ngIf="submitted && f['machakel_alyawm'].errors" class="invalid-feedback">
-          <div *ngIf="f['machakel_alyawm'].errors['required']">مشاكل اليوم is required</div>
+          <div *ngIf="f['machakel_alyawm'].errors['required']">{{ 'machakelRequired' | translate}}</div>
         </div>
       </div>
       <div class="input-box">
         <textarea
           formControlName="houloul"
           class="input-field"
-          placeholder="الحلول المطروحة"
+          [placeholder]="'houloulPlaceholder' | translate"
           [ngClass]="{ 'is-invalid': submitted && f['houloul'].errors }"
         ></textarea>
         <div *ngIf="submitted && f['houloul'].errors" class="invalid-feedback">
-          <div *ngIf="f['houloul'].errors['required']">مشاكل اليوم is required</div>
+          <div *ngIf="f['houloul'].errors['required']">{{ 'houloulRequired' | translate}}</div>
         </div>
       </div>
       <div class="input-box">
@@ -54,28 +54,28 @@
           formControlName="concurence"
           id="concurence"
         />
-        <label for="concurence">تواجد حملات المنافسة</label>
+        <label for="concurence">{{ 'concurence' | translate}}</label>
       </div>
       <div class="input-box" *ngIf="form.get('concurence')?.value">
         <textarea
           formControlName="concurrenceDetails"
           class="input-field"
-          placeholder="أعط تفاصيل أكثر عن المنافسة"
+          [placeholder]="'concurenceDetails' | translate"
           [ngClass]="{ 'is-invalid': submitted && f['concurrenceDetails'].errors }"
         ></textarea>
         <div *ngIf="submitted && f['concurrenceDetails'].errors" class="invalid-feedback">
-          <div *ngIf="f['concurrenceDetails'].errors['required']">تفاصيل المنافسة is required</div>
+          <div *ngIf="f['concurrenceDetails'].errors['required']">{{ 'concurenceDetailsReq' | translate}}</div>
         </div>
       </div>
       <div class="input-box">
         <textarea
           formControlName="propositions"
           class="input-field"
-          placeholder="إقترحتكم"
+          [placeholder]="'suggestionPlaceholder' | translate"
           [ngClass]="{ 'is-invalid': submitted && f['propositions'].errors }"
         ></textarea>
         <div *ngIf="submitted && f['propositions'].errors" class="invalid-feedback">
-          <div *ngIf="f['propositions'].errors['required']">إقترحتكم is required</div>
+          <div *ngIf="f['propositions'].errors['required']">{{ 'suggestionReq' | translate}}</div>
         </div>
       </div>
       <div class="input-box d-flex flex-column align-items-center">
@@ -105,7 +105,7 @@
       <div class="input-submit">
         <button class="submit-btn" [disabled]="loading">
           <span *ngIf="loading" class="spinner-border spinner-border-sm me-1"></span>
-          Submit
+          {{ 'submitBtn' | translate }}
         </button>
       </div>
     </form>

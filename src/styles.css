@@ -12,3 +12,15 @@
   color: aliceblue;
   border-radius: 2px;
 }
+
+.rtl {
+  direction: rtl;
+  text-align: right;
+}
+
+/* Ensure text fields and other elements also adjust to RTL */
+.rtl input,
+.rtl textarea,
+.rtl select {
+  text-align: right;
+}
