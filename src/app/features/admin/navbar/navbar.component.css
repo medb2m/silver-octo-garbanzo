@@ -1,0 +1,59 @@
+.logout-btn {
+    background: #28666e;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+  }
+
+  .notifications-box {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    padding: 10px;
+    width: 240px;
+    max-height: 250px; /* Set a maximum height to prevent overflow */
+    overflow-y: auto; /* Add scroll if needed */
+    scrollbar-width: thin;
+    scrollbar-color: #888 #f1f1f1;
+  }
+
+/** Notification */
+  .notifications-box li {
+    margin-bottom: 8px;
+    font-size: 14px;
+  }
+
+  .notification-item {
+    border-bottom: 1px solid #ddd;
+    padding: 10px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+  .notification-item:hover {
+    background-color: #f1f1f1;
+}
+
+  .old-notification {
+    background-color: #e0e0e0;
+  }
+
+  .new-notification {
+    background-color: #d4edda;
+    font-weight: bold;
+  }
+
+  .notification-count {
+    background: red;
+    color: white;
+    border-radius: 50%;
+    padding: 2px 8px;
+    font-size: 12px;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+}

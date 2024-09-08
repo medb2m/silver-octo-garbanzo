@@ -1,0 +1,130 @@
+.admin-sidebar {
+    position: fixed; /* Permet de maintenir le menu sur le côté lors du défilement */
+    top: 0; /* Position le menu au sommet */
+    left: 0; /* Aligne le menu sur la gauche */
+    height: 100%; /* Assure que le menu a la hauteur de la fenêtre */
+    width: 200px; /* Définit la largeur du menu */
+    background-color: #f8f9fa; /* Couleur de fond du menu */
+    padding-top: 60px; /* Assure que le contenu ne soit pas caché par le menu */
+    border-right: 1px solid #dee2e6; /* Ajoute une bordure sur le côté droit */
+  }
+  
+  .admin-nav {
+    width: 100%; /* Assure que le menu occupe toute la largeur de son conteneur */
+  }
+  
+  .admin-nav .navbar-nav {
+    flex-direction: column; /* Affiche les éléments de la barre de navigation verticalement */
+  }
+  
+
+  .admin-content {
+    margin-left: 200px; /* Ajuste l'espace au-dessus du contenu */
+  }
+
+  .toggle-btn {
+    margin-top: 30px;
+  }
+  
+  .toggled {
+    transform: translateX(-250); /* Déplacer le sidebar hors de l'écran */
+  }
+  
+  @media (max-width: 768px) {
+    .toggled {
+      transform: translateX(0); /* Assurez-vous que le sidebar est visible sur les petits écrans */
+    }
+  }
+
+
+  .sidebar-logo {
+    padding: 1.15rem;
+}
+
+.sidebar-logo a {
+    color: #e9ecef;
+    font-size: 1.15rem;
+    font-weight: 600;
+}
+
+.sidebar-nav {
+    list-style: none;
+    margin-bottom: 0;
+    padding-left: 0;
+    margin-left: 0;
+}
+
+.sidebar-header {
+    color: #e9ecef;
+    font-size: .75rem;
+    padding: 1.5rem 1.5rem .375rem;
+}
+
+a.sidebar-link {
+    padding: .625rem 1.625rem;
+    color: #e9ecef;
+    position: relative;
+    display: block;
+    font-size: 0.875rem;
+}
+
+.sidebar-link[data-bs-toggle="collapse"]::after {
+    border: solid;
+    border-width: 0 .075rem .075rem 0;
+    content: "";
+    display: inline-block;
+    padding: 2px;
+    position: absolute;
+    right: 1.5rem;
+    top: 1.4rem;
+    transform: rotate(-135deg);
+    transition: all .2s ease-out;
+}
+
+.sidebar-link[data-bs-toggle="collapse"].collapsed::after {
+    transform: rotate(45deg);
+    transition: all .2s ease-out;
+}
+
+.avatar {
+    height: 40px;
+    width: 40px;
+}
+
+.navbar-expand .navbar-nav {
+    margin-left: auto;
+}
+
+.content {
+    flex: 1;
+    max-width: 100vw;
+    width: 100vw;
+}
+
+@media (min-width:768px) {
+    .content {
+        max-width: auto;
+        width: auto;
+    }
+}
+
+.card {
+    box-shadow: 0 0 .875rem 0 rgba(34, 46, 60, .05);
+    margin-bottom: 24px;
+}
+
+.illustration {
+    background-color: var(--bs-primary-bg-subtle);
+    color: var(--bs-emphasis-color);
+}
+
+.illustration-img {
+    max-width: 150px;
+    width: 100%;
+}
+
+/* Sidebar Toggle */
+
+#sidebar.collapsed {
+    margin-left: -264px;
+}

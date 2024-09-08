@@ -1,0 +1,26 @@
+<div class="delegation-list" *ngIf="selectedRegion">
+    <div class="header">
+        <button class="toggle-button" (click)="toggleComponents()">
+            <span *ngIf="!showComponents"><i class="bi bi-caret-down"></i></span>
+            <span *ngIf="showComponents"><i class="bi bi-x"></i></span>
+        </button>
+    </div>
+    <div *ngIf="showComponents">
+        <table class="table">
+            <input type="text" placeholder="Search regions..." (input)="filterDelegations($event)" class="search-input">
+            <thead>
+                <tr>
+                    <th>Delegation Name</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let delegation of filteredDelegations" (click)="selectDelegation(delegation)" class="delegation-row"
+                    [class.selected]="delegation === selectedDelegation">
+                    <td>{{ delegation.name }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+  

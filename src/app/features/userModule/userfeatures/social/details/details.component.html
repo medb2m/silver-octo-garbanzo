@@ -1,0 +1,10 @@
+<article class="detail-article" *ngIf="social">
+  <div class="detail-body">
+    <h2>{{ social.title }}</h2>
+    <!-- Open link in a new tab -->
+    <a [href]="social.link.startsWith('http') ? social.link : 'https://' + social.link" target="_blank" rel="noopener noreferrer">
+      Click here to see the link
+    </a>
+    <p>{{ social.date | date:'medium' }}</p>
+  </div>
+</article>

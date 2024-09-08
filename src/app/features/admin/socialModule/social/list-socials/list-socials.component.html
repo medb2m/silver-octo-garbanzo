@@ -1,0 +1,51 @@
+<div class="socials-list">
+    <div class="header">
+        <h1>Social Links</h1>
+        <a routerLink="add" class="add-btn mb-2"><i class="bi bi-plus"></i></a>
+    </div>
+<div>
+    <input class="search-input" type="text" placeholder="Search" [(ngModel)]="searchText" />
+</div>
+<table class="table">
+    <thead>
+        <tr>
+            <th style="width:5%">
+                <input type="checkbox" (change)="toggleAll($event)" />
+            </th>
+            <th style="width:30%">Title</th>
+            <th style="width:30%">Link</th>
+            <th style="width:30%">Date</th>
+            <th style="width:10%"></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let social of socials | search:searchText | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage}">
+            <td class="align-middle">
+                <input type="checkbox" [(ngModel)]="social.selected" (change)="updateSelection()" />
+            </td>
+            <td class="align-middle">{{ social.title }}</td>
+            <td class="align-middle">{{ social.link }}</td>
+            <td class="align-middle">{{ social.date | date  }}</td>
+            <td style="white-space: nowrap">
+                <a routerLink="edit/{{ social._id }}" class="btn btn-sm edit-button me-1"><i class="bi bi-pen"></i></a>
+                <button (click)="deleteSocial(social._id)" 
+                class="btn btn-sm delete-button" 
+                [disabled]="social.isDeleting">
+                    <span *ngIf="social.isDeleting" class="spinner-border spinner-border-sm"></span>
+                    <span *ngIf="!social.isDeleting"><i class="bi bi-trash"></i></span> 
+                </button>
+            </td>
+        </tr>
+        <tr *ngIf="!socials.length">
+            <td colspan="6" class="text-center">
+                <span class="spinner-border spinner-border-lg align-center"></span>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<button *ngIf="selectedSocials.length > 0" (click)="deleteSelectedEntities()" class="btn btn-sm delete-button mt-2">Delete Selected</button>
+<!-- Pagination -->
+<div class="text-center">
+    <pagination-controls (pageChange)="currentPage = $event"></pagination-controls>
+</div>
+</div>

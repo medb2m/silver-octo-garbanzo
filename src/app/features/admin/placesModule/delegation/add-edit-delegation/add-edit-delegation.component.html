@@ -1,0 +1,38 @@
+<h2>{{title}}</h2>
+<div class="container">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <div *ngIf="loading" class="spinner-border spinner-border-sm"></div>
+        <div *ngIf="!loading">
+            <div class="form-group mb-4">
+                <label>name</label>
+                <input type="text" formControlName="name" class="form-control" />
+                <div *ngIf="submitted && f['name'].errors" class="invalid-feedback">
+                    <div *ngIf="f['name'].errors['required']">name is required</div>
+                </div>
+            </div>
+            <div  class="form-group mb-3">
+                <label class="form-label">Region : </label>
+                <select formControlName="region" class="form-select" ngModel="{{idRegion}}" [ngClass]="{ 'is-invalid': submitted && f['region'].errors }">
+                    <option [value]="'{{idCat}}'" [selected]="'true'">{{ actualRegion ? actualRegion.name : 'Select Region' }}</option>
+                    <option *ngFor="let Region of regions" value="{{ Region._id }}">{{ Region.name }}</option>
+                </select>
+                <div *ngIf="submitted && f['region'].errors && title != 'Edit Delegation'" class="invalid-feedback">
+                    <div *ngIf="f['region'].errors['required']">Region is required</div>
+                </div>
+            </div>
+            <!-- Button group -->
+            <div class="form-group">
+                <!-- Update Button -->
+                <button type="submit" [disabled]="submitting" class="update-button me-2">
+                    <span *ngIf="submitting" class="spinner-border spinner-border-sm me-1"></span>
+                    Update
+                </button>
+                <!-- Cancel Button -->
+                <button routerLink="/admin/cities" type="button" [disabled]="canceling" class="cancel-button">
+                    <span *ngIf="canceling" class="spinner-border spinner-border-sm me-1"></span>
+                    Cancel
+                </button>
+            </div>
+        </div>
+    </form>
+</div>

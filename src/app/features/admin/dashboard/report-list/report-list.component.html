@@ -1,0 +1,26 @@
+<h1>List of Reports</h1>
+<input type="text" placeholder="Search by name or city" (input)="filterReports($event)" class="search-input" *ngIf="!workerMode">
+<div class="mb-2">
+  <button (click)="showAllreports()" class="filter-btn">All Reports</button>
+  <button (click)="filterBytraite()" class="filter-btn">{{ traiteFilter }}</button>
+  <button (click)="filterReportsLast24Hours()" class="filter-btn">24 Hours</button>
+  <button (click)="sortReports('asc')"
+  class="filter-btn">
+  <i class="bi bi-arrow-up"></i>Sort by Date Ascending</button>
+  <button (click)="sortReports('desc')"
+  class="filter-btn">
+  <i class="bi bi-arrow-down"></i>Sort by Date Descending</button>
+</div>
+<div *ngFor="let report of filteredReports" class="report-card">
+  <div class="report-card-content">
+    <h1 class="report-by">By {{ report.worker.fullName }} at {{ report.worker.city.name }} {{ report.date | date }}</h1>
+    <p class="report-title">Title: {{ report.content }}</p>
+    <span
+            class="status-indicator"
+            [ngStyle]="{ 'background-color': report.traiter? 'green' : 'red' }"
+          ></span>
+  </div>
+  <button class="view-report-btn" (click)="gotoReport(report._id)">
+    <i class="bi bi-arrow-right-circle"></i>
+  </button>
+</div>

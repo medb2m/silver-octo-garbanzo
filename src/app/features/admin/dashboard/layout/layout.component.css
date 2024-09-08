@@ -1,0 +1,20 @@
+.dashboard {
+    display: flex;
+    gap: 20px; /* Modern spacing between components */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow effect */
+    padding: 20px; /* Add some padding for aesthetics */
+  }
+  
+  .toggle-button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .toggle-button:hover {
+    background-color: #0056b3;
+  }
+  

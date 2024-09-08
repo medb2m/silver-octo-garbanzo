@@ -1,0 +1,48 @@
+<!--  <div class="dashboard">
+    <div class="regions">
+        <regions></regions>
+    </div>
+    <div class="delegations" *ngIf="selectedRegion">
+        <delegations></delegations>
+    </div>
+    <div class="cities" *ngIf="selectedDelegation">
+        <cities></cities>
+    </div>
+    <div class="workers" *ngIf="selectedCity">
+        <workers></workers>
+    </div>
+</div>
+ -->
+
+<!-- Search Bar -->
+<div class="search-bar">
+  <input type="text" placeholder="Search regions, delegations, cities, or workers..." 
+  (input)="search($event)" class="search-input" />
+  
+  <!-- Search Result Suggestions -->
+  <ul *ngIf="searchResults.length > 0" class="search-suggestions">
+    <li *ngFor="let result of searchResults" (click)="selectSearchResult(result)">
+      <span *ngIf="result.type === 'Region'">{{ result.name }} (Region)</span>
+      <span *ngIf="result.type === 'Delegation'">{{ result.name }} (Delegation)</span>
+      <span *ngIf="result.type === 'City'">{{ result.name }} (City)</span>
+    </li>
+  </ul>
+</div>
+
+ <div class="dashboard">
+
+ 
+  
+  <div class="regions" *ngIf="account && account.role !== 'Moderator'">
+    <regions></regions>
+  </div>
+  <div class="delegations" *ngIf="selectedRegion">
+    <delegations></delegations>
+  </div>
+  <div class="cities" *ngIf="selectedDelegation">
+    <cities></cities>
+  </div>
+  <div class="workers" *ngIf="selectedCity">
+    <workers></workers>
+  </div>
+</div>

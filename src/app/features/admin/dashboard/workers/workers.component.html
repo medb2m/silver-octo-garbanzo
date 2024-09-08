@@ -1,0 +1,22 @@
+<div class="worker-list" *ngIf="selectedCity">
+    <input type="text" placeholder="Search regions..." (input)="filterWorkers($event)" class="search-input">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Worker Name</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let worker of filteredWorkers" class="worker-row" (click)="gotoWorkerReports(worker.id)">
+                <td>{{ worker.fullName }}</td>
+                <td>
+                    <span
+            class="status-indicator"
+            [ngStyle]="{ 'background-color': worker.postedReport ? 'green' : 'red' }"
+          ></span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

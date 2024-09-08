@@ -1,0 +1,38 @@
+﻿<nav class="navbar navbar-expand-lg navbar-light bg-light" *ngIf="account && account.role === 'User'">
+  <div class="container-fluid">
+      <h1 class="navbar-brand">Work</h1>
+      <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+          <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarCollapse">
+          <div class="navbar-nav">
+              <a routerLink="/work/add" class="nav-item nav-link active">Daily report</a>
+              <a routerLink="/work/social" class="nav-item nav-link">Social Links</a>
+              <a href="#" class="nav-item nav-link">Messages</a>
+              <a href="#" class="nav-item nav-link disabled" tabindex="-1">Reports</a>
+              <!-- Notification  -->
+              <div class="dropdown">
+                <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="bi bi-bell"></i>
+                    <span class="notification-count" *ngIf="unreadCount > 0">{{ unreadCount }}</span>
+                </button>
+                <ul class="dropdown-menu notifications-box" aria-labelledby="dropdownMenuButton1">
+                  <li *ngFor="let notification of notifications">
+                    <div 
+                    (click)="goto(notification)" 
+                    [ngClass]="{ 'notification-item':true, 'old-notification': notification.isRead, 'new-notification' : !notification.isRead}"
+                    >
+                    <span>{{notification.message}}</span> 
+                    <span>{{ notification.date | date:'short'}}</span> 
+                    </div>
+                </li>
+                <div *ngIf="notifications.length === 0">0 notifications</div>
+                </ul>
+            </div>
+          </div>
+          <div class="navbar-nav ms-auto">
+              <button class="logout-btn" (click)="logout()">Log out</button>
+          </div>
+      </div>
+  </div>
+</nav>

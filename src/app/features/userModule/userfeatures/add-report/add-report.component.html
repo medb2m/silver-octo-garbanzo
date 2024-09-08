@@ -1,0 +1,116 @@
+<div class="contain">
+  <div class="login-box">
+    <div class="login-header">
+      <header>Submit Daily Report</header>
+    </div>
+    <form *ngIf="!loading" [formGroup]="form" (ngSubmit)="onSubmit()">
+      <div class="input-box">
+        <textarea
+          formControlName="content"
+          class="input-field"
+          placeholder="Content"
+          [ngClass]="{ 'is-invalid': submitted && f['content'].errors }"
+        ></textarea>
+        <div *ngIf="submitted && f['content'].errors" class="invalid-feedback">
+          <div *ngIf="f['content'].errors['required']">Content is required</div>
+        </div>
+      </div>
+      <div class="input-box">
+        <textarea
+          formControlName="machaghel"
+          class="input-field"
+          placeholder="مشاغل"
+          [ngClass]="{ 'is-invalid': submitted && f['machaghel'].errors }"
+        ></textarea>
+        <div *ngIf="submitted && f['machaghel'].errors" class="invalid-feedback">
+          <div *ngIf="f['machaghel'].errors['required']">مشاغل is required</div>
+        </div>
+      </div>
+      <div class="input-box">
+        <textarea
+          formControlName="machakel_alyawm"
+          class="input-field"
+          placeholder="مشاكل اليوم"
+          [ngClass]="{ 'is-invalid': submitted && f['machakel_alyawm'].errors }"
+        ></textarea>
+        <div *ngIf="submitted && f['machakel_alyawm'].errors" class="invalid-feedback">
+          <div *ngIf="f['machakel_alyawm'].errors['required']">مشاكل اليوم is required</div>
+        </div>
+      </div>
+      <div class="input-box">
+        <textarea
+          formControlName="houloul"
+          class="input-field"
+          placeholder="الحلول المطروحة"
+          [ngClass]="{ 'is-invalid': submitted && f['houloul'].errors }"
+        ></textarea>
+        <div *ngIf="submitted && f['houloul'].errors" class="invalid-feedback">
+          <div *ngIf="f['houloul'].errors['required']">مشاكل اليوم is required</div>
+        </div>
+      </div>
+      <div class="input-box">
+        <input
+          type="checkbox"
+          formControlName="concurence"
+          id="concurence"
+        />
+        <label for="concurence">تواجد حملات المنافسة</label>
+      </div>
+      <div class="input-box" *ngIf="form.get('concurence')?.value">
+        <textarea
+          formControlName="concurrenceDetails"
+          class="input-field"
+          placeholder="أعط تفاصيل أكثر عن المنافسة"
+          [ngClass]="{ 'is-invalid': submitted && f['concurrenceDetails'].errors }"
+        ></textarea>
+        <div *ngIf="submitted && f['concurrenceDetails'].errors" class="invalid-feedback">
+          <div *ngIf="f['concurrenceDetails'].errors['required']">تفاصيل المنافسة is required</div>
+        </div>
+      </div>
+      <div class="input-box">
+        <textarea
+          formControlName="propositions"
+          class="input-field"
+          placeholder="إقترحتكم"
+          [ngClass]="{ 'is-invalid': submitted && f['propositions'].errors }"
+        ></textarea>
+        <div *ngIf="submitted && f['propositions'].errors" class="invalid-feedback">
+          <div *ngIf="f['propositions'].errors['required']">إقترحتكم is required</div>
+        </div>
+      </div>
+      <div class="input-box d-flex flex-column align-items-center">
+        <input
+          type="file"
+          (change)="onFileChange($event)"
+          class="input-field"
+          multiple
+          accept=".jpg,.jpeg,.png"
+          id="fileInput"
+          hidden
+        />
+        <button type="button" class="btn up-btn rounded-circle" (click)="triggerFileInput()">
+          <i class="bi bi-upload"></i>
+        </button>
+        <div class="image-preview d-flex flex-wrap justify-content-center" *ngIf="selectedImages.length">
+          <div
+            class="image-container"
+            *ngFor="let image of selectedImages; let i = index"
+            (click)="onImageClick(i)"
+          >
+            <img [src]="image" alt="Selected Image" />
+            <button type="button" class="remove-btn" (click)="removeImage(i)">×</button>
+          </div>
+        </div>
+      </div>
+      <div class="input-submit">
+        <button class="submit-btn" [disabled]="loading">
+          <span *ngIf="loading" class="spinner-border spinner-border-sm me-1"></span>
+          Submit
+        </button>
+      </div>
+    </form>
+    <div *ngIf="loading" class="text-center m-5">
+      <span class="spinner-border spinner-border-lg align-center"></span>
+    </div>
+  </div>
+</div>

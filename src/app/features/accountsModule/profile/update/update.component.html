@@ -1,0 +1,83 @@
+﻿<h1>Update Profile</h1>
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="row">
+        <!-- User Name  -->
+        <div class="mb-3 col-6">
+            <label class="form-label">Username</label>
+            <input type="text" formControlName="username" class="form-control" [ngClass]="{ 'is-invalid': submitted && f['username'].errors }" />
+            <div *ngIf="submitted && f['username'].errors" class="invalid-feedback">
+                <div *ngIf="f['username'].errors['required']">Username is required</div>
+            </div>
+        </div> 
+        <!-- fullName  -->
+        <div class="mb-3 col-5">
+            <label class="form-label">Full Name</label>
+            <input type="text" formControlName="fullName" class="form-control" [ngClass]="{ 'is-invalid': submitted && f['fullName'].errors }" />
+            <div *ngIf="submitted && f['fullName'].errors" class="invalid-feedback">
+                <div *ngIf="f['fullName'].errors['required']">fullName is required</div>
+            </div>
+        </div>
+        <!-- Cin  -->
+        <div class="mb-3 col-5">
+            <label class="form-label">Cin</label>
+            <input type="text" formControlName="cin" class="form-control" [ngClass]="{ 'is-invalid': submitted && f['cin'].errors }" />
+            <div *ngIf="submitted && f['cin'].errors" class="invalid-feedback">
+                <div *ngIf="f['cin'].errors['required']">Cin is required</div>
+            </div>
+        </div>
+        
+    </div>
+    <!-- Profile Picture  -->
+    <div class="mb-3 col-3">
+        <div class="d-flex flex-column align-items-center">
+            <!-- Circle preview -->
+            <div *ngIf="previewUrl" class="mb-2">
+            <img [src]="previewUrl" alt="Image preview" class="rounded-circle" style="width: 100px; height: 100px; object-fit: cover;"
+            />
+            </div>
+
+            <!-- Upload button -->
+            <button type="button" class="upload-button" (click)="triggerFileInput()" style="width: 70%;"
+            >
+                Change Photo
+            </button>
+            <input type="file" id="fileInput" (change)="onFileSelected($event)" class="form-control" hidden
+            />
+        </div>
+    </div>
+    <!-- Change Password -->
+    <!-- <h3 class="pt-3">Change Password</h3>
+    <p>Leave blank to keep the same password</p>
+    <div class="row">
+        <div class="mb-3 col">
+            <label class="form-label">Password</label>
+            <input type="password" formControlName="password" class="form-control" [ngClass]="{ 'is-invalid': submitted && f['password'].errors }" />
+            <div *ngIf="submitted && f['password'].errors" class="invalid-feedback">
+                <div *ngIf="f['password'].errors['required']">Password is required</div>
+                <div *ngIf="f['password'].errors['minlength']">Password must be at least 6 characters</div>
+            </div>
+        </div>
+        <div class="mb-3 col">
+            <label class="form-label">Confirm Password</label>
+            <input type="password" formControlName="confirmPassword" class="form-control" [ngClass]="{ 'is-invalid': submitted && f['confirmPassword'].errors }" />
+            <div *ngIf="submitted && f['confirmPassword'].errors" class="invalid-feedback">
+                <div *ngIf="f['confirmPassword'].errors['required']">Confirm Password is required</div>
+                <div *ngIf="f['confirmPassword'].errors['mustMatch']">Passwords must match</div>
+            </div>
+        </div>
+    </div> -->
+    <div class="mb-3">
+        <!-- Update Button -->
+        <button type="submit" [disabled]="submitting" class="update-button me-2">
+            <span *ngIf="submitting" class="spinner-border spinner-border-sm me-1"></span>
+            Update
+        </button>
+        <!-- Cancel Button -->
+        <!-- Needed (click)="onDelete()"  to enable -->
+        <!-- <button type="button" (click)="onDelete()" [disabled]="deleting" class="cancel-button"> -->
+        <button routerLink="../" type="button" [disabled]="deleting" class="cancel-button">
+            <span *ngIf="deleting" class="spinner-border spinner-border-sm me-1"></span>
+            Cancel
+        </button>
+    </div>
+</form>
