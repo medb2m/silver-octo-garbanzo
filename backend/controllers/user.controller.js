@@ -175,11 +175,25 @@ export function createSchema(req, res, next) {
     validateRequest(req, next, schema);
 }
 
-export function create(req, res, next) {
+/* export function create(req, res, next) {
     UserService.create(req.body)
         .then(user => res.json(user))
         .catch(next);
-}
+} */
+
+        export function create(req, res, next) {
+            try {
+                UserService.create(req.body)
+                    .then(user => res.json(user))
+                    .catch(err => {
+                        console.error('Error during user creation:', err);
+                        next(err);  // Pass the error to the next middleware
+                    });
+            } catch (err) {
+                console.error('Unexpected error:', err);
+                next(err);  // Handle unexpected errors
+            }
+        }
 
 export function updateSchema(req, res, next) {
     const schemaRules = {
