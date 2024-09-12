@@ -17,7 +17,7 @@
         <a routerLink="/work/add" class="nav-item nav-link active"
           >{{ 'dailyReport' | translate }}</a
         >
-        <a routerLink="/work/social" class="nav-item nav-link">{{ 'socialLinks' | translate }}</a>
+        <!-- <a routerLink="/work/social" class="nav-item nav-link">{{ 'socialLinks' | translate }}</a> -->
         <!-- <a href="#" class="nav-item nav-link disabled" tabindex="-1">Reports</a> -->
         <!-- Notification  -->
         <div class="dropdown">
@@ -45,7 +45,9 @@
                   'old-notification': notification.isRead,
                   'new-notification': !notification.isRead
                 }"
-              >
+              ><a [href]="social.link.startsWith('http') ? social.link : 'https://' + social.link" target="_blank" rel="noopener noreferrer">
+                {{ 'clickHereToOpenLink' | translate}}
+              </a>
                 <span>{{ notification.message }}</span>
                 <span>{{ notification.date | date : "short" }}</span>
               </div>

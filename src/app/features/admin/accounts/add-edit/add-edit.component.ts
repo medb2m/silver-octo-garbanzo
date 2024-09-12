@@ -5,6 +5,7 @@ import { first } from 'rxjs/operators';
 
 import { AccountService, AlertService, RegionService } from '@app/_services';
 import { MustMatch } from '@core/helpers';
+import jsPDF from 'jspdf';
 
 @Component({ templateUrl: 'add-edit.component.html' , styleUrls: ['add-edit.component.css'] })
 export class AddEditComponent implements OnInit {
@@ -53,6 +54,8 @@ export class AddEditComponent implements OnInit {
         this.regionService.getCities().subscribe( cities => this.cities = cities)
         
         this.regionService.getAll().subscribe(x => this.regions = x)
+
+        
         
 
         this.form = this.formBuilder.group({
@@ -67,6 +70,14 @@ export class AddEditComponent implements OnInit {
             confirmPassword: ['']
         }, {
             validator: MustMatch('password', 'confirmPassword')
+        });
+
+        this.route.queryParams.subscribe(params => {
+            if (params['cityId']) {
+                console.log('query '+ params['cityId'])
+                this.actualCity = this.cities?.find(city => city._id === params['cityId']);
+                this.form.patchValue({ city: params['cityId'] });
+            }
         });
 
         if (this.roleParam) {
@@ -101,6 +112,114 @@ export class AddEditComponent implements OnInit {
         }
     }
 
+    // Method to export user data as PDF
+    /* exportUserToPDF() {
+        const doc = new jsPDF();
+        
+        // Get user information from the form
+        const fullName = this.form.get('fullName')?.value || 'N/A';
+        const username = this.form.get('username')?.value || 'N/A';
+        const cin = this.form.get('cin')?.value || 'N/A';
+        const role = this.form.get('role')?.value || 'N/A';
+        const city = this.actualCityName || 'N/A';
+        const moderatorZone = this.actualReg || 'N/A';
+
+        // Add user data to the PDF
+        doc.text('User Information', 20, 20);
+        doc.text(`Full Name: ${fullName}`, 20, 40);
+        doc.text(`Username: ${username}`, 20, 60);
+        doc.text(`CIN: ${cin}`, 20, 80);
+        doc.text(`Role: ${role}`, 20, 100);
+        if (role === 'User') {
+            doc.text(`City: ${city}`, 20, 120);
+        }
+        if (role === 'Moderator') {
+            doc.text(`Moderator Zone: ${moderatorZone}`, 20, 140);
+        }
+
+        // Save the PDF
+        doc.save(`${fullName}_UserInfo.pdf`);
+    } */
+
+
+        exportUserToPDF() {
+            const doc = new jsPDF();
+            
+            // Get user information from the form
+            const fullName = this.form.get('fullName')?.value || 'N/A';
+            const username = this.form.get('username')?.value || 'N/A';
+            const cin = this.form.get('cin')?.value || 'N/A';
+            const role = this.form.get('role')?.value || 'N/A';
+            const city = this.actualCityName || 'N/A';
+            const moderatorZone = this.actualReg || 'N/A';
+    
+            // Assume `profilePicture` is the base64 or URL of the user's profile picture
+            const profilePicture = this.form.get('profilePicture')?.value;  // Adjust this according to where you store the profile picture
+    
+            // Add user data to the PDF
+            doc.text('User Information', 20, 20);
+            doc.text(`Full Name: ${fullName}`, 20, 40);
+            doc.text(`Username: ${username}`, 20, 60);
+            doc.text(`CIN: ${cin}`, 20, 80);
+            doc.text(`Role: ${role}`, 20, 100);
+            if (role === 'User') {
+                doc.text(`City: ${city}`, 20, 120);
+            }
+            if (role === 'Moderator') {
+                doc.text(`Moderator Zone: ${moderatorZone}`, 20, 140);
+            }
+    
+            // Add profile picture if it exists
+            if (profilePicture) {
+                const imageWidth = 50;  // Set image width
+                const imageHeight = 50; // Set image height
+                const imageX = 150;      // X position for image
+                const imageY = 20;       // Y position for image
+    
+                // If the profile picture is a base64 string
+                if (profilePicture.startsWith('data:image/')) {
+                    doc.addImage(profilePicture, 'PNG', imageX, imageY, imageWidth, imageHeight);
+                } else {
+                    // If the profile picture is a URL, fetch it and convert to base64
+                    this.convertImageToBase64(profilePicture).then((base64Image: string) => {
+                        doc.addImage(base64Image, 'PNG', imageX, imageY, imageWidth, imageHeight);
+                        // Save the PDF with the image
+                        doc.save(`${fullName}_UserInfo.pdf`);
+                    }).catch(error => {
+                        console.error('Error fetching the image: ', error);
+                        doc.save(`${fullName}_UserInfo.pdf`);
+                    });
+                }
+            } else {
+                // If no profile picture, save the PDF directly
+                doc.save(`${fullName}_UserInfo.pdf`);
+            }
+        }
+    
+        // Helper method to convert image URL to base64
+        convertImageToBase64(url: string): Promise<string> {
+            return new Promise((resolve, reject) => {
+                const img = new Image();
+                img.crossOrigin = 'Anonymous';
+                img.src = url;
+                img.onload = () => {
+                    const canvas = document.createElement('canvas');
+                    canvas.width = img.width;
+                    canvas.height = img.height;
+                    const ctx = canvas.getContext('2d');
+                    if (ctx) {
+                        ctx.drawImage(img, 0, 0);
+                        const dataURL = canvas.toDataURL('image/png');
+                        resolve(dataURL);
+                    } else {
+                        reject('Canvas context not available');
+                    }
+                };
+                img.onerror = reject;
+            });
+        }
+
+        
     // convenience getter for easy access to form fields
     get f() { return this.form.controls; }
 

@@ -52,5 +52,5 @@
 .selected {
     background-color: #d3e8ff; /* Light blue background for selected item */
     font-weight: bold;
-    border-left: 4px solid #007bff; /* Blue border indicator */
+    border-left: 4px solid #000; /* Blue border indicator */
   }

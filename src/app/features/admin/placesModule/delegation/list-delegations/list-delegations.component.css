@@ -44,16 +44,17 @@
 }
 
 .add-btn {
-    background-color: #28666e;
+    background-color: #666666;
     border-radius: 30px;
     padding: 1px 9px;
     font-size: 1.8rem;
     color: #fff;
     transition: background-color 0.3s ease;
+    padding-bottom: 1.5px;
 }
 
 .add-btn:hover {
-    background-color: #143337;
+    background-color: #000;
 }
 
 .edit-button {

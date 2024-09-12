@@ -70,5 +70,18 @@ export class WorkersComponent {
   gotoWorkerReports(id : string){
     this.router.navigate([`/admin/dashboard/reports/${id}`])
   }
+
+  goto(){
+    this.router.navigate(['/admin/accounts/add/user'], { queryParams: { cityId: this.selectedCity._id } })
+  }
+
+
+  goToAddUser(): void {
+    console.log('selected city ' + this.selectedCity._id)
+    this.router.navigate(['/admin/accounts/add/user'], { queryParams: { cityId: this.selectedCity._id } });
+    if (this.selectedCity) {
+        this.router.navigate(['/admin/accounts/add'], { queryParams: { cityId: this.selectedCity._id } });
+    }
+  }
   
 }

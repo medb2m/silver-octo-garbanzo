@@ -4,7 +4,7 @@
     left: 0;
     height: 100%;
     width: 200px;
-    background-color: #103034;
+    background-color: #666666;
     color: #ffffff;
     padding-top: 60px;
     border-right: 1px solid #dee2e6;
@@ -141,3 +141,42 @@
     margin-left: -264px;
   }
   
+
+  /** styling nav items */
+
+  .nav-item {
+    display: inline-block;
+    transition: transform 0.3s ease, color 0.3s ease;
+  }
+
+  .nav-item:hover {
+    transform: scale(1.1);
+    color: black;
+  }
+
+  .nav-link {
+    position: relative;
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    align-items: center;
+  }
+  
+  .nav-link span {
+    margin-left: 8px;
+  }
+  
+  .nav-link::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background-color: black;
+    transition: width 0.3s ease;
+  }
+  
+  .nav-link:hover::after {
+    width: 100%;
+  }

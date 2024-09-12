@@ -1,7 +1,7 @@
 ﻿import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { Account, Role, SocialNotification } from '@app/_models';
-import { AccountService, NotificationService } from '@app/_services';
+import { Account, Role, Social, SocialNotification } from '@app/_models';
+import { AccountService, NotificationService, SocialService } from '@app/_services';
 import { TranslateService } from '@ngx-translate/core';
 
 
@@ -21,7 +21,8 @@ export class NavbarComponent {
         private accountService: AccountService,
         private router: Router,
         private notificationService: NotificationService,
-        private translate: TranslateService
+        private translate: TranslateService,
+        private socialService: SocialService
     ) {
         this.translate.setDefaultLang('en');
         this.translate.onLangChange.subscribe(lang => {
@@ -84,13 +85,16 @@ export class NavbarComponent {
     updateUnreadCount() {
         this.unreadCount = this.notifications.filter(notification => !notification.isRead).length;
     }
+    social !: Social
 
     goto(notification : SocialNotification){
         this.notificationService.setSocialNotificationRead(notification._id).subscribe(() => {
             notification.isRead = true;
             this.updateUnreadCount();
-            console.log('You have read the notif !')
         })
+        this.socialService.getSocialById(notification.socialId).subscribe((data: Social) => {
+            this.social = data
+          })
         this.router.navigate([`work/social/details/${notification.socialId}`])
     }
 }

@@ -1,7 +1,10 @@
-﻿<div class="contain">
+﻿
+<div class="contain">
+  
     <div class="login-box">
       <div class="login-header">
-        <header>Regiser Form</header>
+        <header>{{ title }}</header>  
+        <button *ngIf="title === 'Edit Account'" class="back-button mt-2" (click)="exportUserToPDF()">Export User to PDF</button>
       </div>
       <form *ngIf="!loading" [formGroup]="form" (ngSubmit)="onSubmit()">
         <!-- Full Name -->

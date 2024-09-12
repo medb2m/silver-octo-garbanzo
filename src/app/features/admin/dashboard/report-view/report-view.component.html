@@ -1,4 +1,4 @@
-<article class="detail-article" *ngIf="report">
+<article class="detail-article" *ngIf="report" #reportContent>
   <div class="header">
     <span *ngIf="report.traiter" class="traited-msg">report traited <i class="bi bi-check"></i></span>
     <button (click)="traite(report._id)" *ngIf="!report.traiter" class="seen-btn"><i class="bi bi-check"></i></button>
@@ -27,3 +27,5 @@
     <img [src]="selectedImage" alt="Selected Report Image" class="selected-image" />
   </figure>
 </article>
+
+<button (click)="exportReportToPDF()">Export Report to PDF</button>

@@ -120,3 +120,19 @@ section a{
     color: rgb(21, 96, 201); 
     text-decoration: underline;
 }
+
+/** Back Button */
+.back-button {
+    background-color: #28666e;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    font-size: 1.2rem;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+    padding: 5px 10px;
+  }
+
+.back-button:hover {
+  background-color: #143337;
+}

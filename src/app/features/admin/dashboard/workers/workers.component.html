@@ -1,5 +1,7 @@
 <div class="worker-list" *ngIf="selectedCity">
     <input type="text" placeholder="Search regions..." (input)="filterWorkers($event)" class="search-input">
+    <!-- Button to Add New User -->
+    <button class="add-btn" (click)="goto()">Add New User</button>
     <table class="table">
         <thead>
             <tr>

@@ -123,6 +123,6 @@ app.use(errorHandler);
 
 // start server
 const port = 4000;
-httpServer.listen(port,  () => {
+httpServer.listen(port,   () => {
     console.log('Server listening on port ' + port);
 })
