@@ -1,38 +1,33 @@
 ﻿<div class="contain">
     <div class="login-box">
         <div class="login-header">
-            <header>Bienvenue!</header>
+            <header>الشعب يريد</header>
+            <img src="assets/img/pv_logo.jpg" alt="pv_logo">
         </div>
         <form [formGroup]="form" (ngSubmit)="onSubmit()">
-        <div class="input-box">
-            <input  type="text" formControlName="username" class="input-field" placeholder="Identifiant" [ngClass]="{ 'is-invalid': submitted && f['username'].errors }"/>
-            <div *ngIf="submitted && f['username'].errors" class="invalid-feedback">
-                <div *ngIf="f['username'].errors['required']">Userame is required</div>
+            <div class="input-box">
+                <input type="text" formControlName="username" class="input-field" placeholder="رقم الهاتف" [ngClass]="{ 'is-invalid': submitted && f['username'].errors }"/>
+                <i class="bi bi-person icon"></i>
+                <div *ngIf="submitted && f['username'].errors" class="invalid-feedback">
+                    <div *ngIf="f['username'].errors['required']">الرجاء إدخال رقم هاتفك</div>
+                </div>
             </div>
-        </div>
-        <div class="input-box">
-            <input 
-            type="password" 
-            formControlName="password"
-            class="input-field" 
-            placeholder="Mot de passe"
-            [ngClass]="{ 'is-invalid': submitted && f['password'].errors }"
-            />
-            <div *ngIf="submitted && f['password'].errors" class="invalid-feedback">
-                <div *ngIf="f['password'].errors['required']">Password is required</div>
+            <div class="input-box">
+                <input type="password" formControlName="password" class="input-field" placeholder="رقم الهوية" [ngClass]="{ 'is-invalid': submitted && f['password'].errors }"/>
+                <i class="bi bi-lock icon"></i>
+                <div *ngIf="submitted && f['password'].errors" class="invalid-feedback">
+                    <div *ngIf="f['password'].errors['required']">الرجاء إدخال رقم هويتك</div>
+                </div>
             </div>
-        </div>
-        <div class="input-submit">
-            <button 
-            type="submit"
-            class="submit-btn"
-            [disabled]="submitting"
-            >
-            <span *ngIf="submitting" class="spinner-border spinner-border-sm me-1"></span>
-            Se Connecter
-            </button>
-            <!-- <label for="submit">Se Connecter</label> -->
-        </div>
-    </form>
+            <div class="captcha-box">
+                <re-captcha formControlName="recaptcha" siteKey="6LdfqEYqAAAAAIwuK2djM5B2HjbQjHY4RArJ1Qtx"></re-captcha>
+            </div>
+            <div class="input-submit">
+                <button type="submit" class="submit-btn" [disabled]="submitting">
+                    <span *ngIf="submitting" class="spinner-border spinner-border-sm me-1"></span>
+                    تسجيل الدخول
+                </button>
+            </div>
+        </form>
     </div>
 </div>

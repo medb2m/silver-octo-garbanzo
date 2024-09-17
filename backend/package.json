@@ -1,7 +1,7 @@
 {
-    "name": "forum-rep",
+    "name": "pv",
     "version": "1.0.0",
-    "description": "election forum",
+    "description": "pv",
     "license": "MIT",
     "repository": {
         "type": "git",

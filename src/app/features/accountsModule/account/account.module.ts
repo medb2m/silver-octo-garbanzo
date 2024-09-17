@@ -6,12 +6,14 @@ import { AccountsRoutingModule } from './account-routing.module';
 import { LayoutComponent } from './layout';
 import { LoginComponent } from './login';
 import { RegisterComponent } from './register';
+import { RecaptchaModule } from 'ng-recaptcha';
 
 @NgModule({
     imports: [
         CommonModule,
         ReactiveFormsModule,
-        AccountsRoutingModule
+        AccountsRoutingModule,
+        RecaptchaModule
     ],
     declarations: [
         LayoutComponent,

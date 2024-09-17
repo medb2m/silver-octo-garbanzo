@@ -53,10 +53,9 @@ export class DelegationsComponent {
 
   selectDelegation(delegation: any) {
     // Emit the selected delegation to the parent component
+    console.log(`ID delegation :`  + delegation._id)
     this.selectedDelegation = delegation;
     this.regionService.setSelectedDelegation(delegation);
   }
 
-
-  
 }

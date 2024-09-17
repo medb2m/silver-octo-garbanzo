@@ -1,5 +1,5 @@
 export const config = {
-    connectionString: "mongodb://127.0.0.1:27017/management",
-    //connectionString: "mongodb+srv://medb2m:theHolyPass2121.@cluster0.yziclg0.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0",
+    //connectionString: "mongodb://127.0.0.1:27017/management",
+    connectionString: "mongodb+srv://pvDB:F4nbRNoZAEUwAWh0@pvdb.eqoc3.mongodb.net/?retryWrites=true&w=majority&appName=pvDB",
     secret: "SuperKeyWord_here",
 }

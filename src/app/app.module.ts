@@ -15,6 +15,7 @@ import { SharedModule } from '@shared/shared.module';
 import { AddLinkComponent } from './add-link/add-link.component'
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { RecaptchaModule } from 'ng-recaptcha';
 
 
 export function HttpLoaderFactory(http: HttpClient) {
@@ -30,6 +31,7 @@ export function HttpLoaderFactory(http: HttpClient) {
         FormsModule,
         AppRoutingModule,
         SharedModule,
+        RecaptchaModule,
         TranslateModule.forRoot({
             loader: {
               provide: TranslateLoader,
