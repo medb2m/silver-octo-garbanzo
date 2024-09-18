@@ -13,6 +13,14 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "allowedCommonJsDependencies": [
+              "core-js",
+              "html2canvas",
+              "jspdf",
+              "dompurify",
+              "rgbcolor",
+              "raf"
+            ],
             "outputPath": "dist/management",
             "index": "src/index.html",
             "main": "src/main.ts",
