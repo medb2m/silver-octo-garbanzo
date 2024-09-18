@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Report } from '@app/_models';
 import { ReportService } from '@app/_services/report.service';
@@ -10,6 +10,10 @@ import { ReportService } from '@app/_services/report.service';
   styleUrls: ['./report-list.component.css']
 })
 export class ReportListComponent {
+
+  @Input() cityId!: string;
+  @Output() reportSelected = new EventEmitter<string>();
+
   reports : Report[] = []
   filteredReports: any[] = [];
   sortOrder: 'asc' | 'desc' = 'desc'; // default sort order
@@ -24,7 +28,7 @@ export class ReportListComponent {
     private route: ActivatedRoute
   ) { }
 
-  ngOnInit() {
+  /* ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id')
     if (id){
       this.workerMode = true
@@ -32,7 +36,27 @@ export class ReportListComponent {
     } else {
       this.fetchAllReports()
     }
-  }
+  } */
+
+    /** hello */
+    ngOnInit() {
+      if (this.cityId) {
+        this.fetchReportsByCity();
+      }
+    }
+
+    fetchReportsByCity() {
+      this.reportService.getReportsByCity(this.cityId).subscribe((data: any) => {
+        this.reports = data;
+        this.filteredReports = [...this.reports];
+      });
+    }
+  
+    gotoReport(id: string) {
+      this.reportSelected.emit(id);
+    }
+
+    /*** bye */
 
   fetchWorkerReports(id : string) {
     this.reportService.getReportsByWorker(id).subscribe(data => {
@@ -98,8 +122,8 @@ export class ReportListComponent {
     });
   }
 
-  gotoReport(id : string){
+  /* gotoReport(id : string){
     this.router.navigate([`/admin/dashboard/report/view/${id}`])
-  }
+  } */
 
 }

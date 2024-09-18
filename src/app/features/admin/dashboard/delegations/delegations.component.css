@@ -1,4 +1,4 @@
-.delegation-list {
+/* .delegation-list {
     background-color: #f9f9f9;
     border-radius: 8px;
     padding: 20px;
@@ -18,14 +18,14 @@
 }
 
 .selected {
-    background-color: #d3e8ff; /* Light blue background for selected item */
+    background-color: #d3e8ff; 
     font-weight: bold;
-    border-left: 4px solid #000; /* Blue border indicator */
+    border-left: 4px solid #000; 
   }
   
   .delegation-row:hover {
     cursor: pointer;
-    background-color: #f1f1f1; /* Change background on hover */
+    background-color: #f1f1f1; 
   }
 
 .search-input {
@@ -53,4 +53,38 @@
 
 .toggle-button:hover {
     background-color: #940202;
-}
+} */
+
+.table th, .table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .region-row:hover, .delegation-row:hover {
+    background-color: #f0f0f0;
+    cursor: pointer;
+  }
+  
+  .selected {
+    background-color: #d3e8ff;
+    font-weight: bold;
+    border-left: 4px solid #000;
+  }
+  
+  .user-popup {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .user-popup ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .user-popup li {
+    padding: 8px 0;
+  }
+  

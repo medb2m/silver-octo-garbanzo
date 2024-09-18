@@ -1,12 +1,25 @@
-<div class="city-list" *ngIf="selectedDelegation">
+<!-- <div class="city-list" *ngIf="selectedDelegation">
     <div class="header">
         <button class="toggle-button" (click)="toggleComponents()">
             <span *ngIf="!showComponents"><i class="bi bi-caret-down"></i></span>
             <span *ngIf="showComponents"><i class="bi bi-x"></i></span>
         </button>
     </div>
-    <div *ngIf="showComponents">
-        <table class="table">
+    <div *ngIf="showComponents"> -->
+
+
+        <!-- table or other styled form two present a user friendly experience by having at least these 
+        + name of the Z type 
+        + two square buttons : one with a right arrow at the end of the shape , second a user icon and opens list type of reporters
+        + and add a pop up of the list of reporters
+        + in the pop each reporter username have two squares : one with user icon to open user information , second with any icon opens reports list of that reporter and the each report will open in the pop up 
+        + a go back icon at the top left corner will be needed 
+        + and a logic to open other component in the pop up 
+        -->
+        <!-- add here a styled indicator of the number of reporters in this Zity  -->
+
+
+<!--         <table class="table">
             <input type="text" placeholder="Search regions..." (input)="filterCities($event)" class="search-input">
             <thead>
                 <tr>
@@ -17,8 +30,40 @@
                 <tr *ngFor="let city of filteredCities" (click)="selectCity(city)" class="city-row"
                     [class.selected]="city === selectedCity">
                     <td>{{ city.name }}</td>
+                    
                 </tr>
             </tbody>
         </table>
     </div>
-</div>
+</div> -->
+
+
+<table class="table">
+    <input type="text" placeholder="Search Cities..." (input)="filterCities($event)" class="search-input">
+    <thead>
+        <tr>
+            <th>City Name</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let city of filteredCities" class="city-row"
+            [class.selected]="city === selectedCity">
+            <td>{{ city.name }}</td>
+            <td>
+                <button (click)="openReportersPopup(city)">
+                    <i class="bi bi-person-square"></i>
+                </button>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<!-- Pop-up for reporters -->
+<ng-template #Popup>
+    <div class="user-popup">
+        <button (click)="closePopup()">Go Back</button>
+        <h3>{{ selectedCity.name }} - Reporters</h3>
+        <app-report-list [cityId]="selectedCity._id" (reportSelected)="viewReport($event)"></app-report-list>
+    </div>
+</ng-template>

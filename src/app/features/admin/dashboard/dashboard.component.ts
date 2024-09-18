@@ -11,24 +11,25 @@ import { Role } from '@app/_models';
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent {
-  
 
+  // initial declaration 
+    account?: Account | null;
+    selectedRegion: any;
+    selectedDelegation: any;
+    selectedCity: any;
+
+    allRegions: any[] = [];
+    allDelegations: any[] = [];
+    allCities: any[] = [];
+    searchResults: any[] = [];
+  
+  // toggle logic B
     showComponents = true; // Initialize to true initially
 
     toggleComponents(): void {
         this.showComponents = !this.showComponents;
     }
-
-    account?: Account | null;
-  selectedRegion: any;
-  selectedDelegation: any;
-  selectedCity: any;
-
-
-  allRegions: any[] = [];
-    allDelegations: any[] = [];
-    allCities: any[] = [];
-    searchResults: any[] = [];
+  // toggle logic E
 
   constructor(
     private regionService: RegionService,
@@ -88,39 +89,7 @@ export class DashboardComponent {
 
 
   // Search bar logic 
-
     filteredResults: any[] = [];
-
-
-   /*  search(event: Event): void {
-      const inputElement = event.target as HTMLInputElement;
-      const term = inputElement.value;
-      if (!term) {
-        this.searchResults = [];
-        return;
-      }
-      const lowerTerm = term.toLowerCase();
-
-      const filteredRegions = this.allRegions.filter(region => region.name.toLowerCase().includes(lowerTerm));
-      const filteredDelegations = this.allDelegations.filter(delegation => delegation.name.toLowerCase().includes(lowerTerm));
-      const filteredCities = this.allCities.filter(city => city.name.toLowerCase().includes(lowerTerm));
-
-      this.searchResults = [...filteredRegions, ...filteredDelegations, ...filteredCities].flatMap(entity => {
-          const type = entity.regionId ? 'City' : entity.delegationId ? 'Delegation' : 'Region';
-          return { ...entity, type };
-      });
-  }
- */
-  /* selectSearchResult(result: any): void {
-      if (result.type === 'Region') {
-          this.regionService.setSelectedRegion(result);
-      } else if (result.type === 'Delegation') {
-          this.regionService.setSelectedDelegation(result);
-      } else if (result.type === 'City') {
-          this.regionService.setSelectedCity(result);
-      }
-  } */
-
       search(event: Event): void {
         const inputElement = event.target as HTMLInputElement;
         const term = inputElement.value;
@@ -157,29 +126,7 @@ export class DashboardComponent {
           })
         ];
       }
-      /* selectSearchResult(result: any): void {
-        if (result.type === 'Region') {
-          this.regionService.setSelectedRegion(result);
-        } else if (result.type === 'Delegation') {
-          const associatedRegion = this.allRegions.find(region => region.id === result.regionId);
-          if (associatedRegion) {
-            this.regionService.setSelectedRegion(associatedRegion);
-          }
-          this.regionService.setSelectedDelegation(result);
-        } else if (result.type === 'City') {
-          // Find associated delegation and region
-          const associatedDelegation = this.allDelegations.find(delegation => delegation.id === result.delegationId);
-          if (associatedDelegation) {
-            const associatedRegion = this.allRegions.find(region => region.id === associatedDelegation.regionId);
-            if (associatedRegion) {
-              this.regionService.setSelectedRegion(associatedRegion);
-            }
-            this.regionService.setSelectedDelegation(associatedDelegation);
-          }
-          this.regionService.setSelectedCity(result);
-        }
-      } */
-    
+      
         selectSearchResult(result: any): void {
           if (result.type === 'Region') {
               this.selectedRegion = result;

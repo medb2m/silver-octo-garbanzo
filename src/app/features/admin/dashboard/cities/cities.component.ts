@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, TemplateRef, ViewChild } from '@angular/core';
 import { RegionService } from '@app/_services';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 
 @Component({
@@ -8,15 +9,22 @@ import { RegionService } from '@app/_services';
   styleUrls: ['cities.component.css']
 })
 export class CitiesComponent {
+
+  @ViewChild('Popup') popupTemplate!: TemplateRef<any>;
+  selectedCity: any = null;
   
   cities: any[] = []
   selectedDelegation: any;
 
   delegationId : any
 
-  selectedCity : any
 
   showComponents = true; // Initialize to true initially
+
+  constructor(
+    private regionService: RegionService,
+    private modalService: NgbModal,
+  ) {}
 
     toggleComponents(): void {
         this.showComponents = !this.showComponents;
@@ -32,9 +40,7 @@ export class CitiesComponent {
   }
 
 
-  constructor(
-    private regionService: RegionService
-  ) {}
+  
 
   ngOnInit(): void {
     this.regionService.selectedDelegation$.subscribe(delegation => {
@@ -59,5 +65,19 @@ export class CitiesComponent {
   }
 
 
-  
+  openReportersPopup(city : any){
+    this.selectedCity = city;
+    this.modalService.open(this.popupTemplate, { size: 'lg' });
+  }
+
+  // Close reporters popup
+  closePopup() {
+    this.modalService.dismissAll();
+  }
+
+  // View a report from the popup
+  viewReport(reportId: string) {
+    this.modalService.dismissAll();
+    // Navigate to the report view component here
+  }
 }

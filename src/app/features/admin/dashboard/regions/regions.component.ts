@@ -1,5 +1,5 @@
 import { Component, SimpleChanges } from '@angular/core';
-import { RegionService } from '@app/_services';
+import { AccountService, RegionService } from '@app/_services';
 
 
 @Component({
@@ -11,10 +11,10 @@ export class RegionsComponent {
   
   regions: any[] = []
   filteredRegions: any[] = [];
+  selectedRegion : any
 
-  //regionId : any
-
-  showComponents = true; // Initialize to true initially
+  showComponents = true; 
+  users: any[] = [];
 
     toggleComponents(): void {
         this.showComponents = !this.showComponents;
@@ -22,12 +22,15 @@ export class RegionsComponent {
 
 
   constructor(
-    private regionService: RegionService
+    private regionService: RegionService,
+    private accountService: AccountService
   ) {}
 
   ngOnInit(): void {
     this.fetchRegions();
   }
+
+
   fetchRegions(): void {
     this.regionService.getAll().subscribe(regions => {
       this.regions = regions;
@@ -41,10 +44,9 @@ export class RegionsComponent {
       region.name.toLowerCase().includes(searchTerm)
     );
   }
-  selectedRegion : any
+  
 
   selectRegion(region: any) {
-    // Emit the selected region to the parent component
     this.selectedRegion = region;
     this.regionService.setSelectedRegion(region);
   }
@@ -53,6 +55,20 @@ export class RegionsComponent {
     if (changes['selectedRegion'] && changes['selectedRegion'].currentValue) {
         this.selectedRegion = changes['selectedRegion'].currentValue;
     }
+  }
+
+  openUserPopup(region: any): void {
+    this.selectedRegion = region;
+    // Fetch users (moderators and workers) for the selected region
+    this.accountService.getUsersByRegion(region._id).subscribe((users : any) => {
+      this.users = users;
+      // Code to open the pop-up (can use a UI library like Angular Material for the modal)
+    });
+  }
+
+  closeUserPopup(): void {
+    this.users = [];
+    // Code to close the pop-up
   }
 
 }

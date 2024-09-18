@@ -29,4 +29,9 @@ export class ReportService {
   traiteReport(reportId: string){
     return this.http.put<Report>(`${this.apiUrl}/traite/${reportId}`, '')
   }
+
+
+  getReportsByCity(cityId: any){
+    return cityId
+  }
 }

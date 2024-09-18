@@ -131,4 +131,13 @@ export class AccountService {
     createAccount(params: any, token : any) { // 
         return this.http.post(`${baseUrl}/create-from-link/${token}`, params);
     }
+
+    getUsersByRegion(id: any){
+        return id
+    }
+
+    getUsersByDelegation(id: any){
+        return id
+    }
+    
 }
