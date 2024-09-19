@@ -8,6 +8,7 @@ import { ReportListComponent } from './report-list/report-list.component';
 const routes: Routes = [
     { path : '' , component : DashboardComponent},
     { path : 'reports' , component : ReportListComponent},
+    { path : 'reports/:id' , component : ReportListComponent},
     { path : 'report/view/:id' , component : ReportViewComponent}
 ];
 

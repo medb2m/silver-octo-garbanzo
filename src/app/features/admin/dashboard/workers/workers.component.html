@@ -1,24 +1,42 @@
-<div class="worker-list" *ngIf="selectedCity">
-    <input type="text" placeholder="Search regions..." (input)="filterWorkers($event)" class="search-input">
-    <!-- Button to Add New User -->
-    <button class="add-btn" (click)="goto()">Add New User</button>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Worker Name</th>
-                <th>Status</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let worker of filteredWorkers" class="worker-row" (click)="gotoWorkerReports(worker.id)">
-                <td>{{ worker.fullName }}</td>
-                <td>
-                    <span
-            class="status-indicator"
-            [ngStyle]="{ 'background-color': worker.postedReport ? 'green' : 'red' }"
-          ></span>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+<div *ngIf="selectedCity">
+  <div class="workers-header">
+    <input type="text" placeholder="Search workers..." (input)="filterWorkers($event)" class="search-input">
+    <!-- Button to Add New Worker aligned to the right -->
+    <button class="add-btn right-btn" (click)="addWorker()">Add New Worker</button>
+  </div>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Worker Name</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let worker of filteredWorkers" class="worker-row">
+        <td>{{ worker.fullName }}</td>
+        <td>
+          <!-- Button to open worker info -->
+          <button class="icon-btn" (click)="openWorkerInfo(worker.id)">
+            <i class="bi bi-person"></i> <!-- User info icon -->
+          </button>
+          <!-- Button to view worker's reports -->
+          <button class="icon-btn" (click)="gotoWorkerReports(worker.id)">
+            <i class="bi bi-file-earmark-text"></i> <!-- Reports icon -->
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </div>
+
+<!-- Modal for worker info -->
+<ng-template #workerInfoPopup let-modal>
+  <div class="worker-info-popup modern-popup">
+    <div class="popup-header">
+      <h3>Worker Information</h3>
+      <button class="close-btn" (click)="closeWorkerInfoPopup()">Go Back</button>
+    </div>
+    <app-user-info [userId]="selectedWorkerId"></app-user-info> 
+  </div>
+</ng-template>

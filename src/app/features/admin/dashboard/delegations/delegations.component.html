@@ -1,65 +1,38 @@
-<!-- <div class="delegation-list" *ngIf="selectedRegion">
-    <div class="header">
-        <button class="toggle-button" (click)="toggleComponents()">
-            <span *ngIf="!showComponents"><i class="bi bi-caret-down"></i></span>
-            <span *ngIf="showComponents"><i class="bi bi-x"></i></span>
-        </button>
-    </div>
-    <div *ngIf="showComponents">
-        <table class="table">
-            <input type="text" placeholder="Search regions..." (input)="filterDelegations($event)" class="search-input">
-            <thead>
-                <tr>
-                    <th>Delegation Name</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let delegation of filteredDelegations" (click)="selectDelegation(delegation)" class="delegation-row"
-                    [class.selected]="delegation === selectedDelegation">
-                    <td>{{ delegation.name }}</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-</div> -->
-
 <table class="table">
     <input type="text" placeholder="Search delegations..." (input)="filterDelegations($event)" class="search-input">
     <thead>
-        <tr>
-            <th>Delegation Name</th>
-            <th>Actions</th>
-        </tr>
+      <tr>
+        <th>Delegation Name</th>
+        <th>Actions</th>
+      </tr>
     </thead>
     <tbody>
-        <tr *ngFor="let delegation of filteredDelegations" class="delegation-row"
-            [class.selected]="delegation === selectedDelegation">
-            <td>{{ delegation.name }}</td>
-            <td>
-                <!-- Right arrow button to open the city list component -->
-                <button (click)="selectDelegation(delegation)">
-                    <i class="bi bi-arrow-right-square"></i>
-                </button>
-                <!-- User icon button to open the user list pop-up -->
-                <button (click)="openUserPopup(delegation)">
-                    <i class="bi bi-person-square"></i>
-                </button>
-            </td>
-        </tr>
+      <tr *ngFor="let delegation of filteredDelegations" class="delegation-row"
+          [class.selected]="delegation === selectedDelegation">
+        <td>{{ delegation.name }}  ({{ delegation.cities.length }})</td>
+        <td>
+            <!-- User icon button to open the user list pop-up -->
+          <button (click)="openUserPopup(delegation)">
+            <i class="bi bi-person"></i>
+          </button>
+          <!-- Right arrow button to open the city list component -->
+          <button (click)="selectDelegation(delegation)" 
+          [class.selected-button]="delegation === selectedDelegation"
+          >
+            <i class="bi bi-arrow-right"></i>
+          </button>
+        </td>
+      </tr>
     </tbody>
-</table>
-
-<!-- Pop-up for users (moderators or workers) -->
-<ng-template #userPopup>
-  <div class="user-popup">
-    <!-- add the total number of users here -->
-      <h3>{{ selectedDelegation.name }} - Moderators & Workers</h3>
-      <ul>
-        <li *ngFor="let user of users">{{ user.name }}</li>
-      </ul>
-      <button (click)="closeUserPopup()">Close</button>
-  </div>
-</ng-template>
-
-
+  </table>
+  
+  <!-- Pop-up for users (moderators or workers) -->
+  <ng-template #userPopup>
+    <div class="user-popup">
+        <div class="popup-header">
+            <button class="close-button" (click)="closeUserPopup()">X</button>
+        </div>
+      <app-user-list [regionId]="selectedRegion._id"></app-user-list>
+    </div>
+  </ng-template>
   

@@ -1,16 +1,21 @@
-import { Component, TemplateRef, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Output, TemplateRef, ViewChild } from '@angular/core';
 import { RegionService } from '@app/_services';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { WorkersComponent } from '../workers/workers.component';
+import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 
 
 @Component({
   selector: 'cities',
+  standalone : true,
+  imports: [CommonModule,WorkersComponent],
   templateUrl: './cities.component.html',
   styleUrls: ['cities.component.css']
 })
 export class CitiesComponent {
 
-  @ViewChild('Popup') popupTemplate!: TemplateRef<any>;
+  @ViewChild('workersPopup') popupTemplate!: TemplateRef<any>;
   selectedCity: any = null;
   
   cities: any[] = []
@@ -18,12 +23,16 @@ export class CitiesComponent {
 
   delegationId : any
 
+  
+
+  @Output() openReport = new EventEmitter<string>();
 
   showComponents = true; // Initialize to true initially
 
   constructor(
     private regionService: RegionService,
     private modalService: NgbModal,
+    private router: Router
   ) {}
 
     toggleComponents(): void {
@@ -65,19 +74,22 @@ export class CitiesComponent {
   }
 
 
-  openReportersPopup(city : any){
+  openWorkersPopup(city: any) {
     this.selectedCity = city;
     this.modalService.open(this.popupTemplate, { size: 'lg' });
   }
 
-  // Close reporters popup
   closePopup() {
     this.modalService.dismissAll();
   }
 
-  // View a report from the popup
-  viewReport(reportId: string) {
-    this.modalService.dismissAll();
-    // Navigate to the report view component here
-  }
+  /* openReports(city : any){
+    this.openReport.emit(city); 
+    this.router.navigate([`/admin/dashboard/reports`])
+  } */
+
+    openReports(city: any) {
+      this.router.navigate([`/admin/dashboard/reports`, city._id], { queryParams: { type: 'city' } });
+    }
+    
 }

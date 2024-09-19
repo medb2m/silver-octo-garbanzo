@@ -1,90 +1,108 @@
-/* .delegation-list {
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    padding: 20px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-.table th,
-.table td {
-    padding: 12px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
-}
-
-.selected {
-    background-color: #d3e8ff; 
-    font-weight: bold;
-    border-left: 4px solid #000; 
+/* Delegation row styling */
+.delegation-row td {
+    background-color: #343a40; /* Darker background color */
+    color: #f8f9fa; /* Lighter text color */
+    padding: 10px; /* Add some padding for better spacing */
+    border: 1px solid #495057; /* Optional: add a border for better separation */
   }
   
-  .delegation-row:hover {
-    cursor: pointer;
-    background-color: #f1f1f1; 
+  /* Styling for selected delegation row */
+  .delegation-row.selected td {
+    background-color: #495057; /* Slightly lighter background for selected rows */
   }
-
-.search-input {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    margin-bottom: 10px;
-    font-size: 14px;
-}
-
-.header {
-    display: flex;
-    justify-content: end;
-}
-
-.toggle-button {
-    background-color: #707070;
-    color: #fff;
+  
+  /* Buttons styling */
+  .delegation-row button {
+    width: 45px;
+    height: 45px;
+    font-size: 1.4rem;
+    margin: 0 6px;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+    background: #f8f9fa;
     border: none;
+    border-radius: 8px;
+  }
+  
+  /* Hover effect on buttons */
+  .delegation-row button:hover {
+    transform: scale(1.15);
+    background-color: #28a745; /* Green color on hover */
+    color: white; /* Optional: change icon color to white on hover */
+  }
+  
+  /* Selected button effect */
+  .delegation-row .selected-button {
+    background-color: #218838; /* Darker green color when selected */
+    color: white; /* Optional: change icon color to white when selected */
+  }
+  
+
+  /* Popup header with buttons */
+.popup-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .popup-header .close-button,
+  .popup-header .action-button {
+    font-size: 1.4rem;
     cursor: pointer;
-    transition: background-color 0.3s ease;
-    border-radius: 4px;
+    border: none;
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.3s ease;
+  }
+  
+  .popup-header .close-button {
+    background: #ff6b6b;
+    color: white;
+  }
+  
+  .popup-header .action-button {
+    background: #007bff;
+    color: white;
+  }
+  
+  .popup-header .close-button:hover {
+    background: #ff4757;
+  }
+  
+  .popup-header .action-button:hover {
+    background: #0056b3;
+  }
+
+
+  .user-popup,
+.user-info-popup {
+  position: fixed;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  overflow-y: auto;
 }
 
-.toggle-button:hover {
-    background-color: #940202;
-} */
+/* User Popup */
+.user-popup {
+  width: 70%;
+  height: 70%;
+  top: 15%;
+  left: 15%;
+  background-color: #ffffff;
+  z-index: 1000;
+}
 
-.table th, .table td {
-    padding: 12px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
-  }
-  
-  .region-row:hover, .delegation-row:hover {
-    background-color: #f0f0f0;
-    cursor: pointer;
-  }
-  
-  .selected {
-    background-color: #d3e8ff;
-    font-weight: bold;
-    border-left: 4px solid #000;
-  }
-  
-  .user-popup {
-    background: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
-  
-  .user-popup ul {
-    list-style-type: none;
-    padding: 0;
-  }
-  
-  .user-popup li {
-    padding: 8px 0;
-  }
-  
+/* User Info Popup */
+.user-info-popup {
+  width: 90%;
+  height: 90%;
+  top: 5%;
+  left: 5%;
+  background-color: #ffffff;
+  z-index: 1100;
+}

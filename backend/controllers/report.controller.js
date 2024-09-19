@@ -175,20 +175,32 @@ export const getReportsByCity = async (req, res) => {
 
 export const getReportsByRegion = async (req, res) => {
   try {
+    // Fetch data without using `_id`
     const reports = await Report.aggregate([
-      { $group: { _id: "$region", count: { $sum: 1 } } },
-      { $lookup: {
+      { $group: { _id: "$region", reportCount: { $sum: 1 } } },
+      {
+        $lookup: {
           from: 'regions',
           localField: '_id',
           foreignField: '_id',
           as: 'region'
-      }},
-      { $unwind: '$region' },
-      { $project: { _id: 1, count: 1, 'region.name': 1 } }
+        }
+      },
+      {
+        $unwind: '$region'
+      },
+      {
+        $project: {
+          _id: 0,
+          region: '$region.name',
+          reportCount: 1
+        }
+      }
     ]);
 
     res.status(200).json(reports);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    console.error('Error fetching reports by region:', error);
+    res.status(500).send('Server error');
   }
 };

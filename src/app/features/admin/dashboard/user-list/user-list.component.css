@@ -1,0 +1,112 @@
+/* Centered and styled user list */
+.user-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center items horizontally */
+  }
+  
+  .user-item {
+    width: 100%;
+    max-width: 400px; /* Adjust the width as needed */
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    background-color: #f8f9fa;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    font-size: 1.2rem; /* Larger text for readability */
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    text-align: center;
+  }
+  
+  .user-item:hover {
+    background-color: #e9ecef;
+    transform: scale(1.02);
+  }
+  
+  .no-users {
+    font-size: 1.2rem;
+    color: #6c757d; /* Gray color for empty state */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .spinner-border {
+    margin-left: 10px;
+    width: 30px;
+    height: 30px;
+  }
+  
+  /* Adjust spinner size if needed */
+  .spinner-border-lg {
+    width: 40px;
+    height: 40px;
+  }
+
+
+  /* User Info Popup */
+.user-info-popup {
+    width: 90%;
+    max-width: 600px; /* Adjust the max-width as needed */
+    height: 80%;
+    max-height: 600px; /* Adjust the max-height as needed */
+    position: fixed;
+    top: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #ffffff;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    overflow-y: auto;
+    z-index: 1100;
+  }
+  
+  /* Centered popup header */
+  .user-info-popup h2 {
+    margin-top: 0;
+  }
+  
+/* Popup header with buttons */
+.popup-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .popup-header .close-button,
+  .popup-header .action-button {
+    font-size: 1.4rem;
+    cursor: pointer;
+    border: none;
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.3s ease;
+  }
+  
+  .popup-header .close-button {
+    background: #ff6b6b;
+    color: white;
+  }
+  
+  .popup-header .action-button {
+    background: #007bff;
+    color: white;
+  }
+  
+  .popup-header .close-button:hover {
+    background: #ff4757;
+  }
+  
+  .popup-header .action-button:hover {
+    background: #0056b3;
+  }

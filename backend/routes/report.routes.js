@@ -12,6 +12,6 @@ router.get('/:reportId', authorize(), getReportById);
 router.get('/city/:cityId', authorize(), getReportsByCity);
 router.put('/traite/:reportId', authorize(), traiteReport)
 // Fetch reports by region
-router.get('/reports-by-region', getReportsByRegion);
+router.get('/region/rbr', getReportsByRegion);
 
 export default router;

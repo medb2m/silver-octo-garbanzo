@@ -1,0 +1,51 @@
+/* Container for user info */
+.user-info-container {
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  text-align: center;
+}
+
+/* Heading style */
+.user-info-container h2 {
+  font-size: 1.6rem;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+/* User details section */
+.user-details {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* User image style */
+.user-image {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 20px;
+  border: 3px solid #ddd;
+}
+
+/* User info item */
+.user-info-item {
+  font-size: 1.2rem;
+  color: #333;
+  margin: 10px 0;
+}
+
+/* Strong emphasis for labels */
+.user-info-item strong {
+  color: #007bff;
+}
+
+/* Loading message style */
+.loading-message {
+  font-size: 1.2rem;
+  color: #6c757d;
+}

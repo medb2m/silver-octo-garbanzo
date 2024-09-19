@@ -54,3 +54,24 @@
   .add-btn:hover {
     background-color: #000;
   }
+
+
+    /* Align button to the right */
+.right-btn {
+    float: right;
+    margin-left: auto;
+  }
+  
+  /* Icon buttons */
+  .icon-btn {
+    background-color: transparent;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: transform 0.3s ease, color 0.3s ease;
+  }
+  
+  .icon-btn:hover {
+    transform: scale(1.15);
+    color: #28a745;
+  }

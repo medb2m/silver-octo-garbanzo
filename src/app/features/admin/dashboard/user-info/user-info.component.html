@@ -1,0 +1,13 @@
+<!-- User Info Section -->
+<div class="user-info-container">
+  <h2>User Info</h2>
+  <div *ngIf="user" class="user-details">
+    <img [src]="user.image || 'default-image-path'" alt="User Image" class="user-image"/>
+    <p class="user-info-item"><strong>Name:</strong> {{ user.username }}</p>
+    <p class="user-info-item"><strong>Email:</strong> {{ user.phone }}</p>
+    <p class="user-info-item"><strong>Role:</strong> {{ user.role }}</p>
+  </div>
+  <div *ngIf="!user" class="loading-message">
+    <span>Loading...</span>
+  </div>
+</div>

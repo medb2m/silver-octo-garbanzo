@@ -1,5 +1,6 @@
-import { Component, SimpleChanges } from '@angular/core';
+import { Component, SimpleChanges, TemplateRef, ViewChild } from '@angular/core';
 import { AccountService, RegionService } from '@app/_services';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 
 @Component({
@@ -8,6 +9,11 @@ import { AccountService, RegionService } from '@app/_services';
   styleUrls: ['regions.component.css']
 })
 export class RegionsComponent {
+
+  @ViewChild('userPopup') popupTemplate!: TemplateRef<any>;
+  @ViewChild('userInfoPopup') userInfoPopup!: TemplateRef<any>;
+
+  selectedUserId!: string ; 
   
   regions: any[] = []
   filteredRegions: any[] = [];
@@ -23,7 +29,8 @@ export class RegionsComponent {
 
   constructor(
     private regionService: RegionService,
-    private accountService: AccountService
+    private accountService: AccountService,
+    private modalService: NgbModal
   ) {}
 
   ngOnInit(): void {
@@ -60,15 +67,30 @@ export class RegionsComponent {
   openUserPopup(region: any): void {
     this.selectedRegion = region;
     // Fetch users (moderators and workers) for the selected region
-    this.accountService.getUsersByRegion(region._id).subscribe((users : any) => {
+    this.accountService.getModeratorByRegion(region._id).subscribe((users : any) => {
       this.users = users;
+      console.log('users : ' + this.users )
       // Code to open the pop-up (can use a UI library like Angular Material for the modal)
+      this.modalService.open(this.popupTemplate, { size: 'lg' });
     });
   }
 
-  closeUserPopup(): void {
+  // Close reporters popup
+  closeUserPopup() {
     this.users = [];
-    // Code to close the pop-up
+    this.modalService.dismissAll();
+  }
+  
+
+  // Handle the event when a moderator is selected
+  onModeratorSelected(userId: string) {
+    this.selectedUserId = userId;
+    // Open the user-info pop-up
+    this.modalService.open(this.userInfoPopup, { size: 'lg' });
+  }
+
+  closePopup() {
+    this.modalService.dismissAll();
   }
 
 }

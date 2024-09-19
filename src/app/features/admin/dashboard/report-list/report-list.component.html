@@ -1,28 +1,28 @@
-<h1>List of Reports :p</h1>
-<!-- + we will need to add another way to filter list of Reports by making a dropdown to choose which filter to choose 
-+ make all the report item clickable to open the the report informations in the same pop up  -->
-<input type="text" placeholder="Search by name or city" (input)="filterReports($event)" class="search-input" *ngIf="!workerMode">
-<div class="mb-2">
-  <button (click)="showAllreports()" class="filter-btn">All Reports</button>
-  <button (click)="filterBytraite()" class="filter-btn">{{ traiteFilter }}</button>
-  <button (click)="filterReportsLast24Hours()" class="filter-btn">24 Hours</button>
-  <button (click)="sortReports('asc')"
-  class="filter-btn">
-  <i class="bi bi-arrow-up"></i>Sort by Date Ascending</button>
-  <button (click)="sortReports('desc')"
-  class="filter-btn">
-  <i class="bi bi-arrow-down"></i>Sort by Date Descending</button>
+<h1>{{ title }}</h1>
+
+<!-- Dropdown to choose filter -->
+<div class="filter-section">
+  <label for="sort">Sort by: </label>
+  <select id="sort" (change)="sortReports($event)" class="dropdown">
+    <option value="asc">Date Ascending</option>
+    <option value="desc" selected>Date Descending</option>
+    <option value="nontraited">Non-traited Reports</option>
+    <option value="traited">Traited Reports</option>
+  </select>
+  
 </div>
-<div *ngFor="let report of filteredReports" class="report-card">
+
+<!-- Search bar for non-worker mode -->
+<input type="text" placeholder="Search by name or city" (input)="filterReports($event)" class="search-input" *ngIf="!workerMode">
+
+<!-- List of Reports -->
+<div *ngFor="let report of filteredReports" class="report-card" (click)="gotoReport(report._id)">
   <div class="report-card-content">
-    <h1 class="report-by">By {{ report.worker.fullName }} at {{ report.worker.city.name }} {{ report.date | date }}</h1>
+    <h1 class="report-by">By {{ report.worker.fullName }} at {{ report.worker.city.name }} on {{ report.date | date }}</h1>
     <p class="report-title">Title: {{ report.content }}</p>
     <span
             class="status-indicator"
-            [ngStyle]="{ 'background-color': report.traiter? 'green' : 'red' }"
-          ></span>
+            [ngStyle]="{ 'background-color': report.traiter ? 'green' : 'red' }"
+    ></span>
   </div>
-  <button class="view-report-btn" (click)="gotoReport(report._id)">
-    <i class="bi bi-arrow-right-circle"></i>
-  </button>
 </div>

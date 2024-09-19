@@ -1,3 +1,7 @@
+<!-- statistics -->
+<app-statistics></app-statistics>
+
+
 <!-- Search Bar -->
 <div class="search-bar">
   <input type="text" placeholder="Search regions, delegations, cities, or workers..." 
@@ -24,6 +28,6 @@
     <cities></cities>
   </div>
   <div class="workers" *ngIf="selectedCity">
-    <workers></workers>
+    <app-workers></app-workers>
   </div>
 </div>

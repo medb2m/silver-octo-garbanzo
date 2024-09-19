@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { Report } from '@app/_models';
+import { Observable } from 'rxjs';
 
 
 @Injectable({ providedIn: 'root' })
@@ -31,7 +32,11 @@ export class ReportService {
   }
 
 
-  getReportsByCity(cityId: any){
-    return cityId
+  getReportsByCity(cityId: string): Observable<Report[]> {
+    return this.http.get<Report[]>(`${this.apiUrl}/city/${cityId}`);
   }
+
+  getReportsByRegion() : Observable<any>{
+    return this.http.get<any>(`${this.apiUrl}/region/rbr`);
+}
 }

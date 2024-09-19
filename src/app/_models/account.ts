@@ -6,10 +6,10 @@ export class Account {
     username!: string;
     fullName!: string;
     cin!: Number;
-    email?: string;
     role?: Role;
     jwtToken?: string;
     image?:string;
     moderatorZone?: string;
-    city!: City
+    city!: City;
+    region?: string
 }

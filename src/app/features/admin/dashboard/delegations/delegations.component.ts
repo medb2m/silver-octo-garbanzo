@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, TemplateRef, ViewChild } from '@angular/core';
 import { AccountService, RegionService } from '@app/_services';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 
 @Component({
@@ -8,6 +9,11 @@ import { AccountService, RegionService } from '@app/_services';
   styleUrls: ['delegations.component.css']
 })
 export class DelegationsComponent {
+
+  @ViewChild('userPopup') popupTemplate!: TemplateRef<any>;
+  @ViewChild('userInfoPopup') userInfoPopup!: TemplateRef<any>;
+
+  selectedUserId!: string ; 
   
   delegations: any[] = []
   selectedRegion: any;
@@ -24,7 +30,8 @@ export class DelegationsComponent {
   
   constructor(
     private regionService: RegionService,
-    private accountService: AccountService
+    private accountService: AccountService,
+    private modalService: NgbModal
   ) {}
 
   ngOnInit(): void {
@@ -59,17 +66,28 @@ export class DelegationsComponent {
   }
   
   
-  openUserPopup(delegation: any): void {
-    this.selectedDelegation = delegation;
-    // Fetch users (moderators and workers) for the selected delegation
-    this.accountService.getUsersByDelegation(delegation._id).subscribe((users: any) => {
+  openUserPopup(region: any): void {
+    this.selectedRegion = region;
+    // Fetch users (moderators and workers) for the selected region
+    this.accountService.getModeratorByRegion(region._id).subscribe((users : any) => {
       this.users = users;
-      // Code to open the pop-up
+      console.log('users : ' + this.users )
+      // Code to open the pop-up (can use a UI library like Angular Material for the modal)
+      this.modalService.open(this.popupTemplate, { size: 'lg' });
     });
   }
 
-  closeUserPopup(): void {
+  // Close reporters popup
+  closeUserPopup() {
     this.users = [];
-    // Code to close the pop-up
+    this.modalService.dismissAll();
+  }
+  
+
+  // Handle the event when a moderator is selected
+  onModeratorSelected(userId: string) {
+    this.selectedUserId = userId;
+    // Open the user-info pop-up
+    this.modalService.open(this.userInfoPopup, { size: 'lg' });
   }
 }

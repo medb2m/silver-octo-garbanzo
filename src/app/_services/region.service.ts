@@ -97,9 +97,21 @@ export class RegionService {
     return this.http.get<any[]>(`${this.apiUrl}/cities/delegation/${delegId}`);
   }
 
-  getWorkers(cityId : any): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/cities/workers/${cityId}`);
+
+  // get reporters by cityID
+  getReportersByCityId(cityId : any): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/cities/reporters/${cityId}`);
   }
+
+  addModerator(regionId: string, moderatorId: string): Observable<any> {
+    return this.http.put<any>(`${this.apiUrl}/regions/moderator/${regionId}/${moderatorId}`, '');
+  }
+
+  removeModerator(regionId: string, moderatorId: string): Observable<any> {
+      return this.http.put<any>(`${this.apiUrl}/regions/removemoderator/${regionId}/${moderatorId}`, '');
+  }
+
+  
 
 
   setSelectedRegion(region: any) {

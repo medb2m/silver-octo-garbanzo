@@ -10,6 +10,9 @@ import { WorkersComponent } from './workers/workers.component';
 import { LayoutComponent } from './layout/layout.component';
 import { ReportViewComponent } from './report-view/report-view.component';
 import { ReportListComponent } from './report-list/report-list.component';
+import { UserListComponent } from './user-list/user-list.component';
+import { UserInfoComponent } from './user-info/user-info.component';
+import { StatisticsComponent } from './statistics/statistics.component';
 
 
 
@@ -19,15 +22,20 @@ import { ReportListComponent } from './report-list/report-list.component';
     LayoutComponent,
     RegionsComponent,
     DelegationsComponent,
-    CitiesComponent,
-    WorkersComponent,
+    
     ReportViewComponent,
-    ReportListComponent
+    ReportListComponent,
+    
+
   ],
   imports: [
     CommonModule,
     DashboardRoutingModule,
-    
+    UserListComponent,
+    UserInfoComponent,
+    WorkersComponent,
+    CitiesComponent,
+    StatisticsComponent
   ]
 })
 export class DashboardModule { }

@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Report } from '@app/_models';
 import { ReportService } from '@app/_services/report.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 
 @Component({
@@ -12,87 +13,89 @@ import { ReportService } from '@app/_services/report.service';
 export class ReportListComponent {
 
   @Input() cityId!: string;
+  @Input() workerId!: string; // New Input for workerId
   @Output() reportSelected = new EventEmitter<string>();
 
-  reports : Report[] = []
+  reports: Report[] = [];
   filteredReports: any[] = [];
   sortOrder: 'asc' | 'desc' = 'desc'; // default sort order
-  workerMode : boolean = false
-
-  traiteFilter = 'Nontraited'
-
+  workerMode: boolean = false;
+  traiteFilter = 'Nontraited';
+  title: string = 'List of Reports';
+  id: any
 
   constructor(
     private reportService: ReportService,
     private router: Router,
-    private route: ActivatedRoute
-  ) { }
+    private route: ActivatedRoute,
+    private modalService: NgbModal
+  ) {}
 
   /* ngOnInit() {
-    const id = this.route.snapshot.paramMap.get('id')
-    if (id){
-      this.workerMode = true
-      this.fetchWorkerReports(id)
+    this.id = this.route.snapshot.params['id'];
+
+    if (this.workerId) {
+      this.workerMode = true;
+      this.title = 'Reports for Reporter';
+      this.fetchWorkerReports(this.workerId);
+    } else if (this.cityId) {
+      this.title = 'Reports for City';
+      this.fetchReportsByCity();
+    } else if (this.id) {
+      this.workerMode = true;
+      this.title = 'Reports for Reporter';
+      this.fetchWorkerReports(this.id);
     } else {
-      this.fetchAllReports()
+      this.title = 'All Reports';
+      this.fetchAllReports();
     }
   } */
 
-    /** hello */
     ngOnInit() {
-      if (this.cityId) {
-        this.fetchReportsByCity();
-      }
-    }
-
-    fetchReportsByCity() {
-      this.reportService.getReportsByCity(this.cityId).subscribe((data: any) => {
-        this.reports = data;
-        this.filteredReports = [...this.reports];
+      this.route.paramMap.subscribe(params => {
+        const idFromRoute = params.get('id');  // Read ID from the URL
+        this.id = idFromRoute;
+        
+        this.route.queryParams.subscribe(queryParams => {
+          const type = queryParams['type'];  // Read 'type' from query parameters
+    
+          if (type === 'city' && this.id) {
+            this.cityId = this.id;
+            this.title = 'Reports for City';
+            this.fetchReportsByCity();
+          } else if (type === 'worker' && this.id) {
+            this.workerId = this.id;
+            this.workerMode = true;
+            this.title = 'Reports for Reporter';
+            this.fetchWorkerReports(this.workerId);
+          } else {
+            this.title = 'All Reports';
+            this.fetchAllReports();
+          }
+        });
       });
     }
-  
-    gotoReport(id: string) {
-      this.reportSelected.emit(id);
-    }
+    
 
-    /*** bye */
-
-  fetchWorkerReports(id : string) {
-    this.reportService.getReportsByWorker(id).subscribe(data => {
-      this.reports = data.sort((a, b) => {
-        const dateA = new Date(a.date).getTime();
-        const dateB = new Date(b.date).getTime();
-        return dateB - dateA; // Sort by descending order
-      })
-      this.filteredReports = [...this.reports]; // Initialize filteredReports
-    })
+  fetchReportsByCity() {
+    this.reportService.getReportsByCity(this.cityId).subscribe((data: any) => {
+      this.reports = data;
+      this.filteredReports = [...this.reports];
+    });
   }
 
-  showAllreports(){
-    this.filteredReports = this.reports
+  fetchWorkerReports(workerId: string) {
+    this.reportService.getReportsByWorker(workerId).subscribe(data => {
+      this.reports = data.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+      this.filteredReports = [...this.reports];
+    });
   }
 
-  fetchAllReports(){
+  fetchAllReports() {
     this.reportService.getAllReports().subscribe(data => {
-      this.reports = data.sort((a, b) => {
-        const dateA = new Date(a.date).getTime();
-        const dateB = new Date(b.date).getTime();
-        return dateB - dateA; // Sort by descending order
-      })
-      this.filteredReports = [...this.reports]; // Initialize filteredReports
-    })
-  }
-
-  
-  filterBytraite(){
-    if (this.traiteFilter === 'Nontraited'){
-      this.filteredReports = this.reports.filter(report => report.traiter === false)
-      this.traiteFilter = 'Traited'
-    } else {
-      this.filteredReports = this.reports.filter(report => report.traiter === true)
-      this.traiteFilter = 'Nontraited'
-    }
+      this.reports = data.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+      this.filteredReports = [...this.reports];
+    });
   }
 
   filterReports(event: Event) {
@@ -103,14 +106,22 @@ export class ReportListComponent {
     );
   }
 
-  sortReports(order: 'asc' | 'desc') {
-    this.sortOrder = order;
-    this.filteredReports = this.filteredReports.sort((a, b) => {
-      const dateA = new Date(a.date).getTime();
-      const dateB = new Date(b.date).getTime();
-      return order === 'asc' ? dateA - dateB : dateB - dateA;
-    });
+  sortReports(event: Event) {
+    const sortValue = (event.target as HTMLSelectElement).value as 'asc' | 'desc' | 'traited' | 'nontraited';
+    
+    if (sortValue === 'asc' || sortValue === 'desc') {
+      this.filteredReports = this.filteredReports.sort((a, b) => {
+        const dateA = new Date(a.date).getTime();
+        const dateB = new Date(b.date).getTime();
+        return sortValue === 'asc' ? dateA - dateB : dateB - dateA;
+      });
+    } else if (sortValue === 'traited') {
+      this.filteredReports = this.reports.filter(report => report.traiter);
+    } else if (sortValue === 'nontraited') {
+      this.filteredReports = this.reports.filter(report => !report.traiter);
+    }
   }
+  
 
   filterReportsLast24Hours() {
     const now = new Date().getTime();
@@ -122,8 +133,7 @@ export class ReportListComponent {
     });
   }
 
-  /* gotoReport(id : string){
+  gotoReport(id: string) {
     this.router.navigate([`/admin/dashboard/report/view/${id}`])
-  } */
-
+  }
 }

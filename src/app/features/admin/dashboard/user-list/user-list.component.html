@@ -1,0 +1,24 @@
+<div class="user-popup">
+  <h2 class="text-center">List of Moderators</h2>
+  <!-- User List -->
+<ul class="user-list">
+  <li *ngFor="let user of users" (click)="onModeratorClick(user.id)" class="user-item">
+    {{ user.username }}
+  </li>
+  <li *ngIf="users.length === 0" class="no-users">
+    No moderators found.
+    <span class="spinner-border spinner-border-lg"></span>
+  </li>
+</ul>
+
+  <!-- User Info Popup Template -->
+<ng-template #userInfoPopup let-modal>
+  <div class="user-info-popup">
+    <div class="popup-header">
+      <button class="close-button" (click)="closeUserPopup()">X</button>
+  </div>
+    <app-user-info [userId]="selectedUserId"></app-user-info>
+  </div>
+</ng-template>
+
+</div>

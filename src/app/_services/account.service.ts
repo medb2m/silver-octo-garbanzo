@@ -132,11 +132,12 @@ export class AccountService {
         return this.http.post(`${baseUrl}/create-from-link/${token}`, params);
     }
 
-    getUsersByRegion(id: any){
-        return id
+    getModeratorByRegion(regionId: string): Observable<any> {
+        return this.http.get(`${baseUrl}/moderator/${regionId}`);
     }
 
     getUsersByDelegation(id: any){
+        // here we need to fetch from user with certain type (e.g. Moderator ) by the region id 
         return id
     }
     
