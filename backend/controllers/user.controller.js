@@ -258,3 +258,19 @@ export function setTokenCookie(res, token) {
     };
     res.cookie('refreshToken', token, cookieOptions);
 }
+
+import User from '../models/user.model.js'
+
+
+export async function getModeratorByRegion(req, res) {
+    try {
+        const users = await User.find({
+            role: 'Moderator',  
+            region: req.params.regionId  
+        });
+        console.log('user see ' + users)
+        res.status(200).json(users);
+    } catch (error) {
+        res.status(500).json({ message: "Error fetching moderators", error });
+    }
+}

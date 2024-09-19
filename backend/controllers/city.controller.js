@@ -3,7 +3,7 @@ import Delegation from '../models/delegation.model.js';
 import User from '../models/user.model.js'
 
 // get workers by city
-export const getWorkers = async (req, res) => {
+export const getReportersByCityId = async (req, res) => {
   const { cityId } = req.params
 
   const city = await City.findById(cityId);

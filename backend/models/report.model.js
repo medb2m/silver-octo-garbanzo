@@ -13,7 +13,8 @@ const ReportSchema = new Schema({
   concurrenceDetails : String,
   propositions : String,
   traiter: {type:Boolean, default: false},
-  images: [String]  // Array of image URLs
+  images: [String],  // Array of image URLs
+  region: { type: Schema.Types.ObjectId, ref: 'Region', required: true }
 }, { timestamps: true });
 
 export default model('Report', ReportSchema);

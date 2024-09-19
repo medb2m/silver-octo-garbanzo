@@ -9,184 +9,6 @@ import PDFDocument from 'pdfkit';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-/* export const createReport = async (req, res) => {
-  try {
-    const { content, machaghel, machakel_alyawm, houloul, concurence, propositions, concurrenceDetails } = req.body;
-    const workerId = req.user._id;
-
-    const reportData = {
-      worker: workerId,
-      content,
-      machaghel, machakel_alyawm, houloul, concurence, propositions, concurrenceDetails,
-      images: req.files ? req.files.map(file => `${req.protocol}://${req.get("host")}/img/${file.filename}`) : []
-    };
-
-    const report = new Report(reportData);
-    await report.save();
-
-    // Get the user posted the report
-    const worker = await User.findById(workerId).populate('city')
-
-    // Send Notifications   // (message, userId, reportId, city)
-    createNotification(`A New report was posted by ${worker.fullName} working in ${worker.city.name}`, worker.id, report._id, worker.city.name)
-  
-
-    res.status(201).json(report);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-}; */
-
-// Work With a slight problem in images
-/* export const createReport = async (req, res) => {
-  try {
-    const { content, machaghel, machakel_alyawm, houloul, concurence, propositions, concurrenceDetails } = req.body;
-    const workerId = req.user._id;
-
-    const reportData = {
-      worker: workerId,
-      content,
-      machaghel, machakel_alyawm, houloul, concurence, propositions, concurrenceDetails,
-      images: req.files ? req.files.map(file => `${req.protocol}://${req.get("host")}/img/${file.filename}`) : []
-    };
-
-    const report = new Report(reportData);
-    await report.save();
-
-    // Get the user who posted the report
-    const worker = await User.findById(workerId).populate('city')
-
-    // Create a PDF copy of the report and save it
-    const pdfPath = path.join(__dirname, `../reports/report_${report._id}.pdf`);
-    const doc = new PDFDocument();
-    const stream = fs.createWriteStream(pdfPath);
-    doc.pipe(stream);
-    // Add report content to the PDF
-    doc.text(`Rapport par: ${worker.fullName}`);
-    doc.text(`City: ${worker.city.name}`);
-    doc.text(`Contenu: ${content}`);
-    doc.text(`Activitées: ${machaghel}`);
-    doc.text(`Probleme d'aujourd'hui: ${machakel_alyawm}`);
-    doc.text(`Solutions: ${houloul}`);
-    doc.text(`Concurence exite: ${concurence}`);
-    doc.text(`Propositions: ${propositions}`);
-    doc.text(`Concurrence Details: ${concurrenceDetails}`);
-    doc.moveDown();
-
-    // Add images if they exist
-    if (report.images && report.images.length > 0) {
-      for (const imageUrl of report.images) {
-        // Download the image
-        const imageFileName = path.basename(imageUrl);
-        const imagePath = path.join(__dirname, `../public/images/${imageFileName}`);
-        const response = await axios({
-          url: imageUrl,
-          responseType: 'stream'
-        });
-
-        // Save the image locally
-        const writer = fs.createWriteStream(imagePath);
-        response.data.pipe(writer);
-        await new Promise((resolve, reject) => {
-          writer.on('finish', resolve);
-          writer.on('error', reject);
-        });
-
-        // Add the image to the PDF
-        doc.image(imagePath, { width: 500 });
-        doc.moveDown();
-        
-        // Remove the temporary image file after it is added to the PDF
-        fs.unlinkSync(imagePath);
-      }
-    }
-
-    doc.end();
-
-    // Send Notifications   // (message, userId, reportId, city)
-    createNotification(`A New report was posted by ${worker.fullName} working in ${worker.city.name}`, worker.id, report._id, worker.city.name);
-
-    res.status(201).json(report);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-};
- */
-/* export const createReport = async (req, res) => {
-  try {
-    const { content, machaghel, machakel_alyawm, houloul, concurence, propositions, concurrenceDetails } = req.body;
-    const workerId = req.user._id;
-
-    const reportData = {
-      worker: workerId,
-      content,
-      machaghel, machakel_alyawm, houloul, concurence, propositions, concurrenceDetails,
-      images: req.files ? req.files.map(file => `${req.protocol}://${req.get("host")}/img/${file.filename}`) : []
-    };
-
-    const report = new Report(reportData);
-    await report.save();
-
-    // Get the user who posted the report
-    const worker = await User.findById(workerId).populate('city');
-
-    // Create a PDF copy of the report and save it
-    const pdfPath = path.join(__dirname, `../reports/report_${report._id}.pdf`);
-    const doc = new PDFDocument();
-    const stream = fs.createWriteStream(pdfPath);
-    doc.pipe(stream);
-
-    // Add report content to the PDF
-    doc.text(`Report by: ${worker.fullName}`);
-    doc.text(`City: ${worker.city.name}`);
-    doc.text(`Content: ${content}`);
-    doc.text(`Machaghel: ${machaghel}`);
-    doc.text(`Machakel Alyawm: ${machakel_alyawm}`);
-    doc.text(`Houloul: ${houloul}`);
-    doc.text(`Concurence: ${concurence}`);
-    doc.text(`Propositions: ${propositions}`);
-    doc.text(`Concurrence Details: ${concurrenceDetails}`);
-    doc.moveDown();
-
-    // Add images if they exist
-    if (report.images && report.images.length > 0) {
-      for (const imageUrl of report.images) {
-        // Download the image
-        const imageFileName = path.basename(imageUrl);
-        const imagePath = path.join(__dirname, `../public/images/${imageFileName}`);
-        const response = await axios({
-          url: imageUrl,
-          responseType: 'stream'
-        });
-
-        // Save the image locally
-        const writer = fs.createWriteStream(imagePath);
-        response.data.pipe(writer);
-        await new Promise((resolve, reject) => {
-          writer.on('finish', resolve);
-          writer.on('error', reject);
-        });
-
-        // Add a new page before adding each image
-        doc.addPage();
-        doc.image(imagePath, { width: 500 });
-        doc.moveDown();
-
-        // Remove the temporary image file after it is added to the PDF
-        fs.unlinkSync(imagePath);
-      }
-    }
-
-    doc.end();
-
-    // Send Notifications   // (message, userId, reportId, city)
-    createNotification(`A New report was posted by ${worker.fullName} working in ${worker.city.name}`, worker.id, report._id, worker.city.name);
-
-    res.status(201).json(report);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-}; */
 
 export const createReport = async (req, res) => {
   try {
@@ -200,11 +22,19 @@ export const createReport = async (req, res) => {
       images: req.files ? req.files.map(file => `${req.protocol}://${req.get("host")}/img/${file.filename}`) : []
     };
 
+    const worker = await User.findById(workerId).populate({
+      path: 'city',
+      populate: {
+        path: 'delegation',
+        populate: { path: 'region' }
+      }
+    });
+
+    const region = worker.city.delegation.region._id;
+
+    reportData.region = region
     const report = new Report(reportData);
     await report.save();
-
-    // Get the user who posted the report
-    const worker = await User.findById(workerId).populate('city');
 
     // Create a PDF copy of the report and save it
     const pdfPath = path.join(__dirname, `../reports/report_${report._id}.pdf`);
@@ -316,3 +146,49 @@ export const traiteReport = async (req, res) => {
   await report.save()
   res.json(report)
 }
+
+export const getReportsByCity = async (req, res) => {
+  try {
+    const cityId = req.params.cityId;
+
+    // Find all workers that belong to the given cityId
+    const workersInCity = await User.find({ city: cityId }).select('_id');
+
+    // Extract worker IDs from the result
+    const workerIds = workersInCity.map(worker => worker._id);
+
+    // Find reports where the worker is in the workerIds list and populate worker and city details
+    const reports = await Report.find({ worker: { $in: workerIds } })
+      .populate({
+        path: 'worker',
+        populate: {
+          path: 'city'
+        }
+      });
+
+    res.status(200).json(reports);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+
+export const getReportsByRegion = async (req, res) => {
+  try {
+    const reports = await Report.aggregate([
+      { $group: { _id: "$region", count: { $sum: 1 } } },
+      { $lookup: {
+          from: 'regions',
+          localField: '_id',
+          foreignField: '_id',
+          as: 'region'
+      }},
+      { $unwind: '$region' },
+      { $project: { _id: 1, count: 1, 'region.name': 1 } }
+    ]);
+
+    res.status(200).json(reports);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};

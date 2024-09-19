@@ -1,4 +1,5 @@
 import Region from '../models/region.model.js';
+import User from '../models/user.model.js';
 
 // Create a new region
 export const createRegion = async (req, res) => {
@@ -52,4 +53,48 @@ export const deleteRegion = async (req, res) => {
   } catch (error) {
     res.status(500).send(error);
   }
+};
+
+
+// Increment moderators in a region
+export const addModerator = async (req, res) => {
+  const { regionId, moderatorId } = req.params;
+  console.log('hello regionId and modId ' + regionId + moderatorId )
+
+  // Find moderator
+  const mod = User.findById(moderatorId)
+  if (!mod) {
+    return res.status(404).json({ message: 'moderator not found' });
+  } 
+  // Make sure the user is a 'Moderator'
+  if (mod.role !== 'Moderator') {
+    return res.status(400).json({ message: "User is not a moderator" });
+}
+
+  mod.region = regionId
+  await mod.save()
+
+  return res.status(200).json({ message: 'Moderator added successfully', region });
+};
+
+// Remove moderator from a region
+export const removeModerator = async (req, res) => {
+  const { regionId, moderatorId } = req.params;
+  
+  // Find the region by ID
+  const region = await Region.findById(regionId);
+  if (!region) {
+    return res.status(404).json({ message: 'Region not found' });
+  }
+
+  // Remove the moderator from the moderators array
+  const index = region.moderators.indexOf(moderatorId);
+  if (index > -1) {
+    region.moderators.splice(index, 1); // Remove the moderator
+  }
+
+  // Save the updated region document
+  await region.save();
+
+  return res.status(204).json({ message: 'Moderator removed successfully', region });
 };

@@ -20,7 +20,8 @@ import {
     update,
     _delete,
     createAccountLink,
-    createAccount
+    createAccount,
+    getModeratorByRegion
 } from '../controllers/user.controller.js'
 import { uploadImage } from '../_middleware/multerConfig.js'
 
@@ -41,5 +42,8 @@ router.post('/', authorize(Role.Admin), createSchema, create);
 router.post('/create-from-link/:token', createAccount);
 router.put('/:id', authorize(), uploadImage.single("image"), updateSchema, update);
 router.delete('/:id', authorize(), _delete);
+
+// get users for delegation & regions ( moderator )
+router.get('/moderator/:regionId', getModeratorByRegion)
 
 export default router
