@@ -140,12 +140,24 @@ export const getReportById = async (req, res) => {
 
 
 export const traiteReport = async (req, res) => {
+  try {
+    const { reportId } = req.params
+    const report = await Report.findById(reportId)
+    report.traiter = true
+    await report.save()
+    res.json(report)
+  } catch(err) {
+    console.log('Unexpected error:', err);
+      next(err);  // Handle unexpected errors
+  }
   const { reportId } = req.params
   const report = await Report.findById(reportId)
   report.traiter = true
   await report.save()
   res.json(report)
 }
+
+
 
 export const getReportsByCity = async (req, res) => {
   try {

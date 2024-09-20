@@ -69,14 +69,16 @@
             <img [src]="currentLanguageFlag" alt="Language" class="flag-icon" />
           </button>
           <ul class="dropdown-menu" aria-labelledby="languageDropdown">
+            
+            
             <li>
-              <a class="dropdown-item" (click)="changeLanguage('en')"
+              <a class="dropdown-item" (click)="changeLanguage('ar')"
                 ><img
-                  src="assets/flags/en.png"
-                  alt="English"
+                  src="assets/flags/ar.png"
+                  alt="Arabic"
                   class="flag-icon"
                 />
-                English</a
+                العربية</a
               >
             </li>
             <li>
@@ -90,13 +92,13 @@
               >
             </li>
             <li>
-              <a class="dropdown-item" (click)="changeLanguage('ar')"
+              <a class="dropdown-item" (click)="changeLanguage('en')"
                 ><img
-                  src="assets/flags/ar.png"
-                  alt="Arabic"
+                  src="assets/flags/en.png"
+                  alt="English"
                   class="flag-icon"
                 />
-                العربية</a
+                English</a
               >
             </li>
           </ul>

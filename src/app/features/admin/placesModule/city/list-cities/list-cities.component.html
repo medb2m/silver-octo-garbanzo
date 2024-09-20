@@ -1,31 +1,37 @@
 <div class="cities-list">
     <div class="header">
-        <h1>Cities</h1>
-        <a routerLink="add" class="add-btn mb-2"><i class="bi bi-plus"></i></a>
+        <h1>{{ 'cities.title' | translate }}</h1>
+        <a routerLink="add" class="add-btn mb-2"
+        title="{{ 'cities.add' | translate }}">
+            <i class="bi bi-plus"></i> 
+        </a>
     </div>
     
     <div>
-    <input class="search-input" type="text" placeholder="Search" [(ngModel)]="searchText" />
+        <input class="search-input" type="text" placeholder="{{ 'cities.search' | translate }}" [(ngModel)]="searchText" />
     </div>
     <table class="table">
         <thead>
             <tr>
-                <th style="width:30%">City</th>
-                <th style="width:30%">Delegation</th>
-                <th style="width:30%">N° Workers</th>
+                <th style="width:30%">{{ 'cities.column.city' | translate }}</th>
+                <th style="width:30%">{{ 'cities.column.delegation' | translate }}</th>
+                <th style="width:30%">{{ 'cities.column.workers' | translate }}</th>
                 <th style="width:10%"></th>
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let city of cities | search: searchText | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage}"> 
-                <td class="align-middle">{{city.name}}</td>
-                <td class="align-middle">{{city.delegation.name}}</td>
-                <td class="align-middle">{{getLen(city.workers)}}</td>
+            <tr *ngFor="let city of cities | search: searchText | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage }"> 
+                <td class="align-middle">{{ city.name }}</td>
+                <td class="align-middle">{{ city.delegation.name }}</td>
+                <td class="align-middle">{{ getLen(city.workers) }}</td>
                 <td style="white-space: nowrap">
-                    <a routerLink="edit/{{city._id}}" class="btn btn-sm edit-button me-1"><i class="bi bi-pen"></i></a>
+                    <a routerLink="edit/{{ city._id }}" class="btn btn-sm edit-button me-1" title="{{ 'cities.edit' | translate }}">
+                        <i class="bi bi-pen"></i> {{ 'cities.edit' | translate }}
+                    </a>
                     <button (click)="deleteCity(city._id)" 
-                    class="btn btn-sm delete-button" 
-                    [disabled]="city.isDeleting">
+                        class="btn btn-sm delete-button" 
+                        [disabled]="city.isDeleting"
+                        title="{{ 'cities.delete' | translate }}">
                         <span *ngIf="city.isDeleting" class="spinner-border spinner-border-sm"></span>
                         <span *ngIf="!city.isDeleting"><i class="bi bi-trash"></i></span> 
                     </button>

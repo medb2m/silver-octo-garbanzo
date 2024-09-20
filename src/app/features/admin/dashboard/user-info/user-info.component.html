@@ -1,13 +1,16 @@
 <!-- User Info Section -->
 <div class="user-info-container">
-  <h2>User Info</h2>
+  <h2>{{ 'userInfo.title' | translate }}</h2>
   <div *ngIf="user" class="user-details">
-    <img [src]="user.image || 'default-image-path'" alt="User Image" class="user-image"/>
-    <p class="user-info-item"><strong>Name:</strong> {{ user.username }}</p>
-    <p class="user-info-item"><strong>Email:</strong> {{ user.phone }}</p>
-    <p class="user-info-item"><strong>Role:</strong> {{ user.role }}</p>
+    <img [src]="user.image || 'default-image-path'" alt="{{ 'userInfo.imageAlt' | translate }}" class="user-image"/>
+    <p class="user-info-item"><strong>{{ 'userInfo.fullName' | translate }}:</strong> {{ user.fullName }}</p>
+    <p class="user-info-item"><strong>{{ 'userInfo.cin' | translate }}:</strong> {{ user.cin }}</p>
+    <p class="user-info-item"><strong>{{ 'userInfo.phone' | translate }}:</strong> {{ user.username }}</p>
+    <div *ngIf="user.role === 'User'">
+      <p class="user-info-item"><strong>{{ 'userInfo.city' | translate }}:</strong> {{ user.city.name }}</p>
+    </div>
   </div>
   <div *ngIf="!user" class="loading-message">
-    <span>Loading...</span>
+    <span>{{ 'userInfo.loading' | translate }}</span>
   </div>
 </div>

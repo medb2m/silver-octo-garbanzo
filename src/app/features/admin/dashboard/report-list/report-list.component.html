@@ -1,28 +1,25 @@
-<h1>{{ title }}</h1>
-
 <!-- Dropdown to choose filter -->
 <div class="filter-section">
-  <label for="sort">Sort by: </label>
+  <i class="bi bi-sort-up icon"></i>
   <select id="sort" (change)="sortReports($event)" class="dropdown">
-    <option value="asc">Date Ascending</option>
-    <option value="desc" selected>Date Descending</option>
-    <option value="nontraited">Non-traited Reports</option>
-    <option value="traited">Traited Reports</option>
+    <option value="asc">{{ 'dateAscending' | translate }}</option>
+    <option value="desc" selected>{{ 'dateDescending' | translate }}</option>
+    <option value="nontraited">{{ 'nonTreatedReports' | translate }}</option>
+    <option value="traited">{{ 'treatedReports' | translate }}</option>
   </select>
-  
 </div>
 
 <!-- Search bar for non-worker mode -->
-<input type="text" placeholder="Search by name or city" (input)="filterReports($event)" class="search-input" *ngIf="!workerMode">
+<input type="text" placeholder="{{ 'searchPlaceholder' | translate }}" (input)="filterReports($event)" class="search-input" *ngIf="!workerMode">
 
 <!-- List of Reports -->
 <div *ngFor="let report of filteredReports" class="report-card" (click)="gotoReport(report._id)">
   <div class="report-card-content">
-    <h1 class="report-by">By {{ report.worker.fullName }} at {{ report.worker.city.name }} on {{ report.date | date }}</h1>
-    <p class="report-title">Title: {{ report.content }}</p>
+    <h1 class="report-by">{{ 'reportBy' | translate }} {{ report.worker.fullName }} {{ 'at' | translate }} {{ report.worker.city.name }} {{ 'on' | translate }} {{ report.date | date }}</h1>
+    <p class="report-title">{{ 'title' | translate }}: {{ report.content }}</p>
     <span
-            class="status-indicator"
-            [ngStyle]="{ 'background-color': report.traiter ? 'green' : 'red' }"
+      class="status-indicator"
+      [ngStyle]="{ 'background-color': report.traiter ? 'green' : 'red' }"
     ></span>
-  </div>
-</div>
+  </div> 
+</div> 

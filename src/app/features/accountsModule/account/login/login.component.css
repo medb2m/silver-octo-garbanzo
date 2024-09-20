@@ -19,6 +19,7 @@
     flex-direction: column;
     width: 440px;
     padding: 30px;
+    border: 0.05em solid black;
 }
 .login-header {
     text-align: center;
@@ -75,6 +76,61 @@
     background: #000;
     transform: scale(1.05, 1);
 }
+
+/** captcha **/
+
 .captcha-box {
+    display: flex;
+    justify-content: center;
     margin-bottom: 20px;
+}
+
+
+/** eye icon */
+.eye-icon {
+    position: absolute;
+    right: 45px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    font-size: 18px;
+    color: #333;
+}
+.eye-icon:hover {
+    color: #000;
+}
+
+
+/** Langue */
+
+.flag-icon {
+    width: 24px;
+    height: 16px;
+    margin: 8px;
+  }
+  
+  .dropdown-menu {
+    min-width: 160px; /* Adjust as needed */
+  }
+  
+  .dropdown-item {
+    display: flex;
+    align-items: center;
+  }
+  
+  .dropdown-item img {
+    margin-right: 8px;
+  }
+
+  .dropdown button {
+    border: 0;
+    border-radius: 0;
+  }
+  .dropdown .dropdown-menu li {
+    cursor: pointer;
+  }
+
+.jend {
+    display: flex;
+    justify-content: end;
 }

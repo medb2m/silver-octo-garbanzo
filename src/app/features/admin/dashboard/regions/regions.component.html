@@ -1,30 +1,29 @@
 <table class="table">
-    <input type="text" placeholder="Search regions..." (input)="filterRegions($event)" class="search-input">
+    <input type="text" placeholder="{{ 'searchRegions' | translate }}" (input)="filterRegions($event)" class="search-input">
     <thead>
         <tr>
-            <th>Region Name</th>
-            <th>Actions</th>
+            <th>{{ 'regionName' | translate }}</th>
+            <th>{{ 'actions' | translate }}</th>
         </tr>
     </thead>
     <tbody>
         <tr *ngFor="let region of filteredRegions" class="region-row"
-    [class.selected]="region === selectedRegion">
-    <td>{{ region.name }} ({{ region.delegations.length }})</td>
-    <td>
-        
-        <!-- User icon button -->
-        <button (click)="openUserPopup(region)"
-        >
-            <i class="bi bi-person"></i>
-        </button>
-        <!-- Right arrow button -->
-        <button (click)="selectRegion(region)" 
-        [class.selected-button]="region === selectedRegion"
-        >
-            <i class="bi bi-arrow-right"></i>
-        </button>
-    </td>
-</tr>
+            [class.selected]="region === selectedRegion">
+            <td>{{ region.name }} ({{ region.delegations.length }})</td>
+            <td>
+                <!-- User icon button -->
+                <button (click)="openUserPopup(region)"
+                title="{{ 'openUserPopup' | translate }}">
+                    <i class="bi bi-person"></i> 
+                </button>
+                <!-- Right arrow button -->
+                <button (click)="selectRegion(region)" 
+                    [class.selected-button]="region === selectedRegion"
+                    title="{{ 'selectRegion' | translate }}">
+                    <i class="bi bi-arrow-right"></i>
+                </button>
+            </td>
+        </tr>
     </tbody>
 </table>
 
@@ -32,8 +31,8 @@
 <ng-template #userPopup>
     <div class="user-popup">
         <div class="popup-header">
-            <button class="close-button" (click)="closePopup()">X</button>
+            <button class="close-button" title="{{ 'close' | translate }}" (click)="closePopup()">X</button>
         </div>
-      <app-user-list [regionId]="selectedRegion._id"></app-user-list>
+        <app-user-list [regionId]="selectedRegion._id"></app-user-list>
     </div>
 </ng-template>

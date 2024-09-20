@@ -30,5 +30,10 @@
     <img [src]="selectedImage" alt="Selected Report Image" class="selected-image" />
   </figure>
 </article>
+<div class="center">
+  <button (click)="exportReportToPDF()" class="export-btn">
+    <i class="bi bi-file-earmark-pdf"></i> Export Report to PDF
+  </button>
+</div>
 
-<button (click)="exportReportToPDF()">Export Report to PDF</button>
+

@@ -13,6 +13,7 @@ import { ReportListComponent } from './report-list/report-list.component';
 import { UserListComponent } from './user-list/user-list.component';
 import { UserInfoComponent } from './user-info/user-info.component';
 import { StatisticsComponent } from './statistics/statistics.component';
+import { SharedModule } from '@app/shared';
 
 
 
@@ -22,7 +23,6 @@ import { StatisticsComponent } from './statistics/statistics.component';
     LayoutComponent,
     RegionsComponent,
     DelegationsComponent,
-    
     ReportViewComponent,
     ReportListComponent,
     
@@ -35,7 +35,8 @@ import { StatisticsComponent } from './statistics/statistics.component';
     UserInfoComponent,
     WorkersComponent,
     CitiesComponent,
-    StatisticsComponent
+    StatisticsComponent,
+    SharedModule
   ]
 })
 export class DashboardModule { }

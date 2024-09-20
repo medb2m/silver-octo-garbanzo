@@ -1,25 +1,26 @@
-<h2>{{title}}</h2>
+<!-- <h2>{{title}}</h2> -->
+
 <div class="container">
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
         <div *ngIf="loading" class="spinner-border spinner-border-sm"></div>
         <div *ngIf="!loading">
             <!-- Name Input -->
             <div class="form-group mb-4">
-                <label>name</label>
+                <label>{{ 'name' | translate }}</label>
                 <input type="text" formControlName="name" class="form-control" />
                 <div *ngIf="submitted && f['name'].errors" class="invalid-feedback">
-                    <div *ngIf="f['name'].errors['required']">name is required</div>
+                    <div *ngIf="f['name'].errors['required']">{{ 'name' | translate }} {{ 'required' | translate }}</div>
                 </div>
             </div>
             <!-- Delegation input -->
-            <div  class="form-group mb-3">
-                <label class="form-label">Delegation : </label>
-                <select formControlName="delegation" class="form-select" ngModel="{{idDelegation}}" [ngClass]="{ 'is-invalid': submitted && f['delegation'].errors }">
-                    <option [value]="'{{idCat}}'" [selected]="'true'">{{ actualDelegation ? actualDelegation.name : 'Select Delegation' }}</option>
-                    <option *ngFor="let delegation of delegations" value="{{ delegation._id }}">{{ delegation.name }}</option>
+            <div class="form-group mb-3">
+                <label class="form-label">{{ 'delegation' | translate }}:</label>
+                <select formControlName="delegation" class="form-select" [ngClass]="{ 'is-invalid': submitted && f['delegation'].errors }">
+                    <option [value]="'{{idCat}}'" [selected]="true">{{ actualDelegation ? actualDelegation.name : ('selectDelegation' | translate) }}</option>
+                    <option *ngFor="let delegation of delegations" [value]="delegation._id">{{ delegation.name }}</option>
                 </select>
                 <div *ngIf="submitted && f['delegation'].errors && title != 'Edit Delegation'" class="invalid-feedback">
-                    <div *ngIf="f['delegation'].errors['required']">Delegation is required</div>
+                    <div *ngIf="f['delegation'].errors['required']">{{ 'delegationRequired' | translate }}</div>
                 </div>
             </div>
             <!-- Button group -->
@@ -27,12 +28,12 @@
                 <!-- Update Button -->
                 <button type="submit" [disabled]="submitting" class="update-button me-2">
                     <span *ngIf="submitting" class="spinner-border spinner-border-sm me-1"></span>
-                    Update
+                    {{ 'update' | translate }}
                 </button>
                 <!-- Cancel Button -->
                 <button routerLink="/admin/cities" type="button" [disabled]="canceling" class="cancel-button">
                     <span *ngIf="canceling" class="spinner-border spinner-border-sm me-1"></span>
-                    Cancel
+                    {{ 'cancel' | translate }}
                 </button>
             </div>
         </div>

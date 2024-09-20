@@ -1,20 +1,22 @@
 <table class="table">
-    <input type="text" placeholder="Search Cities..." (input)="filterCities($event)" class="search-input">
+    <input type="text" placeholder="{{ 'searchCities' | translate }}" (input)="filterCities($event)" class="search-input">
     <thead>
         <tr>
-            <th>City Name</th>
-            <th>Actions</th>
+            <th>{{ 'cityName' | translate }}</th>
+            <th>{{ 'actions' | translate }}</th>
         </tr>
     </thead>
     <tbody>
         <tr *ngFor="let city of filteredCities" class="city-row"
             [class.selected]="city === selectedCity">
-            <td>{{ city.name }}  ({{ city.workers.length }})</td>
+            <td>{{ city.name }} ({{ city.workers.length }})</td>
             <td>
-                <button (click)="openWorkersPopup(city)">
+                <button (click)="openWorkersPopup(city)"
+                title="{{ 'viewWorkers' | translate }}">
                     <i class="bi bi-person"></i>
                 </button>
-                <button (click)="openReports(city)">
+                <button (click)="openReports(city)"
+                title="{{ 'viewReports' | translate }}">
                     <i class="bi bi-file-earmark-text"></i>
                 </button>
             </td>
@@ -22,11 +24,11 @@
     </tbody>
 </table>
 
-<!-- Pop-up for reporters -->
-<ng-template #workersPopup >
+<!-- Pop-up for workers -->
+<ng-template #workersPopup>
     <div class="worker-popup modern-popup">
         <div class="popup-header">
-            <button class="close-button" (click)="closePopup()">X</button>
+            <button class="close-button" title="{{ 'close' | translate }}" (click)="closePopup()">X</button>
         </div>
         <h3 class="text-center">{{ selectedCity.name }}</h3>
         <app-workers [selectedCity]="selectedCity._id"></app-workers>

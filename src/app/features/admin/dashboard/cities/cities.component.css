@@ -121,3 +121,8 @@
     left: 15%;
   }
 
+/** search input **/
+.search-input {
+  padding: 2px;
+  min-height: 40px;
+}

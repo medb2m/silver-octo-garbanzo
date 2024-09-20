@@ -4,12 +4,13 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { WorkersComponent } from '../workers/workers.component';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { TranslateModule } from '@ngx-translate/core';
 
 
 @Component({
   selector: 'cities',
   standalone : true,
-  imports: [CommonModule,WorkersComponent],
+  imports: [CommonModule,WorkersComponent, TranslateModule],
   templateUrl: './cities.component.html',
   styleUrls: ['cities.component.css']
 })

@@ -87,3 +87,39 @@
   font-size: 0.9rem;
   font-weight: lighter;
 }
+
+/***export button*/
+
+.export-btn {
+  display: inline-flex;
+  align-items: center;
+  background-color: #28a745;
+  color: white;
+  font-weight: bold;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-size: 16px;
+}
+
+.export-btn i {
+  margin-right: 8px;
+  font-size: 18px;
+}
+
+.export-btn:hover {
+  background-color: #218838;
+}
+
+.export-btn:active {
+  background-color: #1e7e34;
+  transform: scale(0.98);
+}
+
+.center {
+  padding-top: 5px;
+  display: flex;
+  justify-content: center;
+}

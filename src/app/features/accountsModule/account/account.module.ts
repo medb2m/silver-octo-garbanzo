@@ -7,18 +7,21 @@ import { LayoutComponent } from './layout';
 import { LoginComponent } from './login';
 import { RegisterComponent } from './register';
 import { RecaptchaModule } from 'ng-recaptcha';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        ReactiveFormsModule,
-        AccountsRoutingModule,
-        RecaptchaModule
-    ],
+
     declarations: [
         LayoutComponent,
         LoginComponent,
         RegisterComponent,
+    ],
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        AccountsRoutingModule,
+        RecaptchaModule,
+        TranslateModule
     ]
 })
 export class AccountsModule { }

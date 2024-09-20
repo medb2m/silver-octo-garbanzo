@@ -122,3 +122,9 @@
 .region-row.selected td {
   background-color: #495057; /* Slightly lighter background for selected rows */
 }
+
+/** search input **/
+.search-input {
+  padding: 2px;
+  min-height: 40px;
+}

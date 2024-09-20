@@ -1,21 +1,21 @@
 <!-- statistics -->
 <app-statistics></app-statistics>
 
-
 <!-- Search Bar -->
 <div class="search-bar">
-  <input type="text" placeholder="Search regions, delegations, cities, or workers..." 
+  <input type="text" placeholder="{{ 'searchPlaceholder' | translate }}" 
   (input)="search($event)" class="search-input" />
   
   <!-- Search Result Suggestions -->
   <ul *ngIf="searchResults.length > 0" class="search-suggestions">
     <li *ngFor="let result of searchResults" (click)="selectSearchResult(result)">
-      <span *ngIf="result.type === 'Region'">{{ result.name }} (Region)</span>
-      <span *ngIf="result.type === 'Delegation'">{{ result.name }} (Delegation)</span>
-      <span *ngIf="result.type === 'City'">{{ result.name }} (City)</span>
+      <span *ngIf="result.type === 'Region'">{{ 'regionLabel' | translate }}: {{ result.name }}</span>
+      <span *ngIf="result.type === 'Delegation'">{{ 'delegationLabel' | translate }}: {{ result.name }}</span>
+      <span *ngIf="result.type === 'City'">{{ 'cityLabel' | translate }}: {{ result.name }}</span>
     </li>
   </ul>
 </div>
+
 <!-- dashboard content -->
 <div class="dashboard">
   <div class="regions" *ngIf="account && account.role !== 'Moderator'">

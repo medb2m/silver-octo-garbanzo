@@ -22,6 +22,7 @@ const UserSchema = new Schema({
     city: { type: mongoose.Schema.Types.ObjectId, ref: 'City'},
     moderatorZone: String,
     region: { type: mongoose.Schema.Types.ObjectId, ref: 'Region' },
+    delegation: { type: mongoose.Schema.Types.ObjectId, ref: 'Delegation' },
 })
 
 UserSchema.virtual('isVerified').get(function () {

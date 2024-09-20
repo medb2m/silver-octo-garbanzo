@@ -4,11 +4,12 @@ import { Account } from '@app/_models';
 import { AccountService } from '@app/_services';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UserInfoComponent } from '../user-info/user-info.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-user-list',
   standalone: true,
-  imports: [CommonModule, UserInfoComponent],
+  imports: [CommonModule, UserInfoComponent, TranslateModule],
   templateUrl: './user-list.component.html',
   styleUrl: './user-list.component.css'
 })

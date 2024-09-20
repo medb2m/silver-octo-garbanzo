@@ -1,13 +1,13 @@
-<h2>{{ title }}</h2>
+<h2>{{ 'form.title' | translate }}</h2>
 <div class="container">
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
         <div *ngIf="loading" class="spinner-border spinner-border-sm"></div>
         <div *ngIf="!loading">
             <div class="form-group mb-4">
-                <label>Name</label>
+                <label>{{ 'form.nameLabel' | translate }}</label>
                 <input type="text" formControlName="name" class="form-control" />
                 <div *ngIf="submitted && f['name'].errors" class="invalid-feedback">
-                    <div *ngIf="f['name'].errors['required']">Name is required</div>
+                    <div *ngIf="f['name'].errors['required']">{{ 'form.nameRequired' | translate }}</div>
                 </div>
             </div>
             <!-- Button group -->
@@ -15,12 +15,12 @@
                 <!-- Update Button -->
                 <button type="submit" [disabled]="submitting" class="update-button me-2">
                     <span *ngIf="submitting" class="spinner-border spinner-border-sm me-1"></span>
-                    Update
+                    {{ 'form.update' | translate }}
                 </button>
                 <!-- Cancel Button -->
                 <button routerLink="/admin/cities" type="button" [disabled]="canceling" class="cancel-button">
                     <span *ngIf="canceling" class="spinner-border spinner-border-sm me-1"></span>
-                    Cancel
+                    {{ 'form.cancel' | translate }}
                 </button>
             </div>
         </div>

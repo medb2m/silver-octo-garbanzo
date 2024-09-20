@@ -1,36 +1,3 @@
-<!-- <div class="contain">
-    <div class="login-box">
-      <div class="login-header">
-        <header>Creation de lien</header>
-      </div>
-      <div>
-        {{ regLink }}
-      </div>
-      <form *ngIf="!loading" [formGroup]="form" (ngSubmit)="onSubmit()">
-        <div class="input-box">
-          <label class="form-label">Select Role :</label>
-          <select formControlName="role" class="input-field" [ngClass]="{ 'is-invalid': submitted && f['role'].errors }">
-              <option value=""></option>
-              <option value="User">User</option>
-              <option value="Moderator">Moderator</option>
-          </select>
-          <div *ngIf="submitted && f['role'].errors" class="invalid-feedback">
-              <div *ngIf="f['role'].errors['required']">Role is required</div>
-          </div>
-      </div>
-        <div class="input-submit">
-          <button class="submit-btn" [disabled]="submitting">
-            <span *ngIf="submitting" class="spinner-border spinner-border-sm me-1"></span>
-            Creer le lien
-          </button>
-        </div>
-      </form>
-      <div *ngIf="loading" class="text-center m-5">
-        <span class="spinner-border spinner-border-lg align-center"></span>
-      </div>
-    </div>
-</div> -->
-  
 <div class="contain">
   <div class="login-box">
     <div class="login-header">

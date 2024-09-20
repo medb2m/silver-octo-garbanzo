@@ -75,3 +75,68 @@
     transform: scale(1.15);
     color: #28a745;
   }
+
+  
+
+  /* User Info Popup */
+.user-info-popup {
+  width: 90%;
+  max-width: 600px; /* Adjust the max-width as needed */
+  height: 80%;
+  max-height: 600px; /* Adjust the max-height as needed */
+  position: fixed;
+  top: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  overflow-y: auto;
+  z-index: 1100;
+}
+
+/* Centered popup header */
+.user-info-popup h2 {
+  margin-top: 0;
+}
+
+/* Popup header with buttons */
+.popup-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.popup-header .close-button,
+.popup-header .action-button {
+  font-size: 1.4rem;
+  cursor: pointer;
+  border: none;
+  border-radius: 50%;
+  width: 35px;
+  height: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.3s ease;
+}
+
+.popup-header .close-button {
+  background: #ff6b6b;
+  color: white;
+}
+
+.popup-header .action-button {
+  background: #007bff;
+  color: white;
+}
+
+.popup-header .close-button:hover {
+  background: #ff4757;
+}
+
+.popup-header .action-button:hover {
+  background: #0056b3;
+}

@@ -78,3 +78,12 @@
 .dropdown-item img {
   margin-right: 8px;
 }
+
+.dropdown button {
+  border: 0;
+  border-radius: 0;
+}
+
+.dropdown .dropdown-menu li {
+  cursor: pointer;
+}

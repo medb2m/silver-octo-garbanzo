@@ -1,38 +1,34 @@
 <table class="table">
-    <input type="text" placeholder="Search delegations..." (input)="filterDelegations($event)" class="search-input">
-    <thead>
-      <tr>
-        <th>Delegation Name</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let delegation of filteredDelegations" class="delegation-row"
-          [class.selected]="delegation === selectedDelegation">
-        <td>{{ delegation.name }}  ({{ delegation.cities.length }})</td>
-        <td>
-            <!-- User icon button to open the user list pop-up -->
-          <button (click)="openUserPopup(delegation)">
-            <i class="bi bi-person"></i>
-          </button>
-          <!-- Right arrow button to open the city list component -->
-          <button (click)="selectDelegation(delegation)" 
-          [class.selected-button]="delegation === selectedDelegation"
-          >
-            <i class="bi bi-arrow-right"></i>
-          </button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-  
-  <!-- Pop-up for users (moderators or workers) -->
-  <ng-template #userPopup>
-    <div class="user-popup">
-        <div class="popup-header">
-            <button class="close-button" (click)="closeUserPopup()">X</button>
-        </div>
-      <app-user-list [regionId]="selectedRegion._id"></app-user-list>
+  <input type="text" placeholder="{{ 'searchDelegations' | translate }}" (input)="filterDelegations($event)" class="search-input">
+  <thead>
+    <tr>
+      <th>{{ 'delegationName' | translate }}</th>
+      <th>{{ 'actions' | translate }}</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let delegation of filteredDelegations" class="delegation-row"
+        [class.selected]="delegation === selectedDelegation">
+      <td>{{ delegation.name }} ({{ delegation.cities.length }})</td>
+      <td>
+        <button (click)="openUserPopup(delegation)" title="{{ 'viewUsersTooltip' | translate }}">
+          <i class="bi bi-person"></i>
+        </button>
+        <button (click)="selectDelegation(delegation)" 
+                [class.selected-button]="delegation === selectedDelegation"
+                title="{{ 'selectDelegationTooltip' | translate }}">
+          <i class="bi bi-arrow-right"></i> 
+        </button>
+    </td>
+    </tr>
+  </tbody>
+</table>
+
+<ng-template #userPopup>
+  <div class="user-popup">
+    <div class="popup-header">
+      <button class="close-button" title="{{ 'close' | translate }}" (click)="closeUserPopup()">X</button>
     </div>
-  </ng-template>
-  
+    <app-user-list [regionId]="selectedRegion._id"></app-user-list>
+  </div>
+</ng-template>

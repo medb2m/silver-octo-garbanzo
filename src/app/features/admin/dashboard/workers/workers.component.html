@@ -32,10 +32,9 @@
 
 <!-- Modal for worker info -->
 <ng-template #workerInfoPopup let-modal>
-  <div class="worker-info-popup modern-popup">
+  <div class="user-info-popup modern-popup">
     <div class="popup-header">
-      <h3>Worker Information</h3>
-      <button class="close-btn" (click)="closeWorkerInfoPopup()">Go Back</button>
+      <button class="close-button" (click)="closeWorkerInfoPopup()">X</button>
     </div>
     <app-user-info [userId]="selectedWorkerId"></app-user-info> 
   </div>

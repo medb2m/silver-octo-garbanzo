@@ -1,34 +1,59 @@
 ﻿<nav class="navbar sticky-top navbar-expand-lg navbar-light bg-light">
-    <div class="container-fluid">
-        <div class="collapse navbar-collapse" id="navbarCollapse">
-            <div class="navbar-nav">
-                <a routerLink="dashboard" class="nav-item nav-link active">Home</a>
-                <a routerLink="profile" class="nav-item nav-link">Profile</a>
-                <a routerLink="generate-link" class="nav-item nav-link">Generate Link</a>
-                <a routerLink="" class="nav-item nav-link disabled" tabindex="-1">Reports</a>
-                <!-- Notification  -->
-                <div class="dropdown">
-                    <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="bi bi-bell"></i>
-                        <span class="notification-count" *ngIf="unreadCount > 0">{{ unreadCount }}</span>
-                    </button>
-                    <ul class="dropdown-menu notifications-box" aria-labelledby="dropdownMenuButton1">
-                      <li *ngFor="let notification of notifications">
-                        <div 
-                        (click)="goto(notification)" 
-                        [ngClass]="{ 'notification-item':true, 'old-notification': notification.isRead, 'new-notification' : !notification.isRead}"
-                        >
-                        <span>New Report At {{notification.city}}</span>
-                        <span>{{ notification.date | date:'short'}}</span> 
-                        </div>
-                    </li>
-                    <div *ngIf="notifications.length === 0">0 notifications</div>
-                    </ul>
-                </div>
-            </div>
-            <div class="navbar-nav ms-auto">
-                <button class="logout-btn" (click)="logout()">Log out</button>
-            </div>
+  <div class="container-fluid">
+    <div class="collapse navbar-collapse" id="navbarCollapse">
+      <div class="navbar-nav">
+        <a routerLink="dashboard" class="nav-item nav-link active">{{ 'navbar.home' | translate }}</a>
+        <a routerLink="profile" class="nav-item nav-link">{{ 'navbar.profile' | translate }}</a>
+        <a routerLink="generate-link" class="nav-item nav-link">{{ 'navbar.generateLink' | translate }}</a>
+        <a routerLink="" class="nav-item nav-link disabled" tabindex="-1">{{ 'navbar.reports' | translate }}</a>
+
+        <!-- Notification -->
+        <div class="dropdown">
+          <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown"
+            aria-expanded="false">
+            <i class="bi bi-bell"></i>
+            <span class="notification-count" *ngIf="unreadCount > 0">{{ unreadCount }}</span>
+          </button>
+          <ul class="dropdown-menu notifications-box" aria-labelledby="dropdownMenuButton1">
+            <li *ngFor="let notification of notifications">
+              <div (click)="goto(notification)"
+                [ngClass]="{ 'notification-item':true, 'old-notification': notification.isRead, 'new-notification' : !notification.isRead}">
+                <span>{{ 'notifications.newReport' | translate }} {{notification.city}}</span>
+                <span>{{ notification.date | date:'short'}}</span>
+              </div>
+            </li>
+            <div *ngIf="notifications.length === 0">{{ 'notifications.none' | translate }}</div>
+          </ul>
         </div>
+      </div>
+
+      <div class="navbar-nav ms-auto">
+        <!-- Language Dropdown -->
+        <div class="dropdown me-3">
+          <button class="btn btn-light dropdown-toggle" type="button" id="languageDropdown" data-bs-toggle="dropdown"
+            aria-expanded="false">
+            <img [src]="currentLanguageFlag" alt="Language" class="flag-icon" />
+          </button>
+          <ul class="dropdown-menu" aria-labelledby="languageDropdown">
+            <li>
+              <a class="dropdown-item" (click)="changeLanguage('ar')"><img src="assets/flags/ar.png" alt="Arabic"
+                  class="flag-icon" />
+                {{ 'languages.ar' | translate }}</a>
+            </li>
+            <li>
+              <a class="dropdown-item" (click)="changeLanguage('fr')"><img src="assets/flags/fr.png" alt="French"
+                  class="flag-icon" />
+                {{ 'languages.fr' | translate }}</a>
+            </li>
+            <li>
+              <a class="dropdown-item" (click)="changeLanguage('en')"><img src="assets/flags/en.png" alt="English"
+                  class="flag-icon" />
+                {{ 'languages.en' | translate }}</a>
+            </li>
+          </ul>
+        </div>
+        <button class="logout-btn" (click)="logout()">{{ 'navbar.logout' | translate }}</button>
+      </div>
     </div>
+  </div>
 </nav>
