@@ -126,4 +126,20 @@ export class RegionService {
     this.selectedCitySubject.next(city);
   }
 
+
+  // static value for map infos : 
+  getRegionDetails(regionId: string) {
+    // Static values for demonstration
+    const staticData = { reportCount: 100, workerCount: 10, treatedReports: 80, untreatedReports: 20, option1Reports: 70 
+      // Add more static data as needed
+    };
+
+    return {
+      subscribe: (callback: (data: any) => void) => {
+        const regionDetails = staticData || {};
+        callback(regionDetails);
+      },
+    };
+  }
+
 }

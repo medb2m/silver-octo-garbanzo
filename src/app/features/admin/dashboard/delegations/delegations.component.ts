@@ -1,4 +1,4 @@
-import { Component, TemplateRef, ViewChild } from '@angular/core';
+import { Component, Input, SimpleChanges, TemplateRef, ViewChild } from '@angular/core';
 import { AccountService, RegionService } from '@app/_services';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
@@ -12,11 +12,12 @@ export class DelegationsComponent {
 
   @ViewChild('userPopup') popupTemplate!: TemplateRef<any>;
   @ViewChild('userInfoPopup') userInfoPopup!: TemplateRef<any>;
+  @Input() selectedRegion: any;
 
   selectedUserId!: string ; 
   
   delegations: any[] = []
-  selectedRegion: any;
+  //selectedRegion: any;
 
   selectedDelegation: any; // New property to track the selected delegation
 
@@ -34,13 +35,25 @@ export class DelegationsComponent {
     private modalService: NgbModal
   ) {}
 
-  ngOnInit(): void {
+  ngOnInit() {
+    console.log('hello')
+    // If you already have selectedRegion, fetch delegations immediately
+    /* if (this.selectedRegion) {
+      this.fetchDelegations(this.selectedRegion._id);
+    } */
     this.regionService.selectedRegion$.subscribe(region => {
         this.selectedRegion = region;
         if (region) {
           this.fetchDelegations(region._id);
         }
       });
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    // Watch for changes in selectedRegion
+    if (changes['selectedRegion'] && changes['selectedRegion'].currentValue) {
+      this.fetchDelegations(this.selectedRegion._id);
+    }
   }
 
   toggleComponents(): void {

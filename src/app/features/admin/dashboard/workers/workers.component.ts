@@ -45,6 +45,7 @@ export class WorkersComponent {
   ) {}
 
   ngOnInit(): void {
+    if (this.selectedCity)
       this.fetchWorkers(this.selectedCity)
   }
 
@@ -56,12 +57,6 @@ export class WorkersComponent {
 
   closeWorkerInfoPopup(): void {
     this.modalService.dismissAll();
-  }
-
-  // Redirect to worker reports
-  gotoWorkerReports(workerId: string): void {
-    this.router.navigate([`/admin/dashboard/reports/${workerId}`]);
-    this.modalService.dismissAll()
   }
 
   // Add worker for the current city
@@ -94,6 +89,11 @@ export class WorkersComponent {
         });
       });
     });
+  }
+
+  openReports(worker: any) {
+    this.router.navigate([`/admin/dashboard/reports`, worker.id], { queryParams: { type: 'worker' } });
+    this.modalService.dismissAll()
   }
 
 

@@ -1,25 +1,70 @@
-<!-- Dropdown to choose filter -->
-<div class="filter-section">
-  <i class="bi bi-sort-up icon"></i>
-  <select id="sort" (change)="sortReports($event)" class="dropdown">
-    <option value="asc">{{ 'dateAscending' | translate }}</option>
-    <option value="desc" selected>{{ 'dateDescending' | translate }}</option>
-    <option value="nontraited">{{ 'nonTreatedReports' | translate }}</option>
-    <option value="traited">{{ 'treatedReports' | translate }}</option>
-  </select>
+<div class="filter-section mb-3">
+  <i class="bi bi-search icon"></i>
+  <input type="text" class="form-control w-50 mb-3" placeholder="{{ 'Search by region, delegation or city' | translate }}" (input)="filterDropdown($event)">
 </div>
 
-<!-- Search bar for non-worker mode -->
-<input type="text" placeholder="{{ 'searchPlaceholder' | translate }}" (input)="filterReports($event)" class="search-input" *ngIf="!workerMode">
+<div class="dropdown mb-3">
+  <button class="btn btn-secondary dropdown-toggle" type="button" id="filterDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+    {{ 'Filter by Region/Delegation/City' | translate }}
+  </button>
+  <ul class="dropdown-menu" aria-labelledby="filterDropdown">
+    <li *ngFor="let item of filteredLocations">
+      <a class="dropdown-item" href="#" (click)="selectLocation(item)">{{ item }}</a>
+    </li>
+  </ul>
+</div>
 
-<!-- List of Reports -->
-<div *ngFor="let report of filteredReports" class="report-card" (click)="gotoReport(report._id)">
-  <div class="report-card-content">
-    <h1 class="report-by">{{ 'reportBy' | translate }} {{ report.worker.fullName }} {{ 'at' | translate }} {{ report.worker.city.name }} {{ 'on' | translate }} {{ report.date | date }}</h1>
-    <p class="report-title">{{ 'title' | translate }}: {{ report.content }}</p>
-    <span
-      class="status-indicator"
-      [ngStyle]="{ 'background-color': report.traiter ? 'green' : 'red' }"
-    ></span>
-  </div> 
-</div> 
+
+<!-- Reports Table -->
+<!-- Enhanced Reports Table -->
+<div class="table-responsive">
+  <table class="table table-bordered table-hover table-striped">
+    <thead class="table-light">
+      <tr>
+        <!-- Column Titles with Sortable Icons -->
+        <th (click)="sortBy('content')" class="clickable-column">
+          {{ 'Title' | translate }}
+          <i *ngIf="sortField === 'content' && sortOrder === 'asc'" class="bi bi-chevron-up sort-icon"></i>
+          <i *ngIf="sortField === 'content' && sortOrder === 'desc'" class="bi bi-chevron-down sort-icon"></i>
+        </th>
+        <th>{{ 'Region' | translate }}</th>
+        <th>{{ 'Delegation' | translate }}</th>
+        <th>{{ 'City' | translate }}</th>
+        <th (click)="sortBy('worker')" class="clickable-column">
+          {{ 'Worker' | translate }}
+          <i *ngIf="sortField === 'worker' && sortOrder === 'asc'" class="bi bi-chevron-up sort-icon"></i>
+          <i *ngIf="sortField === 'worker' && sortOrder === 'desc'" class="bi bi-chevron-down sort-icon"></i>
+        </th>
+        <th (click)="sortBy('date')" class="clickable-column">
+          {{ 'Date' | translate }}
+          <i *ngIf="sortField === 'date' && sortOrder === 'asc'" class="bi bi-chevron-up sort-icon"></i>
+          <i *ngIf="sortField === 'date' && sortOrder === 'desc'" class="bi bi-chevron-down sort-icon"></i>
+        </th>
+        <th>{{ 'Status' | translate }}</th>
+      </tr>
+      <!-- Reports Message -->
+      <tr *ngIf="filteredReports.length === 0">
+        <td colspan="7">
+          <div class="no-reports-message">
+            <i class="bi bi-exclamation-circle"></i>
+            <p>{{ 'Sorry No reports' | translate }}</p>
+          </div>
+        </td>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let report of filteredReports" (click)="gotoReport(report._id)" class="report-row">
+        <td>{{ report.content }}</td>
+        <td>{{ report.region.name }}</td>
+        <td>{{ report.delegation.name }}</td>
+        <td>{{ report.city.name }}</td>
+        <td>{{ report.worker.fullName }}</td>
+        <td>{{ report?.date | date: 'MM/dd' }}</td>
+        <td>{{ report.date | date: 'HH:mm' }}</td>
+        <td>
+          <span class="status-indicator" [ngStyle]="{ 'background-color': report.traiter ? 'green' : 'red' }"></span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

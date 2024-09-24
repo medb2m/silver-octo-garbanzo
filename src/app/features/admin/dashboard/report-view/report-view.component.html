@@ -3,37 +3,47 @@
 
 <article class="detail-article" *ngIf="report" #reportContent>
   <div class="header">
-    <span *ngIf="report.traiter" class="traited-msg">report traited <i class="bi bi-check"></i></span>
-    <button (click)="traite(report._id)" *ngIf="!report.traiter" class="seen-btn"><i class="bi bi-check"></i></button>
+    <span *ngIf="report.traiter" class="traited-msg">
+      {{ 'reportTraited' | translate }} <i class="bi bi-check"></i>
+    </span>
+    <button (click)="traite(report._id)" *ngIf="!report.traiter" class="seen-btn">
+      <i class="bi bi-check"></i>
+    </button>
   </div>
   <div class="detail-body">
     <h2>{{ report.content }}</h2>
-    <p>{{ report.worker.fullName }} | {{ report.worker.city.name }} | {{ report.date | date}}</p>
-    <label>Machaghel : </label>
+    <p>{{ report.worker.fullName }} | {{ report.worker.city.name }} | {{ report.date | date }}</p>
+
+    <label>{{ 'machaghel' | translate }}: </label>
     <p>{{ report.machaghel }}</p>
-    <label>Machakel Alyawm : </label>
+
+    <label>{{ 'machakelAlyawm' | translate }}: </label>
     <p>{{ report.machakel_alyawm }}</p>
-    <label>7ouloul : </label>
+
+    <label>{{ 'houloul' | translate }}: </label>
     <p>{{ report.houloul }}</p>
-    <p *ngIf="report.concurence === true">la concurrence existe : {{ report.concurrenceDetails}} </p>
-    <label>I9tira7at : </label>
+
+    <p *ngIf="report.concurence === true">
+      {{ 'concurrenceExists' | translate }}: {{ report.concurrenceDetails }}
+    </p>
+
+    <label>{{ 'propositions' | translate }}: </label>
     <p>{{ report.propositions }}</p>
   </div>
-  
+
   <div class="images-container">
     <figure class="thumbnail-container" *ngFor="let image of report.images" (click)="selectedImage = image">
-      <img [src]="image" alt="Report Image" class="thumbnail" />
+      <img [src]="image" alt="{{ 'reportImage' | translate }}" class="thumbnail" />
     </figure>
   </div>
 
   <figure class="selected-image-container" *ngIf="selectedImage">
-    <img [src]="selectedImage" alt="Selected Report Image" class="selected-image" />
+    <img [src]="selectedImage" alt="{{ 'selectedReportImage' | translate }}" class="selected-image" />
   </figure>
 </article>
+
 <div class="center">
   <button (click)="exportReportToPDF()" class="export-btn">
-    <i class="bi bi-file-earmark-pdf"></i> Export Report to PDF
+    <i class="bi bi-file-earmark-pdf"></i> {{ 'exportReportToPDF' | translate }}
   </button>
 </div>
-
-

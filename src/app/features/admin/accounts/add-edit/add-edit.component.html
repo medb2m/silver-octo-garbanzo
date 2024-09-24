@@ -1,120 +1,109 @@
-﻿
-<div class="contain">
-  
-    <div class="login-box">
-      <div class="login-header">
-        <header>{{ title }}</header>  
-        <button *ngIf="title === 'Edit Account'" class="back-button mt-2" (click)="exportUserToPDF()">Export User to PDF</button>
-      </div>
-      <form *ngIf="!loading" [formGroup]="form" (ngSubmit)="onSubmit()">
-        <!-- Full Name -->
-        <div class="input-box">
-          <input
-            type="text"
-            formControlName="fullName"
-            class="input-field"
-            placeholder="Nom et Prénom"
-            [ngClass]="{ 'is-invalid': submitted && f['fullName'].errors }"
-          />
-          <div *ngIf="submitted && f['fullName'].errors" class="invalid-feedback">
-            <div *ngIf="f['fullName'].errors['required']">First Name is required</div>
-          </div>
-        </div>
-         <!-- Cin -->
-        <div class="input-box">
-          <input type="text" formControlName="cin" class="input-field" placeholder="CIN" [ngClass]="{ 'is-invalid': submitted && f['cin'].errors }"
-          />
-          <div *ngIf="submitted && f['cin'].errors" class="invalid-feedback">
-            <div *ngIf="f['cin'].errors['required']">Cin is required</div>
-          </div>
-        </div>
-        <div class="input-box">
-          <input
-            type="text"
-            formControlName="username"
-            class="input-field"
-            placeholder="Username"
-            [ngClass]="{ 'is-invalid': submitted && f['username'].errors }"
-          />
-          <div *ngIf="submitted && f['username'].errors" class="invalid-feedback">
-            <div *ngIf="f['username'].errors['required']">Username is required</div>
-          </div>
-        </div>
-  
-    <div *ngIf="showModeratorField" class="input-box">
-        <label class="form-label">Region to control:</label>
-        <select
-            formControlName="moderatorZone"
-            class="input-field"
-            [ngClass]="{ 'is-invalid': submitted && f['moderatorZone'].errors }"
-        >
-            <option [value]="actualReg ? actualReg._id : ''">{{ actualReg ? actualReg.name : 'Select Region' }}</option>
-            <option *ngFor="let region of regions" [value]="region._id">{{region.name}}</option>
-        </select>
-        <div *ngIf="submitted && f['moderatorZone'].errors" class="invalid-feedback">
-            <div *ngIf="f['moderatorZone'].errors['required']">A region is required</div>
-        </div>
+﻿<div class="contain">
+  <div class="login-box">
+    <div class="login-header">
+      <header>{{ 'account.title' | translate }}</header>  
+      <button *ngIf="title === 'Edit Account'" class="back-button mt-2" (click)="exportUserToPDF()">{{ 'account.exportToPDF' | translate }}</button>
     </div>
-  
-    <div *ngIf="showUserField" class="input-box">
-      <div class="between">
-       <!--  <label class="form-label">City: {{ actualCityName }}</label> -->
-        <!-- <p class="btn" (click)="changecity()">Change city ?</p> -->
+    <form *ngIf="!loading" [formGroup]="form" (ngSubmit)="onSubmit()">
+      <!-- Full Name -->
+      <div class="input-box">
+        <input
+          type="text"
+          formControlName="fullName"
+          class="input-field"
+          placeholder="{{ 'account.fullName' | translate }}"
+          [ngClass]="{ 'is-invalid': submitted && f['fullName'].errors }"
+        />
+        <div *ngIf="submitted && f['fullName'].errors" class="invalid-feedback">
+          <div *ngIf="f['fullName'].errors['required']">{{ 'account.fullNameRequired' | translate }}</div>
+        </div>
       </div>
-        
-        <select
-            formControlName="city"
-            class="input-field"
-            [ngClass]="{ 'is-invalid': submitted && f['city'].errors }"
-        >
-            <option [value]="actualCity ? actualCity._id : ''">{{ actualCity ? actualCity.name : 'Select City' }}</option>
+      <!-- CIN -->
+      <div class="input-box">
+        <input type="text" formControlName="cin" class="input-field" placeholder="{{ 'account.cin' | translate }}" [ngClass]="{ 'is-invalid': submitted && f['cin'].errors }"
+        />
+        <div *ngIf="submitted && f['cin'].errors" class="invalid-feedback">
+          <div *ngIf="f['cin'].errors['required']">{{ 'account.cinRequired' | translate }}</div>
+        </div>
+      </div>
+      <!-- Username -->
+      <div class="input-box">
+        <input
+          type="text"
+          formControlName="username"
+          class="input-field"
+          placeholder="{{ 'account.username' | translate }}"
+          [ngClass]="{ 'is-invalid': submitted && f['username'].errors }"
+        />
+        <div *ngIf="submitted && f['username'].errors" class="invalid-feedback">
+          <div *ngIf="f['username'].errors['required']">{{ 'account.usernameRequired' | translate }}</div>
+        </div>
+      </div>
+      <!-- Region Selection -->
+      <div *ngIf="showModeratorField" class="input-box">
+          <label class="form-label">{{ 'account.regionControl' | translate }}</label>
+          <select formControlName="moderatorZone" class="input-field" [ngClass]="{ 'is-invalid': submitted && f['moderatorZone'].errors }">
+              <option [value]="actualReg ? actualReg._id : ''">{{ actualReg ? actualReg.name : ('account.selectRegion' | translate) }}</option>
+              <option *ngFor="let region of regions" [value]="region._id">{{region.name}}</option>
+          </select>
+          <div *ngIf="submitted && f['moderatorZone'].errors" class="invalid-feedback">
+              <div *ngIf="f['moderatorZone'].errors['required']">{{ 'account.regionRequired' | translate }}</div>
+          </div>
+      </div>
+      <!-- City Selection -->
+      <div *ngIf="showUserField" class="input-box">
+        <label class="form-label">{{ 'account.cityControl' | translate }}</label>
+        <select formControlName="city" class="input-field" [ngClass]="{ 'is-invalid': submitted && f['city'].errors }">
+            <option [value]="actualCity ? actualCity._id : ''">{{ actualCity ? actualCity.name : ('account.selectCity' | translate) }}</option>
             <option *ngFor="let city of cities" [value]="city._id">{{city.name}}</option>
         </select>
         <div *ngIf="submitted && f['city'].errors" class="invalid-feedback">
-            <div *ngIf="f['city'].errors['required']">City is required</div>
+            <div *ngIf="f['city'].errors['required']">{{ 'account.cityRequired' | translate }}</div>
         </div>
-    </div>
-        <div *ngIf="id">
-          <h3 class="pt-3">Change Password</h3>
-          <p>Leave blank to keep the same password</p>
-        </div>
-        <div class="input-box">
-          <input
-            type="password"
-            formControlName="password"
-            class="input-field"
-            placeholder="Password"
-            [ngClass]="{ 'is-invalid': submitted && f['password'].errors }"
-          />
-          <div *ngIf="submitted && f['password'].errors" class="invalid-feedback">
-            <div *ngIf="f['password'].errors['required']">Password is required</div>
-            <div *ngIf="f['password'].errors['minlength']">Password must be at least 6 characters</div>
-          </div>
-        </div>
-        <div class="input-box">
-          <input
-            type="password"
-            formControlName="confirmPassword"
-            class="input-field"
-            placeholder="Confirm Password"
-            [ngClass]="{ 'is-invalid': submitted && f['confirmPassword'].errors }"
-          />
-          <div *ngIf="submitted && f['confirmPassword'].errors" class="invalid-feedback">
-            <div *ngIf="f['confirmPassword'].errors['required']">Confirm Password is required</div>
-            <div *ngIf="f['confirmPassword'].errors['mustMatch']">Passwords must match</div>
-          </div>
-        </div>
-        <div class="input-submit">
-          <button class="submit-btn" [disabled]="submitting">
-            <span *ngIf="submitting" class="spinner-border spinner-border-sm me-1"></span>
-            Save
-          </button>
-          <a routerLink="/admin/accounts" class="btn btn-link">Cancel</a>
-        </div>
-      </form>
-      <div *ngIf="loading" class="text-center m-5">
-        <span class="spinner-border spinner-border-lg align-center"></span>
       </div>
+      <!-- Password Fields -->
+      <div *ngIf="id">
+        <h3 class="pt-3">{{ 'account.changePasswordTitle' | translate }}</h3>
+        <p>{{ 'account.changePasswordHint' | translate }}</p>
+      </div>
+      <div class="input-box">
+        <input
+          type="password"
+          formControlName="password"
+          class="input-field"
+          placeholder="{{ 'account.password' | translate }}"
+          [ngClass]="{ 'is-invalid': submitted && f['password'].errors }"
+        />
+        <div *ngIf="submitted && f['password'].errors" class="invalid-feedback">
+          <div *ngIf="f['password'].errors['required']">{{ 'account.passwordRequired' | translate }}</div>
+          <div *ngIf="f['password'].errors['minlength']">{{ 'account.passwordMinLength' | translate }}</div>
+        </div>
+      </div>
+      <div class="input-box">
+        <input
+          type="password"
+          formControlName="confirmPassword"
+          class="input-field"
+          placeholder="{{ 'account.confirmPassword' | translate }}"
+          [ngClass]="{ 'is-invalid': submitted && f['confirmPassword'].errors }"
+        />
+        <div *ngIf="submitted && f['confirmPassword'].errors" class="invalid-feedback">
+          <div *ngIf="f['confirmPassword'].errors['required']">{{ 'account.confirmPasswordRequired' | translate }}</div>
+          <div *ngIf="f['confirmPassword'].errors['mustMatch']">{{ 'account.passwordMustMatch' | translate }}</div>
+        </div>
+      </div>
+      <!-- Submit Button -->
+      <div class="input-submit">
+        <button class="submit-btn" [disabled]="submitting">
+          <span *ngIf="submitting" class="spinner-border spinner-border-sm me-1"></span>
+          {{ 'account.save' | translate }}
+        </button>
+        <a routerLink="/admin/accounts" class="btn btn-link">{{ 'account.cancel' | translate }}</a>
+      </div>
+    </form>
+    <!-- Loading State -->
+    <div *ngIf="loading" class="text-center m-5">
+      <span class="spinner-border spinner-border-lg align-center"></span>
     </div>
   </div>
-  
+</div>

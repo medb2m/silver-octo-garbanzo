@@ -3,6 +3,13 @@ import { Account } from '@app/_models';
 import { AccountService, RegionService } from '@app/_services';
 
 import { Role } from '@app/_models';
+import { Router } from '@angular/router';
+import { Chart, registerables } from 'chart.js';
+import { TranslateService } from '@ngx-translate/core';
+import { DashboardService } from '@app/_services/dashboard.service';
+
+
+
 
 
 @Component({
@@ -11,6 +18,8 @@ import { Role } from '@app/_models';
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent {
+
+    selectedRegionId?: string;
 
   // initial declaration 
     account?: Account | null;
@@ -33,8 +42,10 @@ export class DashboardComponent {
 
   constructor(
     private regionService: RegionService,
-    private accountService : AccountService
-  ) { }
+    private accountService : AccountService,
+    private router: Router,
+    private translate: TranslateService,
+  ) {}
 
   ngOnInit() {
     this.accountService.account.subscribe(x => {
@@ -48,7 +59,6 @@ export class DashboardComponent {
         this.fetchAllData();
     }
     });
-
 
     this.regionService.selectedRegion$.subscribe(region => {
       this.selectedRegion = region;
@@ -64,6 +74,9 @@ export class DashboardComponent {
     this.regionService.selectedCity$.subscribe(city => {
       this.selectedCity = city;
     });
+  }
+
+  ngOnDestroy() {
   }
 
   fetchAllData(): void {
@@ -87,76 +100,5 @@ export class DashboardComponent {
     }
   }
 
-
-  // Search bar logic 
-    filteredResults: any[] = [];
-      search(event: Event): void {
-        const inputElement = event.target as HTMLInputElement;
-        const term = inputElement.value;
-        if (!term) {
-          this.searchResults = [];
-          return;
-        }
-        const lowerTerm = term.toLowerCase();
-      
-        // Filter regions, delegations, and cities
-        const filteredRegions = this.allRegions.filter(region => region.name.toLowerCase().includes(lowerTerm));
-        const filteredDelegations = this.allDelegations.filter(delegation => delegation.name.toLowerCase().includes(lowerTerm));
-        const filteredCities = this.allCities.filter(city => city.name.toLowerCase().includes(lowerTerm));
-      
-        // Map and display cities with their associated region and delegation
-        this.searchResults = [
-          ...filteredRegions.map(region => ({ ...region, type: 'Region', hierarchy: region.name })),
-          ...filteredDelegations.map(delegation => {
-            const region = this.allRegions.find(r => r.id === delegation.regionId);
-            return {
-              ...delegation,
-              type: 'Delegation',
-              hierarchy: `${region?.name} > ${delegation.name}`,
-            };
-          }),
-          ...filteredCities.map(city => {
-            const delegation = this.allDelegations.find(d => d.id === city.delegationId);
-            const region = this.allRegions.find(r => r.id === delegation?.regionId);
-            return {
-              ...city,
-              type: 'City',
-              hierarchy: `${region?.name} > ${delegation?.name} > ${city.name}`,
-            };
-          })
-        ];
-      }
-      
-        selectSearchResult(result: any): void {
-          if (result.type === 'Region') {
-              this.selectedRegion = result;
-              this.regionService.setSelectedRegion(result);
-          } else if (result.type === 'Delegation') {
-              // Find and select the corresponding region first
-              const associatedRegion = this.allRegions.find(region => region.id === result.regionId);
-              if (associatedRegion) {
-                  this.selectedRegion = associatedRegion;
-                  this.regionService.setSelectedRegion(associatedRegion);
-              }
-              this.selectedDelegation = result;
-              this.regionService.setSelectedDelegation(result);
-          } else if (result.type === 'City') {
-              // Find and select the corresponding delegation and region first
-              const associatedDelegation = this.allDelegations.find(delegation => delegation.id === result.delegationId);
-              if (associatedDelegation) {
-                  const associatedRegion = this.allRegions.find(region => region.id === associatedDelegation.regionId);
-                  if (associatedRegion) {
-                      this.selectedRegion = associatedRegion;
-                      this.regionService.setSelectedRegion(associatedRegion);
-                  }
-                  this.selectedDelegation = associatedDelegation;
-                  this.regionService.setSelectedDelegation(associatedDelegation);
-              }
-              this.selectedCity = result;
-              this.regionService.setSelectedCity(result);
-          }
-          // Hide search suggestions by clearing search results
-          this.searchResults = [];
-      }
-      
+  
 }

@@ -1,102 +1,118 @@
-.report-card {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: #ffffff;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  padding: 20px;
-  margin-bottom: 15px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  transition: box-shadow 0.3s ease, transform 0.3s ease; /* Added transform for scaling effect */
-}
-
-.report-card:hover {
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-  transform: translateY(-2px); /* Lift effect on hover */
-}
-
-.report-card-content {
-  flex-grow: 1;
-}
-
-.report-by,
-.report-title {
-  margin: 0;
-  font-size: 1rem;
-  color: #333; /* Change text color for better readability */
-}
-
-.status-indicator {
-  display: inline-block;
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  transition: background-color 0.3s ease; /* Smooth transition for status changes */
-}
-
-.search-input {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  margin-bottom: 10px;
-  font-size: 14px;
-  transition: border-color 0.3s ease; /* Added transition for border color */
-}
-
-.search-input:focus {
-  border-color: #007bff; /* Change border color on focus */
-}
-
-.dropdown {
-  width: 100%;
-  height: 50px;
-  padding: 10px 15px;
-  border: 2px solid #ccc;
-  border-radius: 5px;
-  font-size: 16px;
-  background-color: #fff;
-  color: #333;
-  cursor: pointer;
-  transition: border-color 0.3s ease, background-color 0.3s ease;
-}
-
-.dropdown:hover {
-  border-color: #666;
-}
-
-.dropdown:focus {
-  outline: none;
-  border-color: #007bff;
-  background-color: #f9f9f9;
-}
-
-.filter-section {
-  margin: 20px 0;
-  display: flex;
-  align-items: center;
-}
-
-.icon {
-  font-size: 24px;
-  font-weight: bold;
-  margin-right: 10px;
-  color: #333;
-}
-
-.filter-btn {
-  background: #28666e;
-  color: #fff;
-  padding: 10px 20px;
+/* Modern Search Bar */
+.modern-search-bar {
+  border-radius: 25px;
+  padding-left: 40px;
+  background-color: #f1f3f4;
   border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 1rem;
-  margin-right: 10px;
-  transition: background 0.3s ease;
+  transition: box-shadow 0.3s ease-in-out;
 }
 
-.filter-btn:hover {
-  background: #0d1819;
+.modern-search-bar:focus {
+  box-shadow: 0 0 10px rgba(0, 123, 255, 0.5);
+  background-color: white;
+}
+
+.filter-section .icon {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #999;
+}
+
+/* Show All Reports Link */
+.show-all-reports {
+  margin-left: 20px;
+  color: #007bff;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.show-all-reports:hover {
+  text-decoration: underline;
+}
+
+/* Dropdown Filters */
+.filter-dropdown {
+  margin-top: 10px;
+}
+
+.in-table-dropdown {
+  margin-top: 5px;
+}
+
+.in-table-dropdown button {
+  background-color: #f1f1f1;
+  border: none;
+  padding: 5px;
+  font-size: 0.9rem;
+}
+
+.in-table-dropdown .dropdown-menu {
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+/* Sort Icons */
+.sort-icon {
+  margin-left: 5px;
+}
+
+.table-hover tbody tr:hover {
+  background-color: rgba(0, 0, 0, 0.075);
+}
+
+.clickable-column {
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.clickable-column:hover {
+  background-color: #f5f5f5;
+}
+
+/* No Reports Message */
+.no-reports-message {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 20px;
+  text-align: center;
+  background-color: #f9f9f9;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  margin: 20px 0;
+  transition: all 0.3s ease;
+  color: #333;
+}
+
+.no-reports-message i {
+  font-size: 48px;
+  color: #ff6b6b;
+  margin-bottom: 10px;
+}
+
+.no-reports-message p {
+  font-size: 18px;
+  color: #555;
+  font-weight: 500;
+}
+
+/* Row Highlight on Hover */
+.report-row {
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.report-row:hover {
+  background-color: rgba(0, 123, 255, 0.15);
+}
+
+/* Status Indicator */
+.status-indicator {
+  width: 20px;
+  height: 20px;
+  display: inline-block;
+  border-radius: 50%;
 }

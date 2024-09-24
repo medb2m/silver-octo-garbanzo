@@ -11,18 +11,16 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./report-list.component.css']
 })
 export class ReportListComponent {
-
   @Input() cityId!: string;
-  @Input() workerId!: string; // New Input for workerId
+  @Input() workerId!: string;
   @Output() reportSelected = new EventEmitter<string>();
 
   reports: Report[] = [];
   filteredReports: any[] = [];
-  sortOrder: 'asc' | 'desc' = 'desc'; // default sort order
+  sortOrder: 'asc' | 'desc' = 'desc';
+  sortField: string = 'date'; // Default sorting by date
   workerMode: boolean = false;
-  traiteFilter = 'Nontraited';
-  title: string = 'List of Reports';
-  id: any
+  id : any
 
   constructor(
     private reportService: ReportService,
@@ -31,51 +29,32 @@ export class ReportListComponent {
     private modalService: NgbModal
   ) {}
 
-  /* ngOnInit() {
-    this.id = this.route.snapshot.params['id'];
+  ngOnInit() {
+    // Fetch reports based on cityId, workerId, or all
+    this.route.paramMap.subscribe(params => {
+      const idFromRoute = params.get('id');
+      this.id = idFromRoute;
+      
+      this.route.queryParams.subscribe(queryParams => {
+        const type = queryParams['type'];
 
-    if (this.workerId) {
-      this.workerMode = true;
-      this.title = 'Reports for Reporter';
-      this.fetchWorkerReports(this.workerId);
-    } else if (this.cityId) {
-      this.title = 'Reports for City';
-      this.fetchReportsByCity();
-    } else if (this.id) {
-      this.workerMode = true;
-      this.title = 'Reports for Reporter';
-      this.fetchWorkerReports(this.id);
-    } else {
-      this.title = 'All Reports';
-      this.fetchAllReports();
-    }
-  } */
-
-    ngOnInit() {
-      this.route.paramMap.subscribe(params => {
-        const idFromRoute = params.get('id');  // Read ID from the URL
-        this.id = idFromRoute;
-        
-        this.route.queryParams.subscribe(queryParams => {
-          const type = queryParams['type'];  // Read 'type' from query parameters
-    
-          if (type === 'city' && this.id) {
-            this.cityId = this.id;
-            this.title = 'Reports for City';
-            this.fetchReportsByCity();
-          } else if (type === 'worker' && this.id) {
-            this.workerId = this.id;
-            this.workerMode = true;
-            this.title = 'Reports for Reporter';
-            this.fetchWorkerReports(this.workerId);
-          } else {
-            this.title = 'All Reports';
-            this.fetchAllReports();
-          }
-        });
+        if (type === 'city' && this.id) {
+          this.cityId = this.id;
+          this.fetchReportsByCity();
+        } else if (type === 'worker' && this.id) {
+          this.workerId = this.id;
+          //this.workerMode = true;
+          this.fetchWorkerReports(this.workerId);
+        } else {
+          this.fetchAllReports();
+        }
       });
-    }
-    
+    });
+
+    // work 
+    this.locations = this.reports.map(report => `${report.region.name} / ${report.delegation.name} / ${report.city.name}`);
+    this.filteredLocations = [...this.locations];
+  }
 
   fetchReportsByCity() {
     this.reportService.getReportsByCity(this.cityId).subscribe((data: any) => {
@@ -93,6 +72,7 @@ export class ReportListComponent {
 
   fetchAllReports() {
     this.reportService.getAllReports().subscribe(data => {
+      console.log(data)
       this.reports = data.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
       this.filteredReports = [...this.reports];
     });
@@ -100,40 +80,75 @@ export class ReportListComponent {
 
   filterReports(event: Event) {
     const searchTerm = (event.target as HTMLInputElement).value.toLowerCase();
-    this.filteredReports = this.reports.filter(report =>
-      report.worker.fullName.toLowerCase().includes(searchTerm) ||
-      report.worker.city.name.toLowerCase().includes(searchTerm)
-    );
+    this.filteredReports = this.reports.filter(report => {
+      return (
+        report.worker.fullName.toLowerCase().includes(searchTerm) ||
+        report.city.name.toLowerCase().includes(searchTerm) ||
+        report.region.name.toLowerCase().includes(searchTerm) ||
+        report.delegation.name.toLowerCase().includes(searchTerm) ||
+        report.content.toLowerCase().includes(searchTerm) ||  
+        (report.traiter ? 'treated' : 'non-treated').includes(searchTerm) // Search by treated status
+      );
+    });
   }
 
   sortReports(event: Event) {
     const sortValue = (event.target as HTMLSelectElement).value as 'asc' | 'desc' | 'traited' | 'nontraited';
-    
+    this.sortField = 'date'; // Default sorting field is date
+
     if (sortValue === 'asc' || sortValue === 'desc') {
-      this.filteredReports = this.filteredReports.sort((a, b) => {
-        const dateA = new Date(a.date).getTime();
-        const dateB = new Date(b.date).getTime();
-        return sortValue === 'asc' ? dateA - dateB : dateB - dateA;
-      });
+      this.sortOrder = sortValue;
+      this.sortBy(this.sortField); // Apply sorting to date column
     } else if (sortValue === 'traited') {
       this.filteredReports = this.reports.filter(report => report.traiter);
     } else if (sortValue === 'nontraited') {
       this.filteredReports = this.reports.filter(report => !report.traiter);
     }
   }
+
+  sortBy(field: string) {
+    this.sortField = field;
+    this.filteredReports.sort((a, b) => {
+      let valA, valB;
   
-
-  filterReportsLast24Hours() {
-    const now = new Date().getTime();
-    const oneDayAgo = now - 24 * 60 * 60 * 1000;
-
-    this.filteredReports = this.reports.filter(report => {
-      const reportDate = new Date(report.date).getTime();
-      return reportDate >= oneDayAgo;
+      if (field === 'date') {
+        valA = new Date(a[field]).getTime();
+        valB = new Date(b[field]).getTime();
+      } else {
+        valA = a[field]?.toString().toLowerCase();
+        valB = b[field]?.toString().toLowerCase();
+      }
+  
+      if (this.sortOrder === 'asc') {
+        return valA > valB ? 1 : -1;
+      } else {
+        return valA < valB ? 1 : -1;
+      }
     });
   }
 
   gotoReport(id: string) {
-    this.router.navigate([`/admin/dashboard/report/view/${id}`])
+    this.router.navigate([`/admin/dashboard/report/view/${id}`]);
   }
+
+
+  // work 
+  filteredLocations: string[] = [];
+  locations: string[] = [];
+
+  filterDropdown(event: Event) {
+    const searchTerm = (event.target as HTMLInputElement).value.toLowerCase();
+    this.filteredLocations = this.locations.filter(location => location.toLowerCase().includes(searchTerm));
+  }
+
+  selectLocation(item: string) {
+    // Logic to filter reports based on the selected location from the dropdown
+    const [region, delegation, city] = item.split(' / ');
+    this.filteredReports = this.reports.filter(report => 
+      report.region.name === region && 
+      report.delegation.name === delegation && 
+      report.city.name === city
+    );
+  }
+
 }

@@ -1,4 +1,4 @@
-import { Component, SimpleChanges, TemplateRef, ViewChild } from '@angular/core';
+import { Component, Input, SimpleChanges, TemplateRef, ViewChild } from '@angular/core';
 import { AccountService, RegionService } from '@app/_services';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
@@ -12,12 +12,12 @@ export class RegionsComponent {
 
   @ViewChild('userPopup') popupTemplate!: TemplateRef<any>;
   @ViewChild('userInfoPopup') userInfoPopup!: TemplateRef<any>;
+  selectedRegion: any;
 
   selectedUserId!: string ; 
   
   regions: any[] = []
   filteredRegions: any[] = [];
-  selectedRegion : any
 
   showComponents = true; 
   users: any[] = [];
@@ -56,6 +56,7 @@ export class RegionsComponent {
   selectRegion(region: any) {
     this.selectedRegion = region;
     this.regionService.setSelectedRegion(region);
+    console.log('select region '+ region)
   }
 
   ngOnChanges(changes: SimpleChanges): void {

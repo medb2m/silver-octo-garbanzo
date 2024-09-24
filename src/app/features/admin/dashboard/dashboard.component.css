@@ -53,3 +53,57 @@
 .search-suggestions li:hover {
   background-color: #f0f0f0;
 }
+
+
+/***   Map styling ****/
+
+/* .tunisia-map-container {
+  max-width: 100%;
+  height: auto;
+} */
+
+.tooltip {
+  position: absolute;
+  background-color: rgba(255, 255, 255, 0.8);
+  border: 1px solid #ccc;
+  padding: 5px;
+  border-radius: 4px;
+  pointer-events: none; /* Prevent tooltip from blocking mouse events */
+  transition: opacity 0.2s;
+}
+
+.tunisia-map-container {
+  position: relative; /* Required for tooltip positioning */
+}
+
+.region {
+  fill: #ccc;
+  stroke: #333;
+  cursor: pointer;
+}
+
+.region:hover {
+  fill: #007bff; /* Highlight on hover */
+}
+
+.region.active {
+  fill: #0056b3; /* Highlight on click */
+}
+
+/*******  statistics   ******/
+
+.statistics-container {
+  display: flex;
+  justify-content: space-between; /* Adjust spacing between the components */
+  align-items: flex-start; /* Align items vertically */
+  padding: 16px; /* Add some padding if needed */
+}
+
+app-statistics, app-tun-map {
+  flex: 1; /* Allow components to grow equally */
+  margin: 0 8px; /* Add some margin between the components */
+  border: 1px solid #ccc; /* Optional: add a border for visual separation */
+  border-radius: 8px; /* Optional: round the corners */
+  padding: 16px; /* Add some padding inside the components */
+  background-color: #f9f9f9; /* Optional: background color */
+}

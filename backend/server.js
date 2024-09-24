@@ -96,6 +96,8 @@ app.use('/img', express.static(path.join(__dirname, 'public', 'images')))
 app.use('/vid', express.static(path.join(__dirname, 'public', 'videos')))
 // Pdfs Routes
 app.use('/pdf', express.static(path.join(__dirname, 'public', 'pdf')))
+// map
+app.use('/map', express.static(path.join(__dirname, 'public', 'map')))
 
 
 // auth routes

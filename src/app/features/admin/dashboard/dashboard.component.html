@@ -1,20 +1,8 @@
-<!-- statistics -->
-<app-statistics></app-statistics>
-
-<!-- Search Bar -->
-<div class="search-bar">
-  <input type="text" placeholder="{{ 'searchPlaceholder' | translate }}" 
-  (input)="search($event)" class="search-input" />
-  
-  <!-- Search Result Suggestions -->
-  <ul *ngIf="searchResults.length > 0" class="search-suggestions">
-    <li *ngFor="let result of searchResults" (click)="selectSearchResult(result)">
-      <span *ngIf="result.type === 'Region'">{{ 'regionLabel' | translate }}: {{ result.name }}</span>
-      <span *ngIf="result.type === 'Delegation'">{{ 'delegationLabel' | translate }}: {{ result.name }}</span>
-      <span *ngIf="result.type === 'City'">{{ 'cityLabel' | translate }}: {{ result.name }}</span>
-    </li>
-  </ul>
+<div class="statistics-container">
+  <app-statistics></app-statistics>
+  <app-tun-map></app-tun-map> 
 </div>
+
 
 <!-- dashboard content -->
 <div class="dashboard">
@@ -22,7 +10,7 @@
     <regions></regions> 
   </div>
   <div class="delegations" *ngIf="selectedRegion">
-    <delegations></delegations>
+    <delegations [selectedRegion]="selectedRegion"></delegations>
   </div>
   <div class="cities" *ngIf="selectedDelegation">
     <cities></cities>

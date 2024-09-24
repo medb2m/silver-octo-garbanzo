@@ -103,7 +103,6 @@
   "dateAscending": "Date Ascending",
   "dateDescending": "Date Descending",
   "nonTreatedReports": "Non-Treated Reports",
-  "treatedReports": "Treated Reports",
   "searchPlaceholder": "Search...",
   "reportBy": "By",
   "at": "at",
@@ -152,7 +151,28 @@
         "cancel": "Cancel"
     },
     "region": "Region",
-    "regionRequired": "Region is required"
+    "regionRequired": "Region is required",
+    "DASHBOARD": "Dashboard",
+  "ACCOUNTS": "Accounts",
+  "REPORTS": "Reports",
+  "REGIONS": "Regions",
+  "DELEGATIONS": "Delegations",
+  "CITIES": "Cities",
+  "SOCIAL_LINKS": "Social Links",
+  "report": {
+    "traited": "Report treated",
+    "markAsSeen": "Mark as seen",
+    "option1": "Option 1",
+    "option2": "Option 2",
+    "imageAlt": "Report Image",
+    "selectedImageAlt": "Selected Report Image",
+    "exportToPDF": "Export Report to PDF"
+  },
+  "reportCount": "Number of Reports",
+  "treatedReports": "Treated Reports",
+  "untreatedReport": "Untreated Reports",
+  "numberofReporters": "Number of Reporters",
+  "importantReports": "Important Reports"
     
 }
   
