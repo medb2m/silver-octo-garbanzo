@@ -180,6 +180,25 @@ export class TunMapComponent {
     }
   }
 
+  openRegionPopup(regionData: any) {
+    // Fetch the reports for the selected region
+    this.regionService.getReportsByRegionId(regionData.value).subscribe(regionDetails => {
+      const treatedReports = regionDetails.reports.filter((report: any) => report.status === 'treated');
+      const untreatedReports = regionDetails.reports.filter((report: any) => report.status === 'untreated');
+  
+      this.selectedRegion = {
+        ...regionData,
+        reportCount: regionDetails.reportCount,
+        workerCount: regionDetails.workerCount,
+        treatedReports: treatedReports.length,
+        untreatedReports: untreatedReports.length,
+      };
+  
+      // Open the modal with region-specific details
+      this.modalService.open(this.regionInfoPop, { centered: true });
+    });
+  }
+
   previousData = {
     reportCount: 101,
     treatedReports: 0,
@@ -188,7 +207,7 @@ export class TunMapComponent {
     option1Reports: 0,
   };
   
-  openRegionPopup(regionData: any) {
+  /* openRegionPopup(regionData: any) {
     // Fetch the reports and workers for the selected region
     this.regionService.getRegionDetails(regionData._id).subscribe(regionDetails => {
       this.selectedRegion = {
@@ -203,7 +222,7 @@ export class TunMapComponent {
       // Open the modal with region-specific details
       this.modalService.open(this.regionInfoPop, { centered: true });
     });
-  }
+  } */
 
   @ViewChild('regionInfoPop') regionInfoPop!: TemplateRef<any>;
 

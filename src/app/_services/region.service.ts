@@ -127,6 +127,11 @@ export class RegionService {
   }
 
 
+  getReportsByRegionId(regionId: string): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/region/${regionId}/reports`);
+  }
+
+
   // static value for map infos : 
   getRegionDetails(regionId: string) {
     // Static values for demonstration

@@ -35,21 +35,21 @@
           <h4>{{ 'treatedReports' | translate }}</h4>
           <div class="report-info">
             <p>{{ selectedRegion.treatedReports }}</p>
-        <span [ngClass]="{'icon-up': selectedRegion.treatedReports > previousData.treatedReports, 'icon-down': selectedRegion.treatedReports < previousData.treatedReports}">
-          <i class="bi" [ngClass]="selectedRegion.treatedReports > previousData.treatedReports ? 'bi-arrow-up' : 'bi-arrow-down'"></i>
-        </span>
+            <span [ngClass]="{'icon-up': selectedRegion.treatedReports > previousData.treatedReports, 'icon-down': selectedRegion.treatedReports < previousData.treatedReports}">
+              <i class="bi" [ngClass]="selectedRegion.treatedReports > previousData.treatedReports ? 'bi-arrow-up' : 'bi-arrow-down'"></i>
+            </span>
           </div>
         </div>
       </div>
-
+      
       <div class="dashboard-card">
         <div class="dashboard-content">
-          <h4>{{ 'untreatedReport' | translate }}</h4>
+          <h4>{{ 'untreatedReports' | translate }}</h4>
           <div class="report-info">
             <p>{{ selectedRegion.untreatedReports }}</p>
-        <span [ngClass]="{'icon-up': selectedRegion.untreatedReports > previousData.untreatedReports, 'icon-down': selectedRegion.untreatedReports < previousData.untreatedReports}">
-          <i class="bi" [ngClass]="selectedRegion.untreatedReports > previousData.untreatedReports ? 'bi-arrow-up' : 'bi-arrow-down'"></i>
-        </span>
+            <span [ngClass]="{'icon-up': selectedRegion.untreatedReports > previousData.untreatedReports, 'icon-down': selectedRegion.untreatedReports < previousData.untreatedReports}">
+              <i class="bi" [ngClass]="selectedRegion.untreatedReports > previousData.untreatedReports ? 'bi-arrow-up' : 'bi-arrow-down'"></i>
+            </span>
           </div>
         </div>
       </div>
@@ -68,8 +68,8 @@
       </div>
 
 
-
-      <div class="dashboard-card">
+      <!-- Important reports  -->
+      <!-- <div class="dashboard-card">
         <div class="dashboard-content">
           <h4>{{ 'importantReports' | translate }}</h4>
           <div class="report-info">
@@ -79,7 +79,7 @@
         </span>
           </div>
         </div>
-      </div>
+      </div> -->
     </div>
   </div>
 </ng-template>

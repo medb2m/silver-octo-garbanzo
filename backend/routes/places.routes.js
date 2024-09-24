@@ -15,6 +15,22 @@ router.put('/regions/:id', authorize(), updateRegion);
 router.delete('/regions/:id', authorize(), deleteRegion);
 router.put('/regions/moderator/:regionId/:moderatorId', authorize(), addModerator);
 router.put('/regions/removemoderator/:regionId/:moderatorId', authorize(), removeModerator);
+router.get('/region/:regionId/reports', async (req, res) => {
+    const { regionId } = req.params;
+  
+    try {
+      const reports = await Report.find({ region: regionId });
+      const workerCount = await User.countDocuments({ region: regionId });
+  
+      res.json({
+        reportCount: reports.length,
+        workerCount,
+        reports,  // Contains the full report data
+      });
+    } catch (err) {
+      res.status(500).json({ message: 'Error fetching region reports' });
+    }
+  });
 
 // delegation routes
 router.post('/delegations', authorize(), createDelegation);
