@@ -28,7 +28,7 @@ const imageStorage = diskStorage({
 
 // Middleware Multer pour l'upload d'images
 const uploadImage = multer({
-    storage: imageStorage,
+    storage: imageStorage,  
     // Limite de taille maximale pour les images (10 Mo)
     limits: { fileSize: 10 * 1024 * 1024 }, // Taille max des images : 10 Mo
     // Filtre pour les types MIME autorisés pour les images

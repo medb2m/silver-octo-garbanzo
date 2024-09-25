@@ -16,6 +16,7 @@ import { StatisticsComponent } from './statistics/statistics.component';
 import { SharedModule } from '@app/shared';
 import { TunMapComponent } from './tun-map/tun-map.component';
 import { DelegationModListComponent } from "./delegation-mod-list/delegation-mod-list.component";
+import { ExitConfirmComponent } from './report-view/exit-confirm.component';
 
 
 
@@ -40,7 +41,8 @@ import { DelegationModListComponent } from "./delegation-mod-list/delegation-mod
     StatisticsComponent,
     TunMapComponent,
     SharedModule,
-    DelegationModListComponent
+    DelegationModListComponent,
+    ExitConfirmComponent
 ]
 })
 export class DashboardModule { }

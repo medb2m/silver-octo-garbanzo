@@ -16,23 +16,28 @@ export class addReportComponent {
   selectedFiles: File[] = [];
   selectedImages: string[] = [];
 
-  constructor(private fb: FormBuilder, private reportService: ReportService, private alert : AlertService) { }
+  constructor(private fb: FormBuilder, private reportService: ReportService, private alert: AlertService) { }
 
   ngOnInit(): void {
     this.form = this.fb.group({
       content: ['', Validators.required],
-      machaghel: ['', Validators.required],
-      machakel_alyawm: ['', Validators.required],
-      houloul: ['', Validators.required],
-      concurence: [false, Validators.required],
-      concurrenceDetails: [''],
-      propositions: ['', Validators.required],
-      images: [null]
+      important: [false],  // New important checkbox
+      importanceLevel: [null],  // New importance level select
+      importantDescription: [''],  // New importance description textarea
+      images: [null],
+    });
+
+    // Subscribe to changes on the important checkbox
+    this.form.get('important')?.valueChanges.subscribe(checked => {
+      if (!checked) {
+        this.form.get('importanceLevel')?.reset();
+        this.form.get('importantDescription')?.reset();
+      }
     });
 
     // Subscribe to changes on the concurence checkbox
     this.form.get('concurence')?.valueChanges.subscribe(checked => {
-      console.log('checked is '+ checked)
+      console.log('checked is ' + checked)
       if (!checked) {
         this.form.get('concurrenceDetails')?.reset();
       }
@@ -41,40 +46,39 @@ export class addReportComponent {
 
   get f() { return this.form.controls; }
 
-    onFileChange(event: any) {
-      const files = event.target.files;
-      if (files && files.length > 0) {
-        this.selectedFiles = Array.from(files);
-        this.selectedImages = [];
-  
-        this.selectedFiles.forEach(file => {
-          const reader = new FileReader();
-          reader.onload = (e: any) => {
-            this.selectedImages.push(e.target.result);
-          };
-          reader.readAsDataURL(file);
-        });
-      }
-    }
+  onFileChange(event: any) {
+    const files = event.target.files;
+    if (files && files.length > 0) {
+      this.selectedFiles = Array.from(files);
+      this.selectedImages = [];
 
-    triggerFileInput() {
-      const fileInput = document.getElementById('fileInput') as HTMLInputElement;
-      fileInput.click();
+      this.selectedFiles.forEach(file => {
+        const reader = new FileReader();
+        reader.onload = (e: any) => {
+          this.selectedImages.push(e.target.result);
+        };
+        reader.readAsDataURL(file);
+      });
     }
-    
-    
+  }
 
-    removeImage(index: number) {
-      this.selectedFiles.splice(index, 1);
-      this.selectedImages.splice(index, 1);
-    }
+  triggerFileInput() {
+    const fileInput = document.getElementById('fileInput') as HTMLInputElement;
+    fileInput.click();
+  }
 
 
-    onImageClick(index: number) {
-      //return URL.createObjectURL(file);
-      // Logic to handle image click, like opening a modal for a larger view
-      console.log(`Image at index ${index} clicked`);
-    }
+  removeImage(index: number) {
+    this.selectedFiles.splice(index, 1);
+    this.selectedImages.splice(index, 1);
+  }
+
+
+  onImageClick(index: number) {
+    //return URL.createObjectURL(file);
+    // Logic to handle image click, like opening a modal for a larger view
+    console.log(`Image at index ${index} clicked`);
+  }
 
   onSubmit() {
     this.submitted = true;
@@ -87,12 +91,13 @@ export class addReportComponent {
     const content = this.form.get('content')?.value ?? ''
 
     formData.append('content', content);
-    formData.append('machaghel', this.form.get('machaghel')?.value ?? '');
-    formData.append('machakel_alyawm', this.form.get('machakel_alyawm')?.value ?? '');
-    formData.append('houloul', this.form.get('houloul')?.value ?? '');
-    formData.append('concurence', this.form.get('concurence')?.value ?? false);
-    formData.append('concurrenceDetails', this.form.get('concurrenceDetails')?.value ?? '');
-    formData.append('propositions', this.form.get('propositions')?.value ?? '');
+    // Important checkbox data
+    formData.append('important', this.form.get('important')?.value ?? false);
+    if (this.form.get('important')?.value) {
+      formData.append('importanceLevel', this.form.get('importanceLevel')?.value ?? '');
+      formData.append('importantDescription', this.form.get('importantDescription')?.value ?? '');
+    }
+
     // selected files
     this.selectedFiles.forEach((file, index) => {
       formData.append('images', file);
@@ -100,6 +105,7 @@ export class addReportComponent {
 
     this.reportService.createReport(formData).subscribe(
       response => {
+        console.log('1111'+ response)
         // Reset form and other relevant variables after successful submission
         this.form.reset(); // Reset the form
         this.selectedFiles = []; // Clear selected files
@@ -107,6 +113,7 @@ export class addReportComponent {
         this.submitted = false; // Reset the submitted state
         this.loading = false; // Stop the loading state
         this.alert.success('report submitted with success')
+        console.log('1112')
       },
       error => {
         console.error('Error creating report', error);
@@ -115,5 +122,5 @@ export class addReportComponent {
       }
     );
   }
-  
+
 }

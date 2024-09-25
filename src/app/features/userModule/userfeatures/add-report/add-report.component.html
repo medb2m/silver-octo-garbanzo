@@ -5,98 +5,48 @@
     </div>
     <form *ngIf="!loading" [formGroup]="form" (ngSubmit)="onSubmit()">
       <div class="input-box">
-        <textarea
-          formControlName="content"
-          class="input-field"
-          [placeholder]="'contentPlaceholder' | translate"
-          [ngClass]="{ 'is-invalid': submitted && f['content'].errors }"
-        ></textarea>
+        <textarea formControlName="content" class="input-field" [placeholder]="'contentPlaceholder' | translate"
+          [ngClass]="{ 'is-invalid': submitted && f['content'].errors }"></textarea>
         <div *ngIf="submitted && f['content'].errors" class="invalid-feedback">
           <div *ngIf="f['content'].errors['required']">{{ 'contentRequired' | translate}}</div>
         </div>
       </div>
       <div class="input-box">
-        <textarea
-          formControlName="machaghel"
-          class="input-field"
-          [placeholder]="'machaghelPlaceholder' | translate"
-          [ngClass]="{ 'is-invalid': submitted && f['machaghel'].errors }"
-          ></textarea>
-        <div *ngIf="submitted && f['machaghel'].errors" class="invalid-feedback">
-          <div *ngIf="f['machaghel'].errors['required']">{{ 'machaghelRequired' | translate}}</div>
+        <input type="checkbox" formControlName="important" id="important" />
+        <label for="important">{{ 'important' | translate }}</label>
+      </div>
+
+      <!-- Display additional fields when "important" is checked -->
+      <div *ngIf="form.get('important')?.value">
+        <div class="input-box">
+          <select formControlName="importanceLevel" class="input-field">
+            <option [value]="null">{{ 'selectImportanceLevel' | translate }}</option>
+            <option value="high">{{ 'highImportance' | translate }}</option>
+            <option value="medium">{{ 'mediumImportance' | translate }}</option>
+            <option value="low">{{ 'lowImportance' | translate }}</option>
+          </select>
+          <div *ngIf="submitted && f['importanceLevel'].errors" class="invalid-feedback">
+            <div *ngIf="f['importanceLevel'].errors['required']">{{ 'importanceLevelReq' | translate }}</div>
+          </div>
         </div>
-      </div>
-      <div class="input-box">
-        <textarea
-          formControlName="machakel_alyawm"
-          class="input-field"
-          [placeholder]="'machakelPlaceholder' | translate"
-          [ngClass]="{ 'is-invalid': submitted && f['machakel_alyawm'].errors }"
-        ></textarea>
-        <div *ngIf="submitted && f['machakel_alyawm'].errors" class="invalid-feedback">
-          <div *ngIf="f['machakel_alyawm'].errors['required']">{{ 'machakelRequired' | translate}}</div>
-        </div>
-      </div>
-      <div class="input-box">
-        <textarea
-          formControlName="houloul"
-          class="input-field"
-          [placeholder]="'houloulPlaceholder' | translate"
-          [ngClass]="{ 'is-invalid': submitted && f['houloul'].errors }"
-        ></textarea>
-        <div *ngIf="submitted && f['houloul'].errors" class="invalid-feedback">
-          <div *ngIf="f['houloul'].errors['required']">{{ 'houloulRequired' | translate}}</div>
-        </div>
-      </div>
-      <div class="input-box">
-        <input
-          type="checkbox"
-          formControlName="concurence"
-          id="concurence"
-        />
-        <label for="concurence">{{ 'concurence' | translate}}</label>
-      </div>
-      <div class="input-box" *ngIf="form.get('concurence')?.value">
-        <textarea
-          formControlName="concurrenceDetails"
-          class="input-field"
-          [placeholder]="'concurenceDetails' | translate"
-          [ngClass]="{ 'is-invalid': submitted && f['concurrenceDetails'].errors }"
-        ></textarea>
-        <div *ngIf="submitted && f['concurrenceDetails'].errors" class="invalid-feedback">
-          <div *ngIf="f['concurrenceDetails'].errors['required']">{{ 'concurenceDetailsReq' | translate}}</div>
-        </div>
-      </div>
-      <div class="input-box">
-        <textarea
-          formControlName="propositions"
-          class="input-field"
-          [placeholder]="'suggestionPlaceholder' | translate"
-          [ngClass]="{ 'is-invalid': submitted && f['propositions'].errors }"
-        ></textarea>
-        <div *ngIf="submitted && f['propositions'].errors" class="invalid-feedback">
-          <div *ngIf="f['propositions'].errors['required']">{{ 'suggestionReq' | translate}}</div>
+
+        <div class="input-box">
+          <textarea formControlName="importantDescription" class="input-field"
+            [placeholder]="'importantDescriptionPlaceholder' | translate"
+            [ngClass]="{ 'is-invalid': submitted && f['importantDescription'].errors }"></textarea>
+          <div *ngIf="submitted && f['importantDescription'].errors" class="invalid-feedback">
+            <div *ngIf="f['importantDescription'].errors['required']">{{ 'importantDescriptionReq' | translate }}</div>
+          </div>
         </div>
       </div>
       <div class="input-box d-flex flex-column align-items-center">
-        <input
-          type="file"
-          (change)="onFileChange($event)"
-          class="input-field"
-          multiple
-          accept=".jpg,.jpeg,.png"
-          id="fileInput"
-          hidden
-        />
+        <input type="file" (change)="onFileChange($event)" class="input-field" multiple accept=".jpg,.jpeg,.png"
+          id="fileInput" hidden />
         <button type="button" class="btn up-btn rounded-circle" (click)="triggerFileInput()">
           <i class="bi bi-upload"></i>
         </button>
         <div class="image-preview d-flex flex-wrap justify-content-center" *ngIf="selectedImages.length">
-          <div
-            class="image-container"
-            *ngFor="let image of selectedImages; let i = index"
-            (click)="onImageClick(i)"
-          >
+          <div class="image-container" *ngFor="let image of selectedImages; let i = index" (click)="onImageClick(i)">
             <img [src]="image" alt="Selected Image" />
             <button type="button" class="remove-btn" (click)="removeImage(i)">×</button>
           </div>

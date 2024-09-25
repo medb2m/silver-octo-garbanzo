@@ -16,7 +16,11 @@ export class Report {
     concurrenceDetails?: string;
     propositions?: string;
     images?: string[];
+    important?: boolean;  // New field for important checkbox
+    importanceLevel!: string;  // New field for important option (e.g., "high", "medium", "low")
+    importantDescription?: string;  // New field for description when important is checked
     city!: City;
     delegation!: Delegation;
     region!: Region;
 }
+

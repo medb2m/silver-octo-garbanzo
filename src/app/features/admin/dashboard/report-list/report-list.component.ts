@@ -21,6 +21,8 @@ export class ReportListComponent {
   sortField: string = 'date'; // Default sorting by date
   workerMode: boolean = false;
   id : any
+  uniqueRegions: string[] = [];
+  selectedRegions: string[] = [];
 
   constructor(
     private reportService: ReportService,
@@ -71,11 +73,36 @@ export class ReportListComponent {
   }
 
   fetchAllReports() {
-    this.reportService.getAllReports().subscribe(data => {
+    /* this.reportService.getAllReports().subscribe(data => {
       console.log(data)
       this.reports = data.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
       this.filteredReports = [...this.reports];
+    }); */
+    this.reportService.getAllReports().subscribe(data => {
+      this.reports = data;
+      this.filteredReports = [...this.reports];
+      this.uniqueRegions = [...new Set(this.reports.map(report => report.region.name))];  // Extract unique regions
     });
+  }
+
+  toggleRegionFilter(region: string, event: Event) {
+    const isChecked = (event.target as HTMLInputElement).checked;
+
+    if (isChecked) {
+      this.selectedRegions.push(region);  // Add the region to the filter list
+    } else {
+      this.selectedRegions = this.selectedRegions.filter(r => r !== region);  // Remove the region from the filter list
+    }
+
+    this.filterReportsByRegion();
+  }
+
+  filterReportsByRegion() {
+    if (this.selectedRegions.length === 0) {
+      this.filteredReports = [...this.reports];  // No regions selected, show all reports
+    } else {
+      this.filteredReports = this.reports.filter(report => this.selectedRegions.includes(report.region.name));
+    }
   }
 
   filterReports(event: Event) {

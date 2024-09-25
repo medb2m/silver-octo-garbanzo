@@ -1,15 +1,19 @@
 <div class="filter-section mb-3">
-  <i class="bi bi-search icon"></i>
-  <input type="text" class="form-control w-50 mb-3" placeholder="{{ 'Search by region, delegation or city' | translate }}" (input)="filterDropdown($event)">
+  <input type="text" class="form-control w-50 mb-3" placeholder="{{ 'Search by username or report content' | translate }}" (input)="filterReports($event)">
 </div>
 
 <div class="dropdown mb-3">
   <button class="btn btn-secondary dropdown-toggle" type="button" id="filterDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-    {{ 'Filter by Region/Delegation/City' | translate }}
+    {{ 'Filter by Region' | translate }}
   </button>
   <ul class="dropdown-menu" aria-labelledby="filterDropdown">
-    <li *ngFor="let item of filteredLocations">
-      <a class="dropdown-item" href="#" (click)="selectLocation(item)">{{ item }}</a>
+    <li *ngFor="let region of uniqueRegions">
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" [id]="region" [value]="region" (change)="toggleRegionFilter(region, $event)">
+        <label class="form-check-label" [for]="region">
+          {{ region }}
+        </label>
+      </div>
     </li>
   </ul>
 </div>
@@ -37,6 +41,11 @@
         </th>
         <th (click)="sortBy('date')" class="clickable-column">
           {{ 'Date' | translate }}
+          <i *ngIf="sortField === 'date' && sortOrder === 'asc'" class="bi bi-chevron-up sort-icon"></i>
+          <i *ngIf="sortField === 'date' && sortOrder === 'desc'" class="bi bi-chevron-down sort-icon"></i>
+        </th>
+        <th (click)="sortBy('date')" class="clickable-column">
+          {{ 'Hour' | translate }}
           <i *ngIf="sortField === 'date' && sortOrder === 'asc'" class="bi bi-chevron-up sort-icon"></i>
           <i *ngIf="sortField === 'date' && sortOrder === 'desc'" class="bi bi-chevron-down sort-icon"></i>
         </th>

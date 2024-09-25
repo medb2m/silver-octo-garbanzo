@@ -1,59 +1,82 @@
 .detail-article {
   position: relative;
-  border-radius: 16px;
-  box-shadow: none;
-  background: #dfdfdf;
-  transform-origin: center;
-  transition: all 0.4s ease-in-out;
-  overflow: hidden;
-  max-width: 800px;
-  margin: 0 auto;
+  border-radius: 12px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  background: #ffffff;
+  max-width: 900px;
+  margin: 20px auto;
   padding: 24px;
+  font-family: 'Open Sans', sans-serif;
 }
 
 .detail-article h2 {
-  margin: 0 0 18px 0;
-  font-family: "Bebas Neue", cursive;
-  font-size: 2.4rem;
-  letter-spacing: 0.06em;
-  color: black;
-  transition: color 0.3s ease-out;
+  font-size: 2.2rem;
+  margin-bottom: 16px;
+  color: #343a40;
 }
 
-.detail-article p {
-  font-size: 1.2rem;
-  line-height: 1.6rem;
-  background-color: #fff;
-  padding: 10px;
+.detail-article p, label {
+  font-size: 1.1rem;
+  color: #495057;
+  margin-bottom: 12px;
 }
 
-.detail-article label {
-  font-size: 1.2rem;
-  line-height: 1.6rem;
+.important-section {
+  background-color: #ffefc1;
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.important-section h3 {
+  color: #dc3545;
+  margin-bottom: 8px;
+}
+
+.report-details-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+.report-details-table th, .report-details-table td {
+  text-align: left;
+  padding: 8px;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.report-details-table th {
+  background-color: #f8f9fa;
+  color: #495057;
+}
+
+.report-details-table td {
+  color: #343a40;
 }
 
 .images-container {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 12px;
   margin-top: 20px;
 }
 
 .thumbnail-container {
   cursor: pointer;
+  position: relative;
 }
 
 .thumbnail {
-  width: 100%;
-  max-width: 100px;
-  height: auto;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  transition: transform 0.2s ease-in-out;
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 8px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.thumbnail-container:hover .thumbnail {
+.thumbnail:hover {
   transform: scale(1.1);
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .selected-image-container {
@@ -63,63 +86,48 @@
 
 .selected-image {
   max-width: 100%;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
-
-.header {
-  display: flex;
-  justify-content: flex-end;
+  border-radius: 8px;
+  border: 2px solid #dee2e6;
 }
 
 .seen-btn {
-  background: #28666e;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
+  background: #007bff;
+  color: white;
+  border-radius: 6px;
+  padding: 10px 20px;
   cursor: pointer;
-  font-size: 1.2rem;
+  font-size: 1rem;
+  transition: background 0.3s ease;
+}
+
+.seen-btn:hover {
+  background: #0056b3;
 }
 
 .traited-msg {
-  color: rgb(17, 145, 34);
+  color: #28a745;
   font-size: 0.9rem;
-  font-weight: lighter;
+  display: flex;
+  align-items: center;
 }
 
-/***export button*/
+.center {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
 
 .export-btn {
-  display: inline-flex;
-  align-items: center;
   background-color: #28a745;
   color: white;
-  font-weight: bold;
   padding: 10px 20px;
   border: none;
-  border-radius: 5px;
+  border-radius: 6px;
+  font-size: 1rem;
   cursor: pointer;
   transition: background-color 0.3s ease;
-  font-size: 16px;
-}
-
-.export-btn i {
-  margin-right: 8px;
-  font-size: 18px;
 }
 
 .export-btn:hover {
   background-color: #218838;
-}
-
-.export-btn:active {
-  background-color: #1e7e34;
-  transform: scale(0.98);
-}
-
-.center {
-  padding-top: 5px;
-  display: flex;
-  justify-content: center;
 }

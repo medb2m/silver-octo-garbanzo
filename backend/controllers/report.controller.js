@@ -25,17 +25,108 @@ const ensureReportDirectory = async (reporter) => {
   return reportDir;
 }
 
+const generatePDF = async (report, reportData, worker) => {
+    try{ //console.log('Hello generate pdf')
+      // Create the directory structure for storing the report
+    const reportDir = await ensureReportDirectory(worker);
+    //console.log('Hello ensured repo')
+    // Define the PDF path with a specific naming convention
+    const pdfPath = path.join(reportDir, `report_${report.worker}.pdf`);
+    const doc = new PDFDocument(); const arabicFontPath = path.join(__dirname, '../fonts/Amiri-Regular.ttf');
+    doc.registerFont('ArabicFont', arabicFontPath);
+
+    const stream = fs.createWriteStream(pdfPath);
+    doc.pipe(stream);
+    //console.log('Hello pipe stream')
+
+    // Add report content to the PDF, using the Arabic font for Arabic text
+    doc.font('Helvetica').text(`Rapport par: ${worker.fullName}`);
+    doc.font('ArabicFont').text(`City: ${worker.city.name}`, { align: 'right' }); // Ensure RTL support here
+    doc.font('ArabicFont').text(`City: ${worker.city.name}`); 
+    doc.font('Helvetica').text(`Contenu: ${reportData.content}`);
+    doc.moveDown();
+    //console.log('Hello writed worker & content')
+
+    // Important section
+    if (reportData.important) {
+      console.log('Hello impo')
+      doc.text(`Important: Oui`);
+      doc.text(`Option: ${reportData.importantOption}`);
+      doc.text(`Description: ${reportData.importantDescription}`);
+      doc.moveDown();
+    }
+
+    // Add images if they exist
+    if (report.images && report.images.length > 0) {
+      console.log('Hello saving images')
+      for (const imageUrl of report.images) {
+        // Download the image
+        const imageFileName = path.basename(imageUrl);
+        const imagePath = path.join(__dirname, `../public/images/${imageFileName}`);
+        const response = await axios({
+          url: imageUrl,
+          responseType: 'stream'
+        });
+
+        // Save the image locally
+        const writer = fs.createWriteStream(imagePath);
+        response.data.pipe(writer);
+        await new Promise((resolve, reject) => {
+          writer.on('finish', resolve);
+          writer.on('error', reject);
+        });
+
+        // Add the image to the PDF
+        doc.image(imagePath, { width: 500 });
+        doc.moveDown();
+        
+        // Remove the temporary image file after it is added to the PDF
+        fs.unlinkSync(imagePath);
+      }
+    }
+
+    doc.end(); 
+    //console.log('Hello doc end')
+    } catch (error) {
+      console.error('Error generating PDF:', error);
+    }
+}
+
 
 export const createReport = async (req, res) => {
   try {
-    const { content, machaghel, machakel_alyawm, houloul, concurence, propositions, concurrenceDetails } = req.body;
+    const { 
+      content,
+      important, 
+      importantOption, 
+      importantDescription 
+     } = req.body;
     const workerId = req.user._id;
 
-    const reportData = {
+    /* const reportData = {
       worker: workerId,
       content, machaghel, machakel_alyawm, houloul, concurence, propositions, concurrenceDetails,
       images: req.files ? req.files.map(file => `${req.protocol}://${req.get("host")}/img/${file.filename}`) : []
+    }; */
+
+    const reportData = {
+      worker: workerId,
+      content, 
+      important, 
+      importantOption, 
+      importantDescription,
+      images: []
     };
+    
+    if (req.files && req.files.length > 0) {
+      req.files.forEach(file => {
+        const imageUrl = `${req.protocol}://${req.get("host")}/img/${file.filename}`;
+        reportData.images.push(imageUrl);
+        console.log(`Image uploaded: ${imageUrl}`);  // Log each uploaded image
+      });
+    } else {
+      console.log('No images uploaded');
+    }
 
     const worker = await User.findById(workerId).populate({
       path: 'city',
@@ -65,59 +156,7 @@ export const createReport = async (req, res) => {
       }
     });
 
-    // Create the directory structure for storing the report
-    const reportDir = await ensureReportDirectory(worker);
-
-    // Define the PDF path with a specific naming convention
-    const pdfPath = path.join(reportDir, `report_${report.worker}.pdf`);
-    const doc = new PDFDocument(); const arabicFontPath = path.join(__dirname, '../fonts/Amiri-Regular.ttf');
-    doc.registerFont('ArabicFont', arabicFontPath);
-
-    const stream = fs.createWriteStream(pdfPath);
-    doc.pipe(stream);
-
-    // Add report content to the PDF, using the Arabic font for Arabic text
-    doc.font('Helvetica').text(`Rapport par: ${worker.fullName}`);
-    doc.font('ArabicFont').text(`City: ${worker.city.name}`, { align: 'right' }); // Ensure RTL support here
-    doc.font('ArabicFont').text(`City: ${worker.city.name}`); 
-    doc.font('Helvetica').text(`Contenu: ${content}`);
-    doc.text(`Activitées: ${machaghel}`);
-    doc.text(`Probleme d'aujourd'hui: ${machakel_alyawm}`);
-    doc.text(`Solutions: ${houloul}`);
-    doc.text(`Concurence exite: ${concurence}`);
-    doc.text(`Propositions: ${propositions}`);
-    doc.text(`Concurrence Details: ${concurrenceDetails}`);
-    doc.moveDown();
-
-    // Add images if they exist
-    if (report.images && report.images.length > 0) {
-      for (const imageUrl of report.images) {
-        // Download the image
-        const imageFileName = path.basename(imageUrl);
-        const imagePath = path.join(__dirname, `../public/images/${imageFileName}`);
-        const response = await axios({
-          url: imageUrl,
-          responseType: 'stream'
-        });
-
-        // Save the image locally
-        const writer = fs.createWriteStream(imagePath);
-        response.data.pipe(writer);
-        await new Promise((resolve, reject) => {
-          writer.on('finish', resolve);
-          writer.on('error', reject);
-        });
-
-        // Add the image to the PDF
-        doc.image(imagePath, { width: 500 });
-        doc.moveDown();
-        
-        // Remove the temporary image file after it is added to the PDF
-        fs.unlinkSync(imagePath);
-      }
-    }
-
-    doc.end();
+    await generatePDF(report, reportData, worker)
 
     // Send Notifications   // (message, userId, reportId, city)
     createNotification(`A New report was posted by ${worker.fullName} working in ${worker.city.name}`, worker.id, report._id, worker.city.name);
@@ -128,95 +167,6 @@ export const createReport = async (req, res) => {
   }
 };
 
-
-/* export const createReport = async (req, res) => {
-  try {
-    const { content, machaghel, machakel_alyawm, houloul, concurence, propositions, concurrenceDetails } = req.body;
-    const workerId = req.user._id;
-
-    const reportData = {
-      worker: workerId,
-      content,
-      machaghel, machakel_alyawm, houloul, concurence, propositions, concurrenceDetails,
-      images: req.files ? req.files.map(file => `${req.protocol}://${req.get("host")}/img/${file.filename}`) : []
-    };
-
-    const worker = await User.findById(workerId).populate({
-      path: 'city',
-      populate: {
-        path: 'delegation',
-        populate: { path: 'region' }
-      }
-    });
-
-    const region = worker.city.delegation.region._id;
-
-    reportData.region = region
-    const report = new Report(reportData);
-    await report.save();
-
-    // Create a PDF copy of the report and save it
-    const pdfPath = path.join(__dirname, `../reports/report_${report._id}.pdf`);
-    const doc = new PDFDocument();
-
-    // Load and register a font that supports Arabic (e.g., 'Amiri')
-    const arabicFontPath = path.join(__dirname, '../fonts/Amiri-Regular.ttf');
-    doc.registerFont('ArabicFont', arabicFontPath);
-
-    const stream = fs.createWriteStream(pdfPath);
-    doc.pipe(stream);
-
-    // Add report content to the PDF, using the Arabic font for Arabic text
-    doc.font('Helvetica').text(`Rapport par: ${worker.fullName}`);
-    doc.font('ArabicFont').text(`City: ${worker.city.name}`, { align: 'right' }); // Ensure RTL support here
-    doc.font('ArabicFont').text(`City: ${worker.city.name}`); 
-    doc.font('Helvetica').text(`Contenu: ${content}`);
-    doc.text(`Activitées: ${machaghel}`);
-    doc.text(`Probleme d'aujourd'hui: ${machakel_alyawm}`);
-    doc.text(`Solutions: ${houloul}`);
-    doc.text(`Concurence exite: ${concurence}`);
-    doc.text(`Propositions: ${propositions}`);
-    doc.text(`Concurrence Details: ${concurrenceDetails}`);
-    doc.moveDown();
-
-    // Add images if they exist
-    if (report.images && report.images.length > 0) {
-      for (const imageUrl of report.images) {
-        // Download the image
-        const imageFileName = path.basename(imageUrl);
-        const imagePath = path.join(__dirname, `../public/images/${imageFileName}`);
-        const response = await axios({
-          url: imageUrl,
-          responseType: 'stream'
-        });
-
-        // Save the image locally
-        const writer = fs.createWriteStream(imagePath);
-        response.data.pipe(writer);
-        await new Promise((resolve, reject) => {
-          writer.on('finish', resolve);
-          writer.on('error', reject);
-        });
-
-        // Add the image to the PDF
-        doc.image(imagePath, { width: 500 });
-        doc.moveDown();
-        
-        // Remove the temporary image file after it is added to the PDF
-        fs.unlinkSync(imagePath);
-      }
-    }
-
-    doc.end();
-
-    // Send Notifications   // (message, userId, reportId, city)
-    createNotification(`A New report was posted by ${worker.fullName} working in ${worker.city.name}`, worker.id, report._id, worker.city.name);
-
-    res.status(201).json(report);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-}; */
 
 export const getReportsByWorker = async (req, res) => {
   try {

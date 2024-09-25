@@ -1,10 +1,12 @@
-import { Component, ElementRef, ViewChild } from "@angular/core";
+import { Component, ElementRef, OnDestroy, ViewChild } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { Report } from "@app/_models";
 import { ReportService } from "@app/_services/report.service";
+import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import { finalize } from 'rxjs';
+import { ExitConfirmComponent } from "./exit-confirm.component";
 
 
 @Component({
@@ -12,7 +14,7 @@ import { finalize } from 'rxjs';
     templateUrl: './report-view.component.html',
     styleUrls: ['./report-view.component.css']
 })
-export class ReportViewComponent {
+export class ReportViewComponent implements OnDestroy {
     report!: Report
     selectedImage: string | null = null;
 
@@ -21,6 +23,7 @@ export class ReportViewComponent {
     constructor(
         private reportService: ReportService,
         private route: ActivatedRoute,
+        private modalService: NgbModal
     ){}
 
     ngOnInit() {
@@ -35,7 +38,6 @@ export class ReportViewComponent {
     traite(id :string) {
         this.reportService.traiteReport(id).subscribe((report)=>{
             this.report.traiter = report.traiter
-            console.log('sent from here check there')
         })
     }
 
@@ -52,4 +54,22 @@ export class ReportViewComponent {
           doc.save('report.pdf');
         });
       }
+
+      ngOnDestroy(){
+        if (!this.report.traiter) {
+            // Open the modal dialog for confirmation
+            const modalRef = this.modalService.open(ExitConfirmComponent);
+            modalRef.componentInstance.isTreated = this.report.traiter;  // Pass data to the modal
+      
+            // Handle the result of the confirmation modal
+            modalRef.result.then((shouldMarkAsTreated: boolean) => {
+              if (shouldMarkAsTreated) {
+                this.traite(this.report._id);  // Mark the report as treated
+              }
+            }).catch(() => {
+              // User dismissed the modal without taking action
+              // No further action needed here
+            });
+          }
+      }  
 }
