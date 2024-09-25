@@ -1,97 +1,101 @@
 ﻿<div class="contain">
   <div class="login-box">
     <div class="login-header">
-      <header>{{ 'account.title' | translate }}</header>  
-      <button *ngIf="title === 'Edit Account'" class="back-button mt-2" (click)="exportUserToPDF()">{{ 'account.exportToPDF' | translate }}</button>
+      <header>{{ 'account.title' | translate }}</header>
+      <button *ngIf="title === 'Edit Account'" class="back-button mt-2" (click)="exportUserToPDF()">{{
+        'account.exportToPDF' | translate }}</button>
     </div>
     <form *ngIf="!loading" [formGroup]="form" (ngSubmit)="onSubmit()">
       <!-- Full Name -->
       <div class="input-box">
-        <input
-          type="text"
-          formControlName="fullName"
-          class="input-field"
+        <input type="text" formControlName="fullName" class="input-field"
           placeholder="{{ 'account.fullName' | translate }}"
-          [ngClass]="{ 'is-invalid': submitted && f['fullName'].errors }"
-        />
+          [ngClass]="{ 'is-invalid': submitted && f['fullName'].errors }" />
         <div *ngIf="submitted && f['fullName'].errors" class="invalid-feedback">
           <div *ngIf="f['fullName'].errors['required']">{{ 'account.fullNameRequired' | translate }}</div>
         </div>
       </div>
       <!-- CIN -->
       <div class="input-box">
-        <input type="text" formControlName="cin" class="input-field" placeholder="{{ 'account.cin' | translate }}" [ngClass]="{ 'is-invalid': submitted && f['cin'].errors }"
-        />
+        <input type="text" formControlName="cin" class="input-field" placeholder="{{ 'account.cin' | translate }}"
+          [ngClass]="{ 'is-invalid': submitted && f['cin'].errors }" />
         <div *ngIf="submitted && f['cin'].errors" class="invalid-feedback">
           <div *ngIf="f['cin'].errors['required']">{{ 'account.cinRequired' | translate }}</div>
         </div>
       </div>
       <!-- Username -->
       <div class="input-box">
-        <input
-          type="text"
-          formControlName="username"
-          class="input-field"
+        <input type="text" formControlName="username" class="input-field"
           placeholder="{{ 'account.username' | translate }}"
-          [ngClass]="{ 'is-invalid': submitted && f['username'].errors }"
-        />
+          [ngClass]="{ 'is-invalid': submitted && f['username'].errors }" />
         <div *ngIf="submitted && f['username'].errors" class="invalid-feedback">
           <div *ngIf="f['username'].errors['required']">{{ 'account.usernameRequired' | translate }}</div>
         </div>
       </div>
+      <!-- moderator field -->
+      <div *ngIf="showModeratorRegionField" class="input-box">
+        <label class="form-label">{{ 'account.regionControl' | translate }}</label>
+        <select formControlName="moderatorRegion" class="input-field">
+            <option *ngFor="let region of regions" [value]="region._id">{{region.name}}</option>
+        </select>
+    </div>
+    
+    <div *ngIf="showModeratorDelegationField" class="input-box">
+        <label class="form-label">{{ 'account.delegationControl' | translate }}</label>
+        <select formControlName="moderatorDelegation" class="input-field">
+            <option *ngFor="let delegation of delegations" [value]="delegation._id">{{delegation.name}}</option>
+        </select>
+    </div>
       <!-- Region Selection -->
-      <div *ngIf="showModeratorField" class="input-box">
-          <label class="form-label">{{ 'account.regionControl' | translate }}</label>
-          <select formControlName="moderatorZone" class="input-field" [ngClass]="{ 'is-invalid': submitted && f['moderatorZone'].errors }">
-              <option [value]="actualReg ? actualReg._id : ''">{{ actualReg ? actualReg.name : ('account.selectRegion' | translate) }}</option>
-              <option *ngFor="let region of regions" [value]="region._id">{{region.name}}</option>
-          </select>
-          <div *ngIf="submitted && f['moderatorZone'].errors" class="invalid-feedback">
-              <div *ngIf="f['moderatorZone'].errors['required']">{{ 'account.regionRequired' | translate }}</div>
-          </div>
-      </div>
+      <!-- <div *ngIf="showModeratorField" class="input-box">
+        <label class="form-label">{{ 'account.regionControl' | translate }}</label>
+        <select formControlName="moderatorZone" class="input-field"
+          [ngClass]="{ 'is-invalid': submitted && f['moderatorZone'].errors }">
+          <option [value]="actualReg ? actualReg._id : ''">{{ actualReg ? actualReg.name : ('account.selectRegion' |
+            translate) }}</option>
+          <option *ngFor="let region of regions" [value]="region._id">{{region.name}}</option>
+        </select>
+        <div *ngIf="submitted && f['moderatorZone'].errors" class="invalid-feedback">
+          <div *ngIf="f['moderatorZone'].errors['required']">{{ 'account.regionRequired' | translate }}</div>
+        </div>
+      </div> -->
       <!-- City Selection -->
       <div *ngIf="showUserField" class="input-box">
         <label class="form-label">{{ 'account.cityControl' | translate }}</label>
         <select formControlName="city" class="input-field" [ngClass]="{ 'is-invalid': submitted && f['city'].errors }">
-            <option [value]="actualCity ? actualCity._id : ''">{{ actualCity ? actualCity.name : ('account.selectCity' | translate) }}</option>
-            <option *ngFor="let city of cities" [value]="city._id">{{city.name}}</option>
+          <option [value]="actualCity ? actualCity._id : ''">{{ actualCity ? actualCity.name : ('account.selectCity' |
+            translate) }}</option>
+          <option *ngFor="let city of cities" [value]="city._id">{{city.name}}</option>
         </select>
         <div *ngIf="submitted && f['city'].errors" class="invalid-feedback">
-            <div *ngIf="f['city'].errors['required']">{{ 'account.cityRequired' | translate }}</div>
+          <div *ngIf="f['city'].errors['required']">{{ 'account.cityRequired' | translate }}</div>
         </div>
       </div>
       <!-- Password Fields -->
       <div *ngIf="id">
         <h3 class="pt-3">{{ 'account.changePasswordTitle' | translate }}</h3>
         <p>{{ 'account.changePasswordHint' | translate }}</p>
+        
       </div>
       <div class="input-box">
-        <input
-          type="password"
-          formControlName="password"
-          class="input-field"
-          placeholder="{{ 'account.password' | translate }}"
-          [ngClass]="{ 'is-invalid': submitted && f['password'].errors }"
-        />
-        <div *ngIf="submitted && f['password'].errors" class="invalid-feedback">
-          <div *ngIf="f['password'].errors['required']">{{ 'account.passwordRequired' | translate }}</div>
-          <div *ngIf="f['password'].errors['minlength']">{{ 'account.passwordMinLength' | translate }}</div>
-        </div>
+        <input 
+          type="password" 
+          formControlName="password" 
+          class="input-field" 
+          [placeholder]="id ? ('account.password' | translate) : ('account.password' | translate)" 
+          [value]="!id ? form.get('cin')?.value : ''"  
+          [ngClass]="{ 'is-invalid': submitted && f['password'].errors }" />
       </div>
       <div class="input-box">
-        <input
-          type="password"
-          formControlName="confirmPassword"
-          class="input-field"
-          placeholder="{{ 'account.confirmPassword' | translate }}"
-          [ngClass]="{ 'is-invalid': submitted && f['confirmPassword'].errors }"
-        />
-        <div *ngIf="submitted && f['confirmPassword'].errors" class="invalid-feedback">
-          <div *ngIf="f['confirmPassword'].errors['required']">{{ 'account.confirmPasswordRequired' | translate }}</div>
-          <div *ngIf="f['confirmPassword'].errors['mustMatch']">{{ 'account.passwordMustMatch' | translate }}</div>
-        </div>
+        <input 
+          type="password" 
+          formControlName="confirmPassword" 
+          class="input-field" 
+          [placeholder]="id ? ('account.confirmPasswordNew' | translate) : ('account.confirmPassword' | translate)" 
+          [value]="!id ? form.get('cin')?.value : ''" 
+          [ngClass]="{ 'is-invalid': submitted && f['confirmPassword'].errors }" />
       </div>
+      
       <!-- Submit Button -->
       <div class="input-submit">
         <button class="submit-btn" [disabled]="submitting">

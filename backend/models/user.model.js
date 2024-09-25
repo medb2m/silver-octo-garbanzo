@@ -20,9 +20,10 @@ const UserSchema = new Schema({
     image : { type : String },
     // for the work 
     city: { type: mongoose.Schema.Types.ObjectId, ref: 'City'},
-    moderatorZone: String,
     delegation: { type: mongoose.Schema.Types.ObjectId, ref: 'Delegation' },
     region: { type: mongoose.Schema.Types.ObjectId, ref: 'Region' },
+    moderatorRegion: { type: mongoose.Schema.Types.ObjectId, ref: 'Region' }, // New field for region moderators
+    moderatorDelegation: { type: mongoose.Schema.Types.ObjectId, ref: 'Delegation' }, // New field for delegation moderators
 })
 
 UserSchema.virtual('isVerified').get(function () {

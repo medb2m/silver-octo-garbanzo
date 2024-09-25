@@ -21,7 +21,8 @@ import {
     _delete,
     createAccountLink,
     createAccount,
-    getModeratorByRegion
+    getModeratorByRegion,
+    getModeratorByDelegation
 } from '../controllers/user.controller.js'
 import { uploadImage } from '../_middleware/multerConfig.js'
 
@@ -45,5 +46,6 @@ router.delete('/:id', authorize(), _delete);
 
 // get users for delegation & regions ( moderator )
 router.get('/moderator/:regionId', getModeratorByRegion)
+router.get('/delegation/:delegationId', getModeratorByDelegation)
 
 export default router

@@ -136,9 +136,8 @@ export class AccountService {
         return this.http.get(`${baseUrl}/moderator/${regionId}`);
     }
 
-    getUsersByDelegation(id: any){
-        // here we need to fetch from user with certain type (e.g. Moderator ) by the region id 
-        return id
+    getModeratorByDelegation(delegationId: string): Observable<any>{
+        return this.http.get(`${baseUrl}/delegation/${delegationId}`);
     }
     
 }

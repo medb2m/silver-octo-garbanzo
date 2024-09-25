@@ -1,4 +1,6 @@
 ﻿import { City } from './city';
+import { Delegation } from './delegation';
+import { Region } from './region';
 import { Role } from './role';
 
 export class Account {
@@ -11,5 +13,8 @@ export class Account {
     image?:string;
     moderatorZone?: string;
     city!: City;
-    region?: string
+    region?:string;
+    delegation?:string;
+    moderatorRegion?: Region;
+    moderatorDelegation?: Delegation;
 }

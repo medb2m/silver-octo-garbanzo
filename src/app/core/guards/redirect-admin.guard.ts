@@ -12,7 +12,7 @@ export class RedirectAdminGuard implements CanActivate {
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
         const account = this.accountService.accountValue;
-        if (account && account.role === Role.Admin || account && account.role === Role.Moderator) {
+        if (account && account.role === Role.Admin || account && account.role === Role.ModeratorRegion || account && account.role === Role.ModeratorDelegation) {
             // Redirect to admin
             this.router.navigate(['/admin/dashboard']);
             return false;

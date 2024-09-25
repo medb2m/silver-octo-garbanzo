@@ -25,21 +25,6 @@
                 <div *ngIf="f['cin'].errors['required']">CIN is required</div>
             </div>
         </div>
-        <!-- Password input -->
-        <!-- <div class="input-box">
-            <input type="password"  formControlName="password" class="input-field"  placeholder="Type a password" [ngClass]="{ 'is-invalid': submitted && f['password'].errors }"/>
-            <div *ngIf="submitted && f['password'].errors" class="invalid-feedback">
-                <div *ngIf="f['password'].errors['required']">Password is required</div>
-            </div>
-        </div> -->
-        <!-- Confirm Password input -->
-        <!-- <div class="input-box">
-            <input type="password" formControlName="confirmPassword" class="input-field" placeholder="Confirm the password" [ngClass]="{ 'is-invalid': submitted && f['confirmPassword'].errors }" />
-            <div *ngIf="submitted && f['confirmPassword'].errors" class="invalid-feedback">
-                <div *ngIf="f['confirmPassword'].errors['required']">You need to confirm your password</div>
-                <div *ngIf="f['confirmPassword'].errors['mustMatch']">Passwords must match</div>
-            </div>
-        </div> -->
 
         <!-- Password input -->
         <div class="input-box position-relative">
@@ -79,7 +64,6 @@
             <span *ngIf="submitting" class="spinner-border spinner-border-sm me-1"></span>
             Register
             </button>
-            <!-- <label for="submit">Se Connecter</label> -->
         </div>
     </form>
     </div>

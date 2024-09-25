@@ -6,6 +6,8 @@ import {isValidId} from '../_helpers/db.js'
 import Role from '../_helpers/role.js'
 import User from '../models/user.model.js'
 import RefreshToken from '../models/refresh-token.model.js'
+import Region from '../models/region.model.js';
+import Delegation from '../models/delegation.model.js'
 
 function generateJwtToken (user) {
     // create a jwt token containing the User id that expires in 60 minutes
@@ -28,13 +30,13 @@ function randomTokenString() {
 
 
 function basicDetails(user){
-    const { id, username, fullName, role, cin, created, updated, isVerified, image, moderatorZone, city } = user
-    return { id, username, fullName, role, cin, created, updated, isVerified, image, moderatorZone, city }
+    const { id, username, fullName, role, cin, created, updated, isVerified, image,  city } = user
+    return { id, username, fullName, role, cin, created, updated, isVerified, image,  city }
 }
 
 async function getUser(id){
     if (!isValidId(id)) throw 'User not found'
-    const user = await User.findById(id).populate('city').populate('moderatorZone')
+    const user = await User.findById(id).populate('city')
     if (!user) throw 'User not found'
     return user;
 }
@@ -159,7 +161,7 @@ const UserService = {
         return basicDetails(user);
     },
     
-    create : async (params) => {
+   /*  create : async (params) => {
         // validate
         if (await User.findOne({ username: params.username })) {
             throw 'Username "' + params.username + '" is already registered';
@@ -175,9 +177,113 @@ const UserService = {
         await user.save();
     
         return basicDetails(user);
+    }, */
+    /* create : async (params) => {
+        if (await User.findOne({ username: params.username })) {
+            throw 'Username "' + params.username + '" is already registered';
+        }
+    
+        const user = new User(params);
+        user.verified = Date.now();
+        user.passwordHash = hash(params.password);
+        await user.save();
+    
+        if (user.role === Role.ModeratorRegion) {
+            await RegionService.addModerator(user.moderatorRegion, user.id);
+        } else if (user.role === Role.ModeratorDelegation) {
+            await DelegationService.addModerator(user.moderatorDelegation, user.id);
+        }
+    
+        return basicDetails(user);
+    }, */
+    create: async (params) => {
+        if (await User.findOne({ username: params.username })) {
+            throw 'Username "' + params.username + '" is already registered';
+        }
+    
+        const user = new User(params);
+        user.verified = Date.now();
+        user.passwordHash = hash(params.password);
+        await user.save();
+    
+        if (user.role === Role.ModeratorRegion) {
+            // Add the moderator to the region's moderators array
+            await Region.findByIdAndUpdate(
+                user.moderatorRegion, 
+                { $push: { moderators: user._id } }
+            );
+        } else if (user.role === Role.ModeratorDelegation) {
+            // Add the moderator to the delegation's moderators array
+            await Delegation.findByIdAndUpdate(
+                user.moderatorDelegation, 
+                { $push: { moderators: user._id } }
+            );
+        }
+    
+        return basicDetails(user);
     },
     
-    update : async (id, params) => {
+    
+    update: async (id, params) => {
+        const user = await getUser(id);
+    
+        if (params.username && user.username !== params.username && await User.findOne({ username: params.username })) {
+            throw 'Username "' + params.username + '" is already taken';
+        }
+    
+        if (params.password) {
+            params.passwordHash = hash(params.password);
+        }
+    
+        // If the role or moderator zone has changed, update the relevant Region/Delegation
+        const previousRole = user.role;
+        const previousModeratorRegion = user.moderatorRegion;
+        const previousModeratorDelegation = user.moderatorDelegation;
+    
+        Object.assign(user, params);
+        user.updated = Date.now();
+        await user.save();
+    
+        // Update region if the user's role is ModeratorRegion
+        if (user.role === Role.ModeratorRegion) {
+            // If the region has changed, update the moderators list in both the old and new regions
+            if (previousRole !== Role.ModeratorRegion || previousModeratorRegion !== user.moderatorRegion) {
+                if (previousModeratorRegion) {
+                    // Remove user from old region's moderators
+                    await Region.findByIdAndUpdate(
+                        previousModeratorRegion, 
+                        { $pull: { moderators: user._id } }
+                    );
+                }
+                // Add user to the new region's moderators
+                await Region.findByIdAndUpdate(
+                    user.moderatorRegion, 
+                    { $push: { moderators: user._id } }
+                );
+            }
+        } else if (user.role === Role.ModeratorDelegation) {
+            // If the delegation has changed, update the moderators list in both the old and new delegations
+            if (previousRole !== Role.ModeratorDelegation || previousModeratorDelegation !== user.moderatorDelegation) {
+                if (previousModeratorDelegation) {
+                    // Remove user from old delegation's moderators
+                    await Delegation.findByIdAndUpdate(
+                        previousModeratorDelegation, 
+                        { $pull: { moderators: user._id } }
+                    );
+                }
+                // Add user to the new delegation's moderators
+                await Delegation.findByIdAndUpdate(
+                    user.moderatorDelegation, 
+                    { $push: { moderators: user._id } }
+                );
+            }
+        }
+    
+        return basicDetails(user);
+    },
+    
+    
+    /* update : async (id, params) => {
         const user = await getUser(id);
     
         // validate (if email was changed)
@@ -196,7 +302,7 @@ const UserService = {
         await user.save();
     
         return basicDetails(user);
-    },
+    }, */
     
     delete : async (id) => {
         const user = await getUser(id);

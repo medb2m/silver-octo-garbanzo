@@ -158,22 +158,26 @@ export function createSchema(req, res, next) {
         cin: Joi.string().required(),
         password: Joi.string().min(6).required(),
         confirmPassword: Joi.string().valid(Joi.ref('password')).required(),
-        role: Joi.string().valid(Role.Admin, Role.User, Role.Moderator).required(),
-        /* moderatorZone: Joi.string().empty(''),
-        city: Joi.string().empty(''), */
-        moderatorZone: Joi.string().when('role', {
-            is: 'Moderator',
+        role: Joi.string().valid(Role.Admin, Role.User, Role.ModeratorRegion, Role.ModeratorDelegation).required(),
+        moderatorRegion: Joi.string().when('role', {
+            is: Role.ModeratorRegion,
+            then: Joi.string().required(),
+            otherwise: Joi.string().optional().allow(null, '')
+        }),
+        moderatorDelegation: Joi.string().when('role', {
+            is: Role.ModeratorDelegation,
             then: Joi.string().required(),
             otherwise: Joi.string().optional().allow(null, '')
         }),
         city: Joi.string().when('role', {
-            is: 'User',
+            is: Role.User,
             then: Joi.string().required(),
             otherwise: Joi.string().optional().allow(null, '')
         }),
     });
     validateRequest(req, next, schema);
 }
+
         export function create(req, res, next) {
             try {
                 UserService.create(req.body)
@@ -192,31 +196,34 @@ export function updateSchema(req, res, next) {
     const schemaRules = {
         username: Joi.string().empty(''),
         fullName: Joi.string().empty(''),
-        // try 1
-        region: Joi.string().empty(''),
         cin: Joi.string().empty(''),
-        moderatorZone: Joi.string().when('role', {
-            is: 'Moderator',
+        moderatorRegion: Joi.string().when('role', {
+            is: Role.ModeratorRegion,
+            then: Joi.string().required(),
+            otherwise: Joi.string().optional().allow(null, '')
+        }),
+        moderatorDelegation: Joi.string().when('role', {
+            is: Role.ModeratorDelegation,
             then: Joi.string().required(),
             otherwise: Joi.string().optional().allow(null, '')
         }),
         city: Joi.string().when('role', {
-            is: 'User',
+            is: Role.User,
             then: Joi.string().required(),
-            otherwise: Joi.string().optional().allow(null, '') 
+            otherwise: Joi.string().optional().allow(null, '')
         }),
         password: Joi.string().min(6).empty(''),
         confirmPassword: Joi.string().valid(Joi.ref('password')).empty('')
     };
 
-    // only admins can update role
     if (req.user.role === Role.Admin) {
-        schemaRules.role = Joi.string().valid(Role.Admin, Role.User, Role.Moderator).empty('');
+        schemaRules.role = Joi.string().valid(Role.Admin, Role.User, Role.ModeratorRegion, Role.ModeratorDelegation).empty('');
     }
 
     const schema = Joi.object(schemaRules).with('password', 'confirmPassword');
     validateRequest(req, next, schema);
 }
+
 
 export function update(req, res, next) {
     if (req.file) {
@@ -255,16 +262,41 @@ export function setTokenCookie(res, token) {
 }
 
 import User from '../models/user.model.js'
+import Region from '../models/region.model.js'
+import Delegation from '../models/delegation.model.js'
 
 
 export async function getModeratorByRegion(req, res) {
     try {
-        const users = await User.find(/* {
-            role: 'Moderator',  
-            region: req.params.regionId  
-        } */);
-        console.log('user see ' + users)
-        res.status(200).json(users);
+        // Fetch the region by ID and populate the 'moderators' field with user data
+        const region = await Region.findById(req.params.regionId)
+            .populate('moderators')  // Exclude password hash for security
+
+        if (!region) {
+            return res.status(404).json({ message: "Region not found" });
+        }
+
+        // Send back the list of moderators
+        res.status(200).json(region.moderators);
+    } catch (error) {
+        res.status(500).json({ message: "Error fetching moderators", error });
+    }
+}
+
+// getModeratorByDelegation
+
+export async function getModeratorByDelegation(req, res) {
+    try {
+        // Fetch the region by ID and populate the 'moderators' field with user data
+        const delegation = await Delegation.findById(req.params.delegationId)
+            .populate('moderators')  // Exclude password hash for security
+
+        if (!delegation) {
+            return res.status(404).json({ message: "Delegation not found" });
+        }
+
+        // Send back the list of moderators
+        res.status(200).json(delegation.moderators);
     } catch (error) {
         res.status(500).json({ message: "Error fetching moderators", error });
     }

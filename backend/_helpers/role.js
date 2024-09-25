@@ -1,8 +1,8 @@
 const Role = {
     Admin: 'Admin',
     User: 'User',
-    Moderator: 'Moderator',
-    Mod2: 'Mod2'
+    ModeratorRegion: 'ModeratorRegion',
+    ModeratorDelegation: 'ModeratorDelegation'
 }
 
 export default Role

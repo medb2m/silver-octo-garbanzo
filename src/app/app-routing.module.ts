@@ -15,7 +15,7 @@ const userModule = () => import('@features/userModule').then(x => x.UserFeatures
 const routes: Routes = [
     { path: '', component: HomeComponent, canActivate: [RedirectAdminGuard]},
     { path: 'account', loadChildren: accountModule },
-    { path: 'admin', loadChildren: adminModule, canActivate: [AuthGuard], data: { roles: [Role.Admin, Role.Moderator] } },
+    { path: 'admin', loadChildren: adminModule, canActivate: [AuthGuard], data: { roles: [Role.Admin, Role.ModeratorDelegation, Role.ModeratorRegion] } },
     { path: 'profile', loadChildren: PM , canActivate : [AuthGuard] },
     { path: 'work', loadChildren: userModule , canActivate : [AuthGuard], data: { roles: [Role.User] }},
     { path: 'register-link/:token/:role', component: AddLinkComponent},

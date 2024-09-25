@@ -16,12 +16,6 @@ export class addReportComponent {
   selectedFiles: File[] = [];
   selectedImages: string[] = [];
 
-  /*** 
-   * + pdf 
-    + ajouter user depuis dashboard
-    + indicator of which place we are 
-   */
-
   constructor(private fb: FormBuilder, private reportService: ReportService, private alert : AlertService) { }
 
   ngOnInit(): void {
