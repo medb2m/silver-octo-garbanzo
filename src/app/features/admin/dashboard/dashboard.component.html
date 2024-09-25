@@ -1,15 +1,15 @@
 <div class="statistics-container">
   <app-statistics></app-statistics>
-  <app-tun-map></app-tun-map> 
+  <!-- <app-tun-map></app-tun-map>  -->
 </div>
 
 
 <!-- dashboard content -->
 <div class="dashboard">
-  <div class="regions" *ngIf="account && account.role !== 'Moderator'">
+  <div class="regions" *ngIf="account && account.role !== 'ModeratorRegion' && account.role !== 'ModeratorDelegation'">
     <regions></regions> 
   </div>
-  <div class="delegations" *ngIf="selectedRegion">
+  <div class="delegations" *ngIf="selectedRegion || account && account.role !== 'ModeratorDelegation'">
     <delegations [selectedRegion]="selectedRegion"></delegations>
   </div>
   <div class="cities" *ngIf="selectedDelegation">

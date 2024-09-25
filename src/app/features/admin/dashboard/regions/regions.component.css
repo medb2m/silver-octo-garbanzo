@@ -27,17 +27,25 @@
   background-color: #ffffff;
   z-index: 1100;
 }
+/****  Pop-up Header Styles  *****/
 
-/* Popup header with buttons */
 .popup-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #ddd;
   margin-bottom: 20px;
 }
 
-.popup-header .close-button,
-.popup-header .action-button {
+.popup-header h3 {
+  margin: 0;
+  font-size: 1.8rem;
+}
+
+.popup-header .close-button {
+  background: #ff6b6b;
+  color: white;
   font-size: 1.4rem;
   cursor: pointer;
   border: none;
@@ -50,22 +58,8 @@
   transition: background 0.3s ease;
 }
 
-.popup-header .close-button {
-  background: #ff6b6b;
-  color: white;
-}
-
-.popup-header .action-button {
-  background: #007bff;
-  color: white;
-}
-
 .popup-header .close-button:hover {
   background: #ff4757;
-}
-
-.popup-header .action-button:hover {
-  background: #0056b3;
 }
 
 /* User info image */

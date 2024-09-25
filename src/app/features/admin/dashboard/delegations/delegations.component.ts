@@ -1,4 +1,5 @@
 import { Component, Input, SimpleChanges, TemplateRef, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
 import { AccountService, RegionService } from '@app/_services';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
@@ -32,15 +33,11 @@ export class DelegationsComponent {
   constructor(
     private regionService: RegionService,
     private accountService: AccountService,
+    private router: Router,
     private modalService: NgbModal
   ) {}
 
   ngOnInit() {
-    console.log('hello')
-    // If you already have selectedRegion, fetch delegations immediately
-    /* if (this.selectedRegion) {
-      this.fetchDelegations(this.selectedRegion._id);
-    } */
     this.regionService.selectedRegion$.subscribe(region => {
         this.selectedRegion = region;
         if (region) {
@@ -73,21 +70,22 @@ export class DelegationsComponent {
       });
   }
 
+
   selectDelegation(delegation: any) {
       this.selectedDelegation = delegation;
+      console.log('la deleg '+ delegation._id)
       this.regionService.setSelectedDelegation(delegation);
   }
   
   
-  openUserPopup(region: any): void {
-    this.selectedRegion = region;
-    // Fetch users (moderators and workers) for the selected region
-    this.accountService.getModeratorByRegion(region._id).subscribe((users : any) => {
-      this.users = users;
-      console.log('users : ' + this.users )
-      // Code to open the pop-up (can use a UI library like Angular Material for the modal)
-      this.modalService.open(this.popupTemplate, { size: 'lg' });
-    });
+  openUserPopup(delegation: any): void {
+    this.selectedDelegation = delegation;
+    this.modalService.open(this.popupTemplate, { size: 'lg' });
+  }
+
+  addDelegationModerator(): void {
+    this.router.navigate(['/admin/accounts/add/delmod'], { queryParams: { delegationId: this.selectedDelegation._id }});
+    this.modalService.dismissAll()
   }
 
   // Close reporters popup

@@ -1,4 +1,5 @@
 import { Component, Input, SimpleChanges, TemplateRef, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
 import { AccountService, RegionService } from '@app/_services';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
@@ -26,10 +27,17 @@ export class RegionsComponent {
         this.showComponents = !this.showComponents;
     }
 
+    // Add worker for the current city
+  addRegionModerator(): void {
+    this.router.navigate(['/admin/accounts/add/regmod'], { queryParams: { regionId: this.selectedRegion._id }});
+    this.modalService.dismissAll()
+  }
+
 
   constructor(
     private regionService: RegionService,
     private accountService: AccountService,
+    private router: Router,
     private modalService: NgbModal
   ) {}
 

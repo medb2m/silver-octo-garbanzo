@@ -3,19 +3,18 @@ import { Component, EventEmitter, Input, Output, TemplateRef, ViewChild } from '
 import { Account } from '@app/_models';
 import { AccountService } from '@app/_services';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { UserInfoComponent } from '../user-info/user-info.component';
 import { TranslateModule } from '@ngx-translate/core';
+import { UserInfoComponent } from '../user-info/user-info.component';
 
 @Component({
-  selector: 'app-user-list',
+  selector: 'app-delegation-mod-list',
   standalone: true,
-  imports: [CommonModule, UserInfoComponent, TranslateModule],
-  templateUrl: './user-list.component.html',
-  styleUrl: './user-list.component.css'
+  imports: [CommonModule, TranslateModule, UserInfoComponent],
+  templateUrl: './delegation-mod-list.component.html',
+  styleUrl: './delegation-mod-list.component.css'
 })
-export class UserListComponent {
-  @Input() regionId!: string;
-  @Input() delegationId?: any;
+export class DelegationModListComponent {
+  @Input() delegationId!: any;
   @Output() moderatorSelected = new EventEmitter<string>();
 
   users : Account[] = []
@@ -33,19 +32,11 @@ export class UserListComponent {
 
   ngOnInit(){
     console.log('la deleg ici '+ this.delegationId)
-    console.log('Delegation ID: ', this.delegationId);
-    if(this.regionId){
-      this.accountService.getModeratorByRegion(this.regionId).subscribe( data => {
+    console.log('Delegation ID: ', this.delegationId._id);
+      this.accountService.getModeratorByDelegation(this.delegationId._id).subscribe( data => {
         this.users = data
         console.log('user here '+ this.users)
       })
-    } else {
-      this.accountService.getModeratorByDelegation(this.delegationId).subscribe( data => {
-        this.users = data
-        console.log('user here '+ this.users)
-      })
-    }
-    
   }
    // Opens the user info popup and passes the selected user's ID
    openUserInfoPopup(userId: string): void {

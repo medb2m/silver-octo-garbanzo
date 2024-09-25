@@ -29,6 +29,10 @@
     <div class="popup-header">
       <button class="close-button" title="{{ 'close' | translate }}" (click)="closeUserPopup()">X</button>
     </div>
-    <app-user-list [regionId]="selectedRegion._id"></app-user-list>
+    <div class="header">
+      <button class="add-btn right-btn" (click)="addDelegationModerator()">Add New Worker</button>
+  </div>
+    <!-- <app-user-list [delegationId]="selectedDelegation._id"></app-user-list> -->
+     <app-delegation-mod-list [delegationId]="selectedDelegation"></app-delegation-mod-list>
   </div>
 </ng-template>

@@ -15,6 +15,7 @@ import { UserInfoComponent } from './user-info/user-info.component';
 import { StatisticsComponent } from './statistics/statistics.component';
 import { SharedModule } from '@app/shared';
 import { TunMapComponent } from './tun-map/tun-map.component';
+import { DelegationModListComponent } from "./delegation-mod-list/delegation-mod-list.component";
 
 
 
@@ -38,7 +39,8 @@ import { TunMapComponent } from './tun-map/tun-map.component';
     CitiesComponent,
     StatisticsComponent,
     TunMapComponent,
-    SharedModule
-  ]
+    SharedModule,
+    DelegationModListComponent
+]
 })
 export class DashboardModule { }

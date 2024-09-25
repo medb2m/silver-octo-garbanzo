@@ -51,13 +51,7 @@ export class DashboardComponent {
     this.accountService.account.subscribe(x => {
       this.account = x;
 
-      // Check if the user is a moderator
-      if (this.account && this.account.role === Role.Moderator) {
-        this.hideRegionComponent();
-        this.setModeratorRegion();
-      }else {
         this.fetchAllData();
-    }
     });
 
     this.regionService.selectedRegion$.subscribe(region => {
@@ -74,6 +68,10 @@ export class DashboardComponent {
     this.regionService.selectedCity$.subscribe(city => {
       this.selectedCity = city;
     });
+
+    if(this. account && this.account.role === 'ModeratorDelegation'){
+      this.regionService.setSelectedDelegation(this.account.delegation);
+    }
   }
 
   ngOnDestroy() {
@@ -86,10 +84,6 @@ export class DashboardComponent {
     this.regionService.getCities().subscribe(cities => this.allCities = cities);
 }
 
-  // Hide region component for moderators
-  hideRegionComponent(): void {
-    this.showComponents = false;
-  }
 
   // Automatically set the moderator's region
   setModeratorRegion(): void {
