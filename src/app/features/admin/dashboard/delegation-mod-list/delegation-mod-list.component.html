@@ -15,7 +15,7 @@
     <ng-template #userInfoPopup let-modal>
       <div class="user-info-popup">
         <div class="popup-header">
-          <button class="close-button" (click)="closeUserPopup()">{{ 'close' | translate }}</button>
+          <button class="close-button" title="{{ 'close' | translate }}" (click)="closeUserPopup()">X</button>
         </div>
         <app-user-info [userId]="selectedUserId"></app-user-info>
       </div>

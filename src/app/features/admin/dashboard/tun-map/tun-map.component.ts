@@ -16,6 +16,8 @@ declare const simplemaps_countrymap: any;
   styleUrl: './tun-map.component.css'
 })
 export class TunMapComponent {
+
+  @ViewChild('regionInfoPop') regionInfoPop!: TemplateRef<any>;
   
 
   // code MAP
@@ -179,25 +181,7 @@ export class TunMapComponent {
       console.error('Region not found');
     }
   }
-
-  openRegionPopup(regionData: any) {
-    // Fetch the reports for the selected region
-    this.regionService.getReportsByRegionId(regionData.value).subscribe(regionDetails => {
-      const treatedReports = regionDetails.reports.filter((report: any) => report.status === 'treated');
-      const untreatedReports = regionDetails.reports.filter((report: any) => report.status === 'untreated');
   
-      this.selectedRegion = {
-        ...regionData,
-        reportCount: regionDetails.reportCount,
-        workerCount: regionDetails.workerCount,
-        treatedReports: treatedReports.length,
-        untreatedReports: untreatedReports.length,
-      };
-  
-      // Open the modal with region-specific details
-      this.modalService.open(this.regionInfoPop, { centered: true });
-    });
-  }
 
   previousData = {
     reportCount: 101,
@@ -206,6 +190,44 @@ export class TunMapComponent {
     workerCount: 0,
     option1Reports: 0,
   };
+
+  openRegionPopup(regionData: any) {
+  this.regionService.getReportsByRegionId(regionData.value).subscribe(regionDetails => {
+    this.selectedRegion = {
+      ...regionData,
+      reportCount: regionDetails.region.reportCount,
+      workerCount: regionDetails.region.workerCount,
+      treatedReports: regionDetails.region.treatedReports,
+      untreatedReports: regionDetails.region.untreatedReports,
+      importantReports: regionDetails.region.importantReports,
+    };
+
+    this.modalService.open(this.regionInfoPop);
+    console.log('opened')
+  });
+}
+
+  /* openRegionPopup(regionData: any) {
+    // Fetch the reports for the selected region
+    console.log('enter pop fun')
+    this.regionService.getReportsByRegionId(regionData.value).subscribe(regionDetails => {
+      console.log('enter sub')
+      const treatedReports = regionDetails.reports.filter((report: any) => report.status === 'treated');
+      const untreatedReports = regionDetails.reports.filter((report: any) => report.status === 'untreated');
+      console.log('filer report status')
+      this.selectedRegion = {
+        ...regionData,
+        reportCount: regionDetails.reportCount,
+        workerCount: regionDetails.workerCount,
+        treatedReports: treatedReports.length,
+        untreatedReports: untreatedReports.length,
+      };
+      console.log('fill with data')
+  
+      // Open the modal with region-specific details
+      this.modalService.open(this.regionInfoPop, { centered: true });
+    });
+  } */ 
   
   /* openRegionPopup(regionData: any) {
     // Fetch the reports and workers for the selected region
@@ -222,9 +244,9 @@ export class TunMapComponent {
       // Open the modal with region-specific details
       this.modalService.open(this.regionInfoPop, { centered: true });
     });
-  } */
+  }  */
 
-  @ViewChild('regionInfoPop') regionInfoPop!: TemplateRef<any>;
+  
 
   closePopup() {
     this.modalService.dismissAll();

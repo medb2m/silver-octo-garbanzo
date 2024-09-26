@@ -1,15 +1,18 @@
 <div class="filter-section mb-3">
-  <input type="text" class="form-control w-50 mb-3" placeholder="{{ 'Search by username or report content' | translate }}" (input)="filterReports($event)">
+  <input type="text" class="form-control w-50 mb-3"
+    placeholder="{{ 'Search by username or report content' | translate }}" (input)="filterReports($event)">
 </div>
 
 <div class="dropdown mb-3">
-  <button class="btn btn-secondary dropdown-toggle" type="button" id="filterDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+  <button class="btn btn-secondary dropdown-toggle" type="button" id="filterDropdown" data-bs-toggle="dropdown"
+    aria-expanded="false">
     {{ 'Filter by Region' | translate }}
   </button>
   <ul class="dropdown-menu" aria-labelledby="filterDropdown">
     <li *ngFor="let region of uniqueRegions">
       <div class="form-check">
-        <input class="form-check-input" type="checkbox" [id]="region" [value]="region" (change)="toggleRegionFilter(region, $event)">
+        <input class="form-check-input" type="checkbox" [id]="region" [value]="region"
+          (change)="toggleRegionFilter(region, $event)">
         <label class="form-check-label" [for]="region">
           {{ region }}
         </label>
@@ -62,7 +65,8 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let report of filteredReports" (click)="gotoReport(report._id)" class="report-row">
+      <tr *ngFor="let report of filteredReports  | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage }"
+        (click)="gotoReport(report._id)" class="report-row">
         <td>{{ report.content }}</td>
         <td>{{ report.region.name }}</td>
         <td>{{ report.delegation.name }}</td>
@@ -76,4 +80,8 @@
       </tr>
     </tbody>
   </table>
+  <!-- Pagination -->
+  <div class="text-center">
+    <pagination-controls (pageChange)="currentPage = $event"></pagination-controls>
+  </div>
 </div>

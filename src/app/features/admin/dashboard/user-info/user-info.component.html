@@ -1,15 +1,28 @@
-<!-- User Info Section -->
 <div class="user-info-container">
   <h2>{{ 'userInfo.title' | translate }}</h2>
+
   <div *ngIf="user" class="user-details">
-    <img [src]="user.image || 'default-image-path'" alt="{{ 'userInfo.imageAlt' | translate }}" class="user-image"/>
-    <p class="user-info-item"><strong>{{ 'userInfo.fullName' | translate }}:</strong> {{ user.fullName }}</p>
-    <p class="user-info-item"><strong>{{ 'userInfo.cin' | translate }}:</strong> {{ user.cin }}</p>
-    <p class="user-info-item"><strong>{{ 'userInfo.phone' | translate }}:</strong> {{ user.username }}</p>
-    <div *ngIf="user.role === 'User'">
-      <p class="user-info-item"><strong>{{ 'userInfo.city' | translate }}:</strong> {{ user.city.name }}</p>
-    </div>
+    <img [src]="user.image || 'assets/img/pdp.jpg'" alt="{{ 'userInfo.imageAlt' | translate }}" class="user-image"/>
+    <table class="user-details-table">
+      <tr>
+        <th>{{ 'userInfo.fullName' | translate }}</th>
+        <td>{{ user.fullName }}</td>
+      </tr>
+      <tr>
+        <th>{{ 'userInfo.cin' | translate }}</th>
+        <td>{{ user.cin }}</td>
+      </tr>
+      <tr>
+        <th>{{ 'userInfo.phone' | translate }}</th>
+        <td>{{ user.username }}</td>
+      </tr>
+      <tr *ngIf="user.role === 'User'">
+        <th>{{ 'userInfo.city' | translate }}</th>
+        <td>{{ user.city.name }}</td>
+      </tr>
+    </table>
   </div>
+
   <div *ngIf="!user" class="loading-message">
     <span>{{ 'userInfo.loading' | translate }}</span>
   </div>

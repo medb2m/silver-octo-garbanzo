@@ -1,18 +1,19 @@
 /* Container for user info */
 .user-info-container {
-  max-width: 500px;
-  margin: 0 auto;
-  padding: 20px;
-  background-color: #ffffff;
-  border-radius: 12px;
-  text-align: center;
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 25px;
+  background-color: #f8f9fa;
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 /* Heading style */
 .user-info-container h2 {
-  font-size: 1.6rem;
+  font-size: 1.8rem;
+  color: #343a40;
   margin-bottom: 20px;
-  color: #333;
+  text-align: center;
 }
 
 /* User details section */
@@ -28,24 +29,35 @@
   height: 120px;
   border-radius: 50%;
   object-fit: cover;
-  margin-bottom: 20px;
   border: 3px solid #ddd;
+  margin-bottom: 20px;
 }
 
-/* User info item */
-.user-info-item {
-  font-size: 1.2rem;
-  color: #333;
-  margin: 10px 0;
+/* User details table */
+.user-details-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
 }
 
-/* Strong emphasis for labels */
-.user-info-item strong {
-  color: #007bff;
+.user-details-table th, .user-details-table td {
+  text-align: left;
+  padding: 8px;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.user-details-table th {
+  background-color: #f8f9fa;
+  color: #495057;
+}
+
+.user-details-table td {
+  color: #343a40;
 }
 
 /* Loading message style */
 .loading-message {
   font-size: 1.2rem;
   color: #6c757d;
+  text-align: center;
 }

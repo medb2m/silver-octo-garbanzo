@@ -1,5 +1,6 @@
 import Region from '../models/region.model.js';
 import User from '../models/user.model.js';
+import Report from '../models/report.model.js';
 
 // Create a new region
 export const createRegion = async (req, res) => {
@@ -97,4 +98,55 @@ export const removeModerator = async (req, res) => {
   await region.save();
 
   return res.status(204).json({ message: 'Moderator removed successfully', region });
+};
+
+export const getRegionDetails = async (req, res) => {
+  try {
+    const { regionId } = req.params;
+
+    // Fetch the region data
+    const region = await Region.findById(regionId)
+      .populate('moderators', 'name') // Populate moderator names
+      .populate('delegations', 'name'); // Populate delegation names
+
+    if (!region) {
+      return res.status(404).json({ message: 'Region not found' });
+    }
+
+    // Fetch reports related to this region
+    const reports = await Report.find({ region: regionId });
+
+    const reportCount = reports.length;
+    const treatedReports = reports.filter(report => report.traiter === true).length;
+    const untreatedReports = reportCount - treatedReports;
+    const importantReports = reports.filter(report => report.important === true).length;
+    
+    // Count unique workers associated with the reports
+    const workerCount = new Set(reports.map(report => report.worker.toString())).size;
+
+    // Send the response with all the data
+    res.status(200).json({
+      region: {
+        name: region.name,
+        reportCount,
+        workerCount,
+        treatedReports,
+        untreatedReports,
+        importantReports
+      }
+    });
+  } catch (error) {
+    console.error('Error fetching region details:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
+export const getRegionStats = async (req, res) => {
+  try {
+    const regions = await Region.find({}, 'name stats.totalReports'); // Fetch regions with name and totalReports
+
+    res.status(200).json(regions);
+  } catch (err) {
+    res.status(500).json({ message: 'Error fetching region statistics', error: err });
+  }
 };

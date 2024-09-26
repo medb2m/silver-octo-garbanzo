@@ -1,53 +1,31 @@
-﻿<nav
-  class="navbar navbar-expand-lg navbar-light bg-light"
-  *ngIf="account && account.role === 'User'"
->
+﻿<nav class="navbar navbar-expand-lg navbar-light bg-light" *ngIf="account && account.role === 'User'">
   <div class="container-fluid">
-    <h1 class="navbar-brand">TeamWork</h1>
-    <button
-      type="button"
-      class="navbar-toggler"
-      data-bs-toggle="collapse"
-      data-bs-target="#navbarCollapse"
-    >
-      <span class="navbar-toggler-icon"></span>
-    </button>
+    <div class="brand">
+      <img src="assets/img/pv_logot.png" alt="">
+      <!-- <h1 class="navbar-brand">TeamWork</h1> -->
+    </div>
+
+
     <div class="collapse navbar-collapse" id="navbarCollapse">
       <div class="navbar-nav">
-        <a routerLink="/work/add" class="nav-item nav-link active"
-          >{{ 'dailyReport' | translate }}</a
-        >
-        <!-- <a routerLink="/work/social" class="nav-item nav-link">{{ 'socialLinks' | translate }}</a> -->
-        <!-- <a href="#" class="nav-item nav-link disabled" tabindex="-1">Reports</a> -->
-        <!-- Notification  -->
         <div class="dropdown">
-          <button
-            class="btn btn-light dropdown-toggle"
-            type="button"
-            id="dropdownMenuButton1"
-            data-bs-toggle="dropdown"
-            aria-expanded="false"
-          >
+          <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown"
+            aria-expanded="false">
             <i class="bi bi-bell"></i>
             <span class="notification-count" *ngIf="unreadCount > 0">{{
               unreadCount
-            }}</span>
+              }}</span>
           </button>
-          <ul
-            class="dropdown-menu notifications-box"
-            aria-labelledby="dropdownMenuButton1"
-          >
+          <ul class="dropdown-menu notifications-box" aria-labelledby="dropdownMenuButton1">
             <li *ngFor="let notification of notifications">
-              <div
-                (click)="goto(notification)"
-                [ngClass]="{
+              <div (click)="goto(notification)" [ngClass]="{
                   'notification-item': true,
                   'old-notification': notification.isRead,
                   'new-notification': !notification.isRead
-                }"
-              ><a [href]="social.link.startsWith('http') ? social.link : 'https://' + social.link" target="_blank" rel="noopener noreferrer">
-                {{ 'clickHereToOpenLink' | translate}}
-              </a>
+                }"><a [href]="social.link.startsWith('http') ? social.link : 'https://' + social.link" target="_blank"
+                  rel="noopener noreferrer">
+                  {{ 'clickHereToOpenLink' | translate}}
+                </a>
                 <span>{{ notification.message }}</span>
                 <span>{{ notification.date | date : "short" }}</span>
               </div>
@@ -55,51 +33,36 @@
             <div *ngIf="notifications.length === 0">0 notifications</div>
           </ul>
         </div>
+        <a routerLink="/work/add" class="nav-item nav-link active">{{ 'dailyReport' | translate }}</a>
+        <!-- <a routerLink="/work/social" class="nav-item nav-link">{{ 'socialLinks' | translate }}</a> -->
+        <!-- <a href="#" class="nav-item nav-link disabled" tabindex="-1">Reports</a> -->
+        <!-- Notification  -->
+        
       </div>
       <div class="navbar-nav ms-auto">
         <!-- Language Dropdown -->
         <div class="dropdown me-3">
-          <button
-            class="btn btn-light dropdown-toggle"
-            type="button"
-            id="languageDropdown"
-            data-bs-toggle="dropdown"
-            aria-expanded="false"
-          >
+          <button class="btn btn-light dropdown-toggle" type="button" id="languageDropdown" data-bs-toggle="dropdown"
+            aria-expanded="false">
             <img [src]="currentLanguageFlag" alt="Language" class="flag-icon" />
           </button>
           <ul class="dropdown-menu" aria-labelledby="languageDropdown">
-            
-            
+
+
             <li>
-              <a class="dropdown-item" (click)="changeLanguage('ar')"
-                ><img
-                  src="assets/flags/ar.png"
-                  alt="Arabic"
-                  class="flag-icon"
-                />
-                العربية</a
-              >
+              <a class="dropdown-item" (click)="changeLanguage('ar')"><img src="assets/flags/ar.png" alt="Arabic"
+                  class="flag-icon" />
+                العربية</a>
             </li>
             <li>
-              <a class="dropdown-item" (click)="changeLanguage('fr')"
-                ><img
-                  src="assets/flags/fr.png"
-                  alt="French"
-                  class="flag-icon"
-                />
-                Français</a
-              >
+              <a class="dropdown-item" (click)="changeLanguage('fr')"><img src="assets/flags/fr.png" alt="French"
+                  class="flag-icon" />
+                Français</a>
             </li>
             <li>
-              <a class="dropdown-item" (click)="changeLanguage('en')"
-                ><img
-                  src="assets/flags/en.png"
-                  alt="English"
-                  class="flag-icon"
-                />
-                English</a
-              >
+              <a class="dropdown-item" (click)="changeLanguage('en')"><img src="assets/flags/en.png" alt="English"
+                  class="flag-icon" />
+                English</a>
             </li>
           </ul>
         </div>

@@ -1,19 +1,10 @@
-<div class="statistics-container">
-  <!-- <app-chart></app-chart> -->
-   
-<!-- Loading Spinner -->
-<div *ngIf="isLoading" class="loading-container">
-  <div class="spinner-border" role="status">
-    <span class="visually-hidden">Loading...</span>
+<div style="width: 100%; height: 500px;">
+    <p>{{ 'statisticsReportByRegions' | translate }}</p>
+    <canvas id="myChart"></canvas>
   </div>
-  <p>Loading map, please wait...</p>
-</div>
 
-<!-- <div id="map" [hidden]="isLoading"></div> -->
-<div id="map" [hidden]="isLoading" style="margin-left: 20px; margin-right: 20px;"></div>
 
-<ng-template #regionInfoPop>
-  <div class="worker-popup modern-popup">
+ <!--  <div class="worker-popup modern-popup"></div>
     <div class="popup-header">
       <h3>{{ selectedRegion.name }}</h3>
       <button class="close-button" title="{{ 'close' | translate }}" (click)="closePopup()">X</button>
@@ -67,11 +58,11 @@
         </span>
           </div>
         </div>
-      </div>
+      </div> -->
 
 
       <!-- Important reports  -->
-      <div class="dashboard-card">
+      <!-- <div class="dashboard-card">
         <div class="dashboard-content">
           <h4>{{ 'importantReports' | translate }}</h4>
           <div class="report-info">
@@ -83,7 +74,4 @@
         </div>
       </div> 
     </div>
-  </div>
-</ng-template>
-
-</div>
+  </div>-->

@@ -24,6 +24,10 @@ export class ReportListComponent {
   uniqueRegions: string[] = [];
   selectedRegions: string[] = [];
 
+  // Pagination 
+  currentPage = 1;
+  itemsPerPage = 20; // Set the number of items per page
+
   constructor(
     private reportService: ReportService,
     private router: Router,
@@ -79,7 +83,7 @@ export class ReportListComponent {
       this.filteredReports = [...this.reports];
     }); */
     this.reportService.getAllReports().subscribe(data => {
-      this.reports = data;
+      this.reports = data.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
       this.filteredReports = [...this.reports];
       this.uniqueRegions = [...new Set(this.reports.map(report => report.region.name))];  // Extract unique regions
     });

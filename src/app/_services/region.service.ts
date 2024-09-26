@@ -38,6 +38,10 @@ export class RegionService {
     return this.http.delete(`${this.apiUrl}/regions/${id}`);
   }
 
+  getRegionStats(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/regions/stats`);
+  }
+
   getDelegationById(id: string) {
     return this.http.get<any>(`${this.apiUrl}/delegations/${id}`);
   }

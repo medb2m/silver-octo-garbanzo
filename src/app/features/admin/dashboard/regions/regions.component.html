@@ -35,7 +35,7 @@
             <button class="close-button" title="{{ 'close' | translate }}" (click)="closePopup()">X</button>
           </div>
           <div class="header">
-            <button class="add-btn right-btn" (click)="addRegionModerator()">Add New Worker</button>
+            <button class="add-btn right-btn" (click)="addRegionModerator()">{{ 'AddNewMod' | translate }}</button>
         </div>
         <app-user-list [regionId]="selectedRegion._id"></app-user-list>
     </div>

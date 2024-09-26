@@ -1,11 +1,14 @@
-<div class="statistics-container">
+<!-- <div class="statistics-container">
   <app-statistics></app-statistics>
-  <!-- <app-tun-map></app-tun-map>  -->
+  <app-tun-map></app-tun-map>  
+</div> -->
+<div>
+  <h1 *ngIf="selectedRegion">{{this.selectedRegion.name}}</h1>
 </div>
-
 
 <!-- dashboard content -->
 <div class="dashboard">
+  
   <div class="regions" *ngIf="account && account.role !== 'ModeratorRegion' && account.role !== 'ModeratorDelegation'">
     <regions></regions> 
   </div>

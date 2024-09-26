@@ -87,3 +87,13 @@
 .dropdown .dropdown-menu li {
   cursor: pointer;
 }
+
+.brand {
+  display: flex;
+  justify-content: center;
+}
+
+.brand img {
+  width: 50px;
+  height: 50px;
+}

@@ -1,9 +1,10 @@
 import express from 'express'
 import authorize from '../_middleware/authorize.js'
-import { createRegion, getAllRegions, getRegion, updateRegion, deleteRegion, addModerator, removeModerator } from '../controllers/region.controller.js';
+import { createRegion, getAllRegions, getRegion, updateRegion, deleteRegion, addModerator, removeModerator, getRegionStats } from '../controllers/region.controller.js';
 import { createDelegation, deleteDelegation, getAllDelegations, getAllDelegationsByRegion, getDelegation, updateDelegation } from '../controllers/delegation.controller.js';
 import { addWorker, createCity, deleteCity, getAllCities, getCitiesByDelegations, getCity, getReportersByCityId, removeWorker, updateCity } from '../controllers/city.controller.js';
 //import {uploadImage} from '../_middleware/multerConfig.js'
+import { getRegionDetails } from '../controllers/region.controller.js'
 
 const router = express.Router()
 
@@ -15,22 +16,10 @@ router.put('/regions/:id', authorize(), updateRegion);
 router.delete('/regions/:id', authorize(), deleteRegion);
 router.put('/regions/moderator/:regionId/:moderatorId', authorize(), addModerator);
 router.put('/regions/removemoderator/:regionId/:moderatorId', authorize(), removeModerator);
-router.get('/region/:regionId/reports', async (req, res) => {
-    const { regionId } = req.params;
+router.get('/region/:regionId/reports', getRegionDetails);
+router.get('/regions/stat', getRegionStats)
+
   
-    try {
-      const reports = await Report.find({ region: regionId });
-      const workerCount = await User.countDocuments({ region: regionId });
-  
-      res.json({
-        reportCount: reports.length,
-        workerCount,
-        reports,  // Contains the full report data
-      });
-    } catch (err) {
-      res.status(500).json({ message: 'Error fetching region reports' });
-    }
-  });
 
 // delegation routes
 router.post('/delegations', authorize(), createDelegation);
