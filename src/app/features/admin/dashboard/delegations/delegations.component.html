@@ -9,7 +9,7 @@
   <tbody>
     <tr *ngFor="let delegation of filteredDelegations" class="delegation-row"
         [class.selected]="delegation === selectedDelegation">
-      <td>{{ delegation.name }} ({{ delegation.cities.length }})</td>
+      <td>{{ delegation.name }}</td>
       <td>
         <button (click)="openUserPopup(delegation)" title="{{ 'viewUsersTooltip' | translate }}">
           <i class="bi bi-person"></i>

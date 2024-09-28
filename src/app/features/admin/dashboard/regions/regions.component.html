@@ -9,11 +9,11 @@
     <tbody>
         <tr *ngFor="let region of filteredRegions" class="region-row"
             [class.selected]="region === selectedRegion">
-            <td>{{ region.name }} ({{ region.delegations.length }})</td>
+            <td>{{ region.name }}</td>
             <td>
                 <!-- User icon button -->
                 <button (click)="openUserPopup(region)"
-                title="{{ 'openUserPopup' | translate }}">
+                    title="{{ 'openUserPopup' | translate }}">
                     <i class="bi bi-person"></i> 
                 </button>
                 <!-- Right arrow button -->

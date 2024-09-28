@@ -1,8 +1,13 @@
-/* You can add global styles to this file, and also import other style files */
-:root {
-    --plyr-color-main: rgb(104, 85, 224);
-  }
+body {
+  direction: ltr;
+  text-align: left;
+}
 
+/* RTL styles for Arabic */
+body.rtl {
+  direction: rtl;
+  text-align: right;
+}
 .app-container {
     min-height: 320px;
 }
