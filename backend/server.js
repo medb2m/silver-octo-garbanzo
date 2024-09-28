@@ -4,6 +4,7 @@ import cookieParser from 'cookie-parser'
 import cors from 'cors'
 import morgan from 'morgan'
 import errorHandler from './_middleware/error-handler.js'
+import fs from 'fs'
 
 //import User from './models/user.model.js';
 //import jwt from 'jsonwebtoken';
