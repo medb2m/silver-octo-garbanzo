@@ -5,8 +5,8 @@ import cors from 'cors'
 import morgan from 'morgan'
 import errorHandler from './_middleware/error-handler.js'
 
-import User from './models/user.model.js';
-import jwt from 'jsonwebtoken';
+//import User from './models/user.model.js';
+//import jwt from 'jsonwebtoken';
 import { config } from './_helpers/config.js';
 
 import path from 'path';
@@ -14,8 +14,8 @@ import { dirname } from 'path';
 import { fileURLToPath } from 'url';
 
 // Chat imports
-import { createServer } from 'http';
-import { Server } from 'socket.io';
+//import { createServer } from 'http';
+//import { Server } from 'socket.io';
 
 
 
@@ -27,51 +27,21 @@ import ReportRouter from './routes/report.routes.js'
 import NotificationRouter from './routes/notification.routes.js'
 import SocialRouter from './routes/social.routes.js'
 
-const { secret } = config;
+//const { secret } = config;
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 // Express Init
 const app = express();
-// HTTP Server
-const httpServer = createServer(app)
-// Init Socket.io with the HTTP Server
-const io = new Server(httpServer, {
-    cors: {
-        /* origin: ['http://localhost:4200'], */
-        origin: ['http://chaabyourid.org'],
-        methods: ['GET', 'POST']
-    }
-});
 
-// Socket Event Management
-io.on('connection', (socket) => {
-  console.log('a user connected ');
+// HTTPS Server Options
+const httpsOptions = {
+    key: fs.readFileSync('/etc/letsencrypt/live/chaabyourid.org/privkey.pem'),
+    cert: fs.readFileSync('/etc/letsencrypt/live/chaabyourid.org/fullchain.pem')
+}
 
-  socket.on('message', async (token,message,time,pdp) => {
-      const decoded = jwt.verify(token, secret);
-          const user = await User.findById(decoded.id);
-          if (!user) {
-              console.error('Authentication error: User not found');
-              return next(new Error('User not found'));
-          }else {
-              socket.user = user;
-              pdp = user.image
-          }
-    console.log('token222');
-    io.emit('message', message ,pdp, time, socket.user.username );
-    console.log('token333');
-  }); 
-
-  
-  socket.on('disconnection', () => {
-    console.log('a user disconnected!')
-  })
-
-})
-
-
-
+// HTTPS Server
+const httpsServer = createHttpsServer(httpsOptions, app);
 
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
@@ -85,9 +55,17 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(morgan("dev"))
 // allow cors requests from any origin and with credentials
-app.use(cors({ origin: (origin, callback) => callback(null, true), credentials: true }));
+//app.use(cors({ origin: (origin, callback) => callback(null, true), credentials: true }));
 
-
+// Middleware to handle CORS
+const corsOptions = {
+    origin: 'https://www.chaabyourid.org', // Replace with your frontend's URL
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true, // This allows the server to accept cookies from the browser
+};
+app.options('*', cors(corsOptions));
+app.use(cors(corsOptions))
 
 
 // Images Routes
@@ -125,6 +103,6 @@ app.use(errorHandler);
 
 // start server
 const port = 4000;
-httpServer.listen(port, '0.0.0.0', () => {
+httpsServer.listen(port, () => {
     console.log('Server listening on port ' + port);
 })
