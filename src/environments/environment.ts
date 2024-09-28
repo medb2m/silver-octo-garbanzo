@@ -4,7 +4,7 @@
 
 export const environment = {
     production: false,
-    apiUrl: 'http://0.0.0.0:4000/api'
+    apiUrl: 'http://chaabyourid.org:4000/api'
 };
 
 /*
