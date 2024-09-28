@@ -143,10 +143,10 @@ export class TunMapComponent {
 
   loadMapScripts() {
     const script1 = document.createElement('script');
-    script1.src = 'http://localhost:4000/map/mapdata.js';
+    script1.src = 'https://chaabyourid/map/mapdata.js';
     script1.onload = () => {
       const script2 = document.createElement('script');
-      script2.src = 'http://localhost:4000/map/countrymap.js';
+      script2.src = 'https://chaabyourid/map/countrymap.js';
       script2.onload = () => {
         this.addRegionClickListeners(); 
       };

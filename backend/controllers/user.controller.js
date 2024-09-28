@@ -6,6 +6,9 @@ import Role from '../_helpers/role.js';
 import crypto from 'crypto'
 import Token from '../models/token.model.js'
 
+import Region from '../models/region.model.js'
+import Delegation from '../models/delegation.model.js'
+
 // create link begin
 export async function createAccountLink(req, res) {
 
@@ -261,9 +264,6 @@ export function setTokenCookie(res, token) {
     res.cookie('refreshToken', token, cookieOptions);
 }
 
-import User from '../models/user.model.js'
-import Region from '../models/region.model.js'
-import Delegation from '../models/delegation.model.js'
 
 
 export async function getModeratorByRegion(req, res) {
