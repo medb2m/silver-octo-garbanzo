@@ -110,7 +110,7 @@ export function registerSchema(req, res, next) {
 
 export function register(req, res, next) {
     if (req.file){
-        req.body.image = `${req.protocol}://${req.get('host')}/img/${req.file.filename}`
+        req.body.image = `https://${req.get('host')}/img/${req.file.filename}`
     }
     let message = ''
     UserService.register(req.body, message)
@@ -227,7 +227,7 @@ export function updateSchema(req, res, next) {
 
 export function update(req, res, next) {
     if (req.file) {
-        req.body.image = `${req.protocol}://${req.get('host')}/img/${req.file.filename}`;
+        req.body.image = `https://${req.get('host')}/img/${req.file.filename}`;
     }
     // users can update their own User and admins can update any User
     if (req.params.id !== req.user.id && req.user.role !== Role.Admin) {
